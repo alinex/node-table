@@ -43,6 +43,12 @@ Always have a look at the latest [changes](Changelog.md).
 Usage
 -------------------------------------------------
 
+To use these methods include the package first:
+
+``` coffee
+table = require 'alinex-table'
+```
+
 ### Data Types
 
 The data objects which will be used here are:
@@ -60,6 +66,8 @@ derived from the CSV format.
   [3, 'three']
 ]
 ```
+
+The first line has to be the header.
 
 __Record List__
 
@@ -81,13 +89,25 @@ indexed objected instead of a list.
 
 ``` coffee
 {
-  1: {Name: 'one'}
-  2: {Name: 'two'}
-  3: {Name: 'three'}
+  '1': {Name: 'one'}
+  '2': {Name: 'two'}
+  '3': {Name: 'three'}
 }
 ```
 
 ### Conversion
+
+To convert from and to the different data structures described above, you can
+use the following 4 methods:
+
+``` coffee
+  result = table.toRecordList example
+  result = table.fromRecordList recordList
+  result = table.toRecordObject example
+  result = table.fromRecordObject recordObject
+```
+
+> Keep in mind that the table data needs a header row as first line.
 
 ### Manipulation
 
