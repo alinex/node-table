@@ -1,15 +1,17 @@
 {
   "name": "table",
   "version": "0.0.0",
-  "description": "undefined",
+  "description": "Working with table like data objects.",
   "copyright": "Alexander Schilling 2016",
-  "keywords": [],
-  "homepage": "###<homepage>###",
+  "keywords": [
+    "table"
+  ],
+  "homepage": "http://alinex.github.io/node-table",
   "repository": {
     "type": "git",
-    "url": "###<repository>###"
+    "url": "https://github.com/alinex/node-table"
   },
-  "bugs": "###<bugs>###",
+  "bugs": "https://github.com/alinex/node-table/issues",
   "author": {
     "name": "Alexander Schilling",
     "email": "info@alinex.de",
