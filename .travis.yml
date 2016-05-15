@@ -7,4 +7,4 @@ node_js:
 #   - "6"  # LTS   from 2016-10 maintenance till 2019-04
 sudo: false
 after_success:
-   - COVERALLS_SERVICE_NAME=travis-ci COVERALLS_REPO_TOKEN=????? node_modules/.bin/builder test --coveralls
+   - COVERALLS_SERVICE_NAME=travis-ci COVERALLS_REPO_TOKEN=1HqlyCElqiDyQCEeSEGd9qC18iSeZYle2 node_modules/.bin/builder test --coveralls
