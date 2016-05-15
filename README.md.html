@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "";
+    var thisFile = "README.md";
+    var defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+      <div class="heading h1">
+        <a href="#table">Table</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#install">Install</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#usage">Usage</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#data-types">Data Types</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#conversion">Conversion</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#manipulation">Manipulation</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#license">License</a>
+      </div>
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-table" title="Fork me on GitHub"></a>
+    <div class="docs markdown"><div class="pilwrap" id="table">
+  <h1>
+    <a href="#table" name="table" class="pilcrow"></a>
+Table
+  </h1>
+</div>
+<p><a href="https://travis-ci.org/alinex/node-table"><img src="https://travis-ci.org/alinex/node-table.svg?branch=master" alt="Build Status"></a>
+<a href="https://coveralls.io/r/alinex/node-table?branch=master"><img src="https://coveralls.io/repos/alinex/node-table/badge.png?branch=master" alt="Coverage Status"></a>
+<a href="https://gemnasium.com/alinex/node-table"><img src="https://gemnasium.com/alinex/node-table.png" alt="Dependency Status"></a></p>
+<p>This package contains methods for working with table like data.</p>
+<ul>
+<li>convert</li>
+<li>filter</li>
+<li>sort</li>
+<li>join</li>
+<li>and more</li>
+</ul>
+<blockquote>
+<p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
+following the code standards defined in the <a href="http://alinex.github.io/develop">General Docs</a>.</p>
+</blockquote>
+<div class="pilwrap" id="install">
+  <h2>
+    <a href="#install" name="install" class="pilcrow"></a>
+Install
+  </h2>
+</div>
+<p><a href="https://www.npmjs.com/package/table"><img src="https://nodei.co/npm/table.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM">
+<img src="https://nodei.co/npm-dl/table.png?months=9&amp;height=3" alt="Downloads">
+</a></p>
+<p>The easiest way is to let npm add the module directly to your modules
+(from within you node modules directory):</p>
+<pre><code class="sh">npm install alinex-table --save
+</code></pre>
+<p>And update it to the latest version later:</p>
+<pre><code class="sh">npm update alinex-table --save
+</code></pre>
+<p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
+<div class="pilwrap" id="usage">
+  <h2>
+    <a href="#usage" name="usage" class="pilcrow"></a>
+Usage
+  </h2>
+</div>
+<div class="pilwrap" id="data-types">
+  <h3>
+    <a href="#data-types" name="data-types" class="pilcrow"></a>
+Data Types
+  </h3>
+</div>
+<p>The data objects which will be used here are:</p>
+<p><strong>Table</strong></p>
+<p>This format stores the data like a table calculation program. It is the format
+derived from the CSV format.</p>
+<pre><code class="coffee">[
+  [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]
+  [<span class="hljs-number">1</span>, <span class="hljs-string">'one'</span>]
+  [<span class="hljs-number">2</span>, <span class="hljs-string">'two'</span>]
+  [<span class="hljs-number">3</span>, <span class="hljs-string">'three'</span>]
+]
+</code></pre>
+<p><strong>Record List</strong></p>
+<p>This equals to the format lots of database systems return there records as a list
+of record objects.</p>
+<pre><code class="coffee">[
+  {ID: <span class="hljs-number">1</span>, Name: <span class="hljs-string">'one'</span>}
+  {ID: <span class="hljs-number">2</span>, Name: <span class="hljs-string">'two'</span>}
+  {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}
+]
+</code></pre>
+<p><strong>Record Object</strong></p>
+<p>A slightly variation to the record list in which the records are collected in an
+indexed objected instead of a list.</p>
+<pre><code class="coffee">{
+  <span class="hljs-number">1</span>: {Name: <span class="hljs-string">'one'</span>}
+  <span class="hljs-number">2</span>: {Name: <span class="hljs-string">'two'</span>}
+  <span class="hljs-number">3</span>: {Name: <span class="hljs-string">'three'</span>}
+}
+</code></pre>
+<div class="pilwrap" id="conversion">
+  <h3>
+    <a href="#conversion" name="conversion" class="pilcrow"></a>
+Conversion
+  </h3>
+</div>
+<div class="pilwrap" id="manipulation">
+  <h3>
+    <a href="#manipulation" name="manipulation" class="pilcrow"></a>
+Manipulation
+  </h3>
+</div>
+<div class="pilwrap" id="license">
+  <h2>
+    <a href="#license" name="license" class="pilcrow"></a>
+License
+  </h2>
+</div>
+<p>Copyright 2016 Alexander Schilling</p>
+<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+<blockquote>
+<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+</blockquote>
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+</div>
+  </div>
+</body>
+</html>
