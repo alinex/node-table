@@ -1,4 +1,4 @@
-Table
+eTable
 =================================================
 
 [![Build Status](https://travis-ci.org/alinex/node-table.svg?branch=master)](https://travis-ci.org/alinex/node-table)
@@ -104,8 +104,11 @@ use the following 4 methods:
   result = table.toRecordList example
   result = table.fromRecordList recordList
   result = table.toRecordObject example
-  result = table.fromRecordObject recordObject
+  result = table.fromRecordObject recordObject, idColumn
 ```
+
+The conversion to record object will loose the name of the first column so it
+will always get 'ID' on back conversion to table if not defined otherwise.
 
 > Keep in mind that the table data needs a header row as first line.
 

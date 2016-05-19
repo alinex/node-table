@@ -34,8 +34,8 @@ exports.toRecordList = (obj) ->
     map[k] = e[i] for k, i in keys
     map
 
-exports.fromRecordObject = (obj) ->
-  keys = ['ID']
+exports.fromRecordObject = (obj, idColumn) ->
+  keys = [idColumn ? 'ID']
   for k, v of obj
     for c of v
       keys.push c unless c in keys
