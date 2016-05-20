@@ -42,3 +42,17 @@ describe "Convert", ->
     it "should transform into table", ->
       result = table.fromRecordObject recordObject
       expect(result).is.deep.equal example
+
+  describe "dump using report module", ->
+
+    Report = require 'alinex-report'
+
+    it "should dump table", ->
+      report = new Report()
+      report.table example
+      expect(report.toString()).is.equal """
+        \n| ID | Name  |
+        |:-- |:----- |
+        | 1  | one   |
+        | 2  | two   |
+        | 3  | three |\n"""
