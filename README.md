@@ -144,8 +144,11 @@ console.log report.toString()
 This will result in a markdown text displaying a table which can easily be
 converted to ascii art using `toConsole()` or an html table using `toHtml()`.
 
+
 Access
 -------------------------------------------------------------
+
+This methods allows you to easily read and edit the table data in your code.
 
 ### field
 
@@ -294,6 +297,9 @@ __Arguments__
 - `table` - (array of arrays) to access
 - `record` - (object) record to add
 
+
+Join
+-------------------------------------------------------------
 
 
 
