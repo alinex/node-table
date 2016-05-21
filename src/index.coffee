@@ -133,7 +133,7 @@ class Table
     obj[0][col] = name
 
   @columnRemove: (obj, col) ->
-    col = obj[0].length unless col
+    col = obj[0].length unless col?
     col = obj[0].indexOf col unless typeof col is 'number'
     row.splice col, 1 for row in obj
 
@@ -211,8 +211,12 @@ class Table
     Table.push @data, record
     this
   column: (col) -> Table.column @data, col
-  columnAdd: (col, name) -> Table.columnAdd @data, col, name
-  columnRemove: (col) -> Table.columnRemove @data, col
+  columnAdd: (col, name) ->
+    Table.columnAdd @data, col, name
+    this
+  columnRemove: (col) ->
+    Table.columnRemove @data, col
+    this
 
 
 

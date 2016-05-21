@@ -247,7 +247,41 @@ describe "Access", ->
   describe "columnAdd", ->
 
     it "should add a column", ->
+      Table.columnAdd example, 1, 'DE'
+      expect(example).to.deep.equal [
+        [ 'ID', 'DE', 'Name' ]
+        [ 1, null, 'one' ]
+        [ 2, null, 'two' ]
+        [ 3, null, 'three' ]
+      ]
+
+    it "should add a column (instance)", ->
+      result = table.columnAdd 1, 'DE'
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'DE', 'Name' ]
+        [ 1, null, 'one' ]
+        [ 2, null, 'two' ]
+        [ 3, null, 'three' ]
+      ]
 
   describe "columnRemove", ->
 
     it "should remove a column", ->
+      Table.columnRemove example, 0
+      expect(example).to.deep.equal [
+        [ 'Name' ]
+        [ 'one' ]
+        [ 'two' ]
+        [ 'three' ]
+      ]
+
+    it "should remove a column (instance)", ->
+      result = table.columnRemove 0
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'Name' ]
+        [ 'one' ]
+        [ 'two' ]
+        [ 'three' ]
+      ]
