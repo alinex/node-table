@@ -350,6 +350,44 @@ __Arguments__
 - `record` - (object) record to add
 
 
+
+
+### column
+
+Get a defined column.
+
+__Arguments__
+
+- `table` - (array of arrays) to access (only static calls)
+- `column` - (number or string) the column to export
+
+__Return__
+
+### columnAdd
+
+Get a defined column.
+
+__Arguments__
+
+- `table` - (array of arrays) to access (only static calls)
+- `column` - (number or string) position there inserting column
+- `name` - (string) name of the new column
+
+__Return__
+
+### columnRemove
+
+Get a defined column.
+
+__Arguments__
+
+- `table` - (array of arrays) to access (only static calls)
+- `column` - (number or string) position there deleting column
+
+__Return__
+
+
+
 Join
 -------------------------------------------------------------
 

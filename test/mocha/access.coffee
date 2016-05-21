@@ -229,3 +229,25 @@ describe "Access", ->
         [3, 'three']
         [6, 'six']
       ]
+
+  describe "column", ->
+
+    it "should get a column by number", ->
+      result = Table.column example, 1
+      expect(result).to.deep.equal ['one', 'two', 'three']
+
+    it "should get a column by name", ->
+      result = Table.column example, 'Name'
+      expect(result).to.deep.equal ['one', 'two', 'three']
+
+    it "should get a column by number (instance)", ->
+      result = table.column 1
+      expect(result).to.deep.equal ['one', 'two', 'three']
+
+  describe "columnAdd", ->
+
+    it "should add a column", ->
+
+  describe "columnRemove", ->
+
+    it "should remove a column", ->

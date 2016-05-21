@@ -210,6 +210,9 @@ class Table
   push: (record) ->
     Table.push @data, record
     this
+  column: (col) -> Table.column @data, col
+  columnAdd: (col, name) -> Table.columnAdd @data, col, name
+  columnRemove: (col) -> Table.columnRemove @data, col
 
 
 
