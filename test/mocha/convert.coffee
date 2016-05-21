@@ -2,7 +2,7 @@ chai = require 'chai'
 expect = chai.expect
 ### eslint-env node, mocha ###
 
-table = require '../../src/index'
+Table = require '../../src/index'
 
 
 example = [
@@ -26,22 +26,44 @@ describe "Convert", ->
   describe "recordList", ->
 
     it "should transform from table", ->
-      result = table.toRecordList example
+      result = Table.toRecordList example
+      expect(result).is.deep.equal recordList
+
+    it "should transform from table (instance)", ->
+      table = new Table example
+      result = table.toRecordList()
       expect(result).is.deep.equal recordList
 
     it "should transform into table", ->
-      result = table.fromRecordList recordList
+      result = Table.fromRecordList recordList
       expect(result).is.deep.equal example
+
+    it "should transform into table (instance)", ->
+      table = new Table()
+      result = table.fromRecordList recordList
+      expect(table.data).is.deep.equal example
+      expect(result).to.be.instanceof Table
 
   describe "recordObject", ->
 
     it "should transform from table", ->
-      result = table.toRecordObject example
+      result = Table.toRecordObject example
+      expect(result).is.deep.equal recordObject
+
+    it "should transform from table (instance)", ->
+      table = new Table example
+      result = table.toRecordObject()
       expect(result).is.deep.equal recordObject
 
     it "should transform into table", ->
-      result = table.fromRecordObject recordObject
+      result = Table.fromRecordObject recordObject
       expect(result).is.deep.equal example
+
+    it "should transform into table (instance)", ->
+      table = new Table()
+      result = table.fromRecordObject recordObject
+      expect(table.data).is.deep.equal example
+      expect(result).to.be.instanceof Table
 
   describe "dump using report module", ->
 

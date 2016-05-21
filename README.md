@@ -14,6 +14,8 @@ methods for working with such a data type.
 - optimizing for display
 - and export/dump as table
 
+As a new data type you may also use it's methods on an instance or statically.
+
 > It is one of the modules of the [Alinex Universe](http://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](http://alinex.github.io/develop).
 
@@ -47,7 +49,7 @@ Usage
 To use these methods include the package first:
 
 ``` coffee
-table = require 'alinex-table'
+Table = require 'alinex-table'
 
 example = [
   ['ID', 'Name']
@@ -59,6 +61,27 @@ example = [
 
 Then this module gives you a lot of methods with which you may work and manipulate
 this table.
+
+### Class vs Static
+
+You may use both. As an instance each method will return the instance itself if no need
+to return something else. So you may concatenate most calls.
+
+You can call each method on an instance like:
+
+``` coffee
+table = new Table example
+record = table.shift()
+```
+
+Or you may use them statically on your own data objects:
+
+``` coffee
+record = Table.shift example
+```
+
+The class oriented approach often is more readable if multiple manipulations on
+the data object are done, specially if you use command concatenation.
 
 
 Data Types
@@ -122,12 +145,21 @@ To convert from and to the different data structures described above, you can
 use the following 4 methods:
 
 ``` coffee
-result = table.toRecordList example
-result = table.fromRecordList recordList
-result = table.toRecordObject example
-result = table.fromRecordObject recordObject, idColumn
+table.fromRecordList recordList
+table.fromRecordObject recordObject, idColumn
+result = table.toRecordList()
+result = table.toRecordObject()
 ```
 
+The same calls using static methods:
+
+``` coffee
+result = Table.fromRecordList recordList
+result = Table.fromRecordObject recordObject, idColumn
+result = Table.toRecordList example
+result = Table.toRecordObject example
+
+```
 The conversion to record object will loose the name of the first column so it
 will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
 
@@ -156,32 +188,45 @@ This method is used to access cell values or set them.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `row` - (integer) row number from 1.. (0 is the heading)
 - `column` - (integer or string) number of column 0.. or the name of a column
 - `value` - (optionally) new value for the given cell
 
 __Return__
 
-The current (new) value of the given cell.
+The current (new) value of the given cell or the instance itself if value have
+been set.
 
 __Examples__
 
 Read a cell value:
 
 ``` coffee
-value = table.field example, 1, 1
+value = table.field 1, 1
 # will result value of field 1/1
-value = table.field example, 1, 'Name'
+value = table.field 1, 'Name'
+# do the same but using the column name
+
+# or statically:
+value = Table.field example, 1, 1
+# will result value of field 1/1
+value = Table.field example, 1, 'Name'
 # do the same but using the column name
 ```
 
 And set a new value to a defined cell:
 
 ``` coffee
-table.field example, 1, 1, 15.8
+table.field 1, 1, 15.8
 # will set value of field 1/1
-table.field example, 1, 'Name', 15.8
+table.field 1, 'Name', 15.8
+# do the same but using the column name
+
+# or statically:
+Table.field example, 1, 1, 15.8
+# will set value of field 1/1
+Table.field example, 1, 'Name', 15.8
 # do the same but using the column name
 ```
 
@@ -191,43 +236,50 @@ Get or set a complete table row.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `row` - (integer) row number from 1.. (0 is the heading)
 - `record` - (optional object) new value for the given row
 
 __Return__
 
-The defined row as object.
+The defined row as object or the inctance if row was set.
 
 __Examples__
 
 First you may read one row as record:
 
 ``` coffee
-record = table.row example, 1
+record = table.row 1
+# may return something like {ID: 1, Name: 'one'}
+
+# or statically called:
+record = Table.row example, 1
 # may return something like {ID: 1, Name: 'one'}
 ```
 
 And then you may also overwrite it with a changed version:
 
 ``` coffee
-table.row example, 1, {ID: 3, Name: 'three'}
+table.row 1, {ID: 3, Name: 'three'}
+
+# or statically called:
+Table.row example, 1, {ID: 3, Name: 'three'}
 ```
 
 ### insert
 
-Insert multiple rows as into the table.
+Insert multiple rows as into the Table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `pos` - (integer) row position from 1.. (0 is the heading) use 'null' to add at the end
 - `rows` - (array of arrays) table rows to add
 
 __Examples__
 
 ``` coffee
-table.insert example, 2, [
+Table.insert example, 2, [
   [5, 'five']
   [6, 'six']
 ]
@@ -239,7 +291,7 @@ Delete some rows.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `pos` - (integer) row number from 1.. (0 is the heading)
 - `num` - (optional object) new value for the given row
 
@@ -252,7 +304,7 @@ __Examples__
 First you may read one row as record:
 
 ``` coffee
-table.delete example, 2, 1
+Table.delete example, 2, 1
 ```
 
 ### shift
@@ -261,7 +313,7 @@ Remove the first row as record object from the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 
 __Return__
 
@@ -273,7 +325,7 @@ Add record object to the start of the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `record` - (object) record to add
 
 ### pop
@@ -282,7 +334,7 @@ Remove the last row as record object from the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 
 __Return__
 
@@ -294,7 +346,7 @@ Add record object to the end of the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access
+- `table` - (array of arrays) to access (only static calls)
 - `record` - (object) record to add
 
 
