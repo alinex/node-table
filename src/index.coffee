@@ -88,6 +88,10 @@ class Table
     result
 
   @insert: (obj, pos, rows) ->
+    unless rows
+      rows = pos
+      pos = null
+    pos = obj.length unless pos
     debug "add row at position #{pos}"
     if pos
       obj.splice pos+i, 0, row for row, i in rows
@@ -95,7 +99,7 @@ class Table
       obj.push.apply obj, rows
     obj
 
-  @delete: (obj, pos, num) ->
+  @delete: (obj, pos, num = 1) ->
     debug "remove #{num} rows at position #{pos}"
     obj.splice pos, num
     obj
@@ -117,6 +121,21 @@ class Table
   @push: (obj, record) ->
     obj.push []
     @row obj, obj.length-1, record
+
+  @column: (obj, col) ->
+    col = obj[0].indexOf col unless typeof col is 'number'
+    obj[1..].map (row) -> row[col]
+
+  @columnAdd: (obj, col, name) ->
+    col = obj[0].length unless col
+    col = obj[0].indexOf col unless typeof col is 'number'
+    row.splice col, 0, null for row in obj
+    obj[0][col] = name
+
+  @columnRemove: (obj, col) ->
+    col = obj[0].length unless col
+    col = obj[0].indexOf col unless typeof col is 'number'
+    row.splice col, 1 for row in obj
 
 
   # Join

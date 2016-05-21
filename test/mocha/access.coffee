@@ -95,7 +95,8 @@ describe "Access", ->
       ]
 
     it "should insert two rows at the end", ->
-      Table.insert example, null, [[5, 'five'], [6, 'six']]
+      Table.insert example, null, [[5, 'five']]
+      Table.insert example, [[6, 'six']]
       expect(example).to.deep.equal [
         ['ID', 'Name']
         [1, 'one']
@@ -120,15 +121,22 @@ describe "Access", ->
   describe "delete", ->
 
     it "should delete one row", ->
-      Table.delete example, 2, 1
+      Table.delete example, 2
       expect(example).to.deep.equal [
         ['ID', 'Name']
         [1, 'one']
         [3, 'three']
       ]
 
+    it "should delete two rows", ->
+      Table.delete example, 2, 2
+      expect(example).to.deep.equal [
+        ['ID', 'Name']
+        [1, 'one']
+      ]
+
     it "should delete one row (instance)", ->
-      result = table.delete 2, 1
+      result = table.delete 2
       expect(result).to.be.instanceof Table
       expect(table.data).to.deep.equal [
         ['ID', 'Name']
