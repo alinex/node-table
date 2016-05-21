@@ -122,14 +122,18 @@ class Table
     obj.push []
     @row obj, obj.length-1, record
 
-  @column: (obj, col) ->
+  @column: (obj, col, values) ->
     col = obj[0].indexOf col unless typeof col is 'number'
+    if values
+      for row, i in obj
+        row.splice col, 0, values?[i-1] ? null
     obj[1..].map (row) -> row[col]
 
-  @columnAdd: (obj, col, name) ->
+  @columnAdd: (obj, col, name, values) ->
     col = obj[0].length unless col
     col = obj[0].indexOf col unless typeof col is 'number'
-    row.splice col, 0, null for row in obj
+    for row, i in obj
+      row.splice col, 0, values?[i-1] ? null
     obj[0][col] = name
 
   @columnRemove: (obj, col) ->
@@ -210,9 +214,11 @@ class Table
   push: (record) ->
     Table.push @data, record
     this
-  column: (col) -> Table.column @data, col
-  columnAdd: (col, name) ->
-    Table.columnAdd @data, col, name
+  column: (col, values) ->
+    result = Table.column @data, col, values
+    if values? then this else result
+  columnAdd: (col, name, values) ->
+    Table.columnAdd @data, col, name, values
     this
   columnRemove: (col) ->
     Table.columnRemove @data, col

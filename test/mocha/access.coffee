@@ -240,9 +240,19 @@ describe "Access", ->
       result = Table.column example, 'Name'
       expect(result).to.deep.equal ['one', 'two', 'three']
 
+    it "should set a column by number", ->
+      result = Table.column example, 1, ['eins', 'zwei', 'drei']
+      expect(result).to.deep.equal ['eins', 'zwei', 'drei']
+
     it "should get a column by number (instance)", ->
       result = table.column 1
       expect(result).to.deep.equal ['one', 'two', 'three']
+
+    it "should set a column by number (instance)", ->
+      result = table.column 1, ['eins', 'zwei', 'drei']
+      expect(result).to.be.instanceof Table
+      result = table.column 1
+      expect(result).to.deep.equal ['eins', 'zwei', 'drei']
 
   describe "columnAdd", ->
 
@@ -253,6 +263,15 @@ describe "Access", ->
         [ 1, null, 'one' ]
         [ 2, null, 'two' ]
         [ 3, null, 'three' ]
+      ]
+
+    it "should add a column with values", ->
+      Table.columnAdd example, 1, 'DE', ['eins', 'zwei', 'drei']
+      expect(example).to.deep.equal [
+        [ 'ID', 'DE', 'Name' ]
+        [ 1, 'eins', 'one' ]
+        [ 2, 'zwei', 'two' ]
+        [ 3, 'drei', 'three' ]
       ]
 
     it "should add a column (instance)", ->

@@ -360,8 +360,11 @@ __Arguments__
 
 - `table` - (array of arrays) to access (only static calls)
 - `column` - (number or string) the column to export
+- `values` - (array) list of values for row 1..
 
 __Return__
+
+A list of values for the column fields from row 1..
 
 ### columnAdd
 
@@ -372,8 +375,11 @@ __Arguments__
 - `table` - (array of arrays) to access (only static calls)
 - `column` - (number or string) position there inserting column
 - `name` - (string) name of the new column
+- `values` - (array) list of values for row 1..
 
 __Return__
+
+The instance if not called statically.
 
 ### columnRemove
 
@@ -386,6 +392,7 @@ __Arguments__
 
 __Return__
 
+The instance if not called statically.
 
 
 Join
