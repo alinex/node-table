@@ -105,24 +105,29 @@ class Table
     obj
 
   @shift: (obj) ->
+    debug "shift"
     result = @row obj, 1
     @delete obj, 1, 1
     result
 
   @unshift: (obj, record) ->
+    debug "unshift"
     @insert obj, 1, [[]]
     @row obj, 1, record
 
   @pop: (obj) ->
+    debug "pop"
     result = @row obj, obj.length-1
     @delete obj, obj.length-1, 1
     result
 
   @push: (obj, record) ->
+    debug "push"
     obj.push []
     @row obj, obj.length-1, record
 
   @column: (obj, col, values) ->
+    debug "add or set column #{col}"
     col = obj[0].indexOf col unless typeof col is 'number'
     if values
       for row, i in obj
@@ -131,6 +136,7 @@ class Table
 
   @columnAdd: (obj, col, name, values) ->
     col = obj[0].length unless col
+    debug "add column before #{col}"
     col = obj[0].indexOf col unless typeof col is 'number'
     for row, i in obj
       row.splice col, 0, values?[i-1] ? null
@@ -138,6 +144,7 @@ class Table
 
   @columnRemove: (obj, col) ->
     col = obj[0].length unless col?
+    debug "remove column #{col}"
     col = obj[0].indexOf col unless typeof col is 'number'
     row.splice col, 1 for row in obj
 
@@ -147,6 +154,36 @@ class Table
 
   @leftJoin: (base, tables...) ->
     debug "leftJoin"
+    for table in tables
+      # equal columns
+      equal = []
+      add = []
+      for name, k in table[0]
+        i = base[0].indexOf name
+        if i >= 0
+          equal.push [i, k]
+        else
+          add.push [base[0].length, k]
+          @columnAdd base, null, name
+#      # add check column
+#      done = base[0].length
+#      @columnAdd base
+      # index
+      index = {}
+      cols = equal.map (e) -> e[0]
+      for row, num in base[1..]
+        name = JSON.stringify(cols.map (e) -> row[e])
+        index[name] ?=
+          source: []
+          dest: []
+        index[name].source.push num
+      # join dest
+
+
+      # set values from table
+      # duplicate rows if multiple dest
+
+
   @rightJoin: (base, tables...) ->
     debug "rightJoin"
   @innerJoin: (base, tables...) ->
