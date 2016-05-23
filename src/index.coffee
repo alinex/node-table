@@ -152,44 +152,81 @@ class Table
   # Join
   # -------------------------------------------------
 
-  @leftJoin: (base, tables...) ->
-    debug "leftJoin"
+  @append: (base, tables...) ->
+    debug "append"
     for table in tables
-      # equal columns
-      equal = []
-      add = []
+      # check or add cols
+      baseCols = []
+      for name in table[0]
+        i = base[0].indexOf name
+        if i >= 0
+          baseCols.push i
+        else
+          baseCols.push base[0].length
+          exports.columnAdd base, 1
+      # add data
+      for row, i in table[1..]
+        nrow = base[0].map -> null
+        for e, i in baseCols
+          nrow[e] = row[i]
+        base.push nrow
+    base
+
+  @join: (base, type, tables...) ->
+    debug "join #{type}"
+    for table in tables
+      # get equal columns
+      res = [util.clone base[0]]
+      baseJoin = []
+      baseJoinToTable = []
+      tableJoin = []
+      tableAdd = []
       for name, k in table[0]
         i = base[0].indexOf name
         if i >= 0
-          equal.push [i, k]
+          baseJoin.push i
+          baseJoinToTable.push [i, k]
+          tableJoin.push k
         else
-          add.push [base[0].length, k]
-          @columnAdd base, null, name
-#      # add check column
-#      done = base[0].length
-#      @columnAdd base
+          res[0].push name
+          tableAdd.push k
       # index
       index = {}
-      cols = equal.map (e) -> e[0]
       for row, num in base[1..]
-        name = JSON.stringify(cols.map (e) -> row[e])
+        name = stringify(baseJoin.map (e) -> row[e])
         index[name] ?=
           source: []
           dest: []
-        index[name].source.push num
+        index[name].source.push num+1
       # join dest
-
-
+      for row, num in table[1..]
+        name = stringify(tableJoin.map (e) -> row[e])
+        index[name] ?=
+          source: []
+          dest: []
+        index[name].dest.push num+1
       # set values from table
-      # duplicate rows if multiple dest
+      for _, v of index
+        # all inner
+        if v.source.length and v.dest.length
+          continue unless type in ['left', 'inner', 'right']
+          for source in v.source
+            for dest in v.dest
+              res.push base[source].concat tableAdd.map (e) -> table[dest][e]
+        else if v.source.length
+          continue unless type in ['left', 'outer']
+          for source in v.source
+            res.push base[source].concat tableAdd.map -> null
+        else if v.dest.length
+          continue unless type in ['right', 'outer']
+          for dest in v.dest
+            nrow = (base[0].map -> null).concat tableAdd.map (e) -> table[dest][e]
+            for e in baseJoinToTable
+              nrow[e[0]] = table[dest][e[1]]
+            res.push nrow
+      base = res
+    base
 
-
-  @rightJoin: (base, tables...) ->
-    debug "rightJoin"
-  @innerJoin: (base, tables...) ->
-    debug "innerJoin"
-  @outerJoin: (base, tables...) ->
-    debug "outerJoin"
 
 
   # Transform
@@ -266,3 +303,8 @@ class Table
 # Export class
 # -------------------------------------------------
 module.exports = Table
+
+
+# Helper methods
+# -------------------------------------------------
+stringify = JSON.stringify

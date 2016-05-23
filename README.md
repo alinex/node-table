@@ -398,6 +398,33 @@ The instance if not called statically.
 Join
 -------------------------------------------------------------
 
+There are basically two methods of appending. First vertivally by appending the
+tables below each one. And second vertically by combining the rows.
+
+### append
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `table2` - (array of arrays) to append
+- `...` - more tables
+
+__Return__
+
+The instance if not called statically, the new table on static calls.
+
+### join
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `type` - (string) type of join like: 'left', 'inner', 'right', 'outer'
+- `table2` - (array of arrays) to join
+- `...` - more tables
+
+__Return__
+
+The instance if not called statically, the new table on static calls.
 
 
 License
