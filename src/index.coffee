@@ -298,6 +298,14 @@ class Table
     Table.columnRemove @data, col
     this
 
+  append: (tables...) ->
+    for table in tables
+      @data = Table.append @data, table.data ? table
+    this
+  join: (type, tables...) ->
+    for table in tables
+      @data = Table.join @data, type, table.data ? table
+    this
 
 
 # Export class

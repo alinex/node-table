@@ -47,12 +47,54 @@ describe "Join", ->
         [5, 'five']
         [6, 'six']
       ]
+    it "should append two tables (instance)", ->
+      result = table.append table1
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        ['ID', 'Name']
+        [1, 'one']
+        [2, 'two']
+        [3, 'three']
+        [4, 'four']
+        [5, 'five']
+        [6, 'six']
+      ]
+    it "should append two tables (mixed)", ->
+      result = table.append example1
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        ['ID', 'Name']
+        [1, 'one']
+        [2, 'two']
+        [3, 'three']
+        [4, 'four']
+        [5, 'five']
+        [6, 'six']
+      ]
 
   describe "join", ->
 
     it "should left join tables", ->
       result = Table.join example, 'left', example2
       expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 1, 'one', null ]
+        [ 2, 'two', 'zwei' ]
+        [ 3, 'three', null ]
+      ]
+    it "should left join tables (instance)", ->
+      result = table.join 'left', table2
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 1, 'one', null ]
+        [ 2, 'two', 'zwei' ]
+        [ 3, 'three', null ]
+      ]
+    it "should left join tables (mixed)", ->
+      result = table.join 'left', example2
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
         [ 'ID', 'Name', 'DE' ]
         [ 1, 'one', null ]
         [ 2, 'two', 'zwei' ]
