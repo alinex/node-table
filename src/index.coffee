@@ -67,7 +67,7 @@ class Table
   # -------------------------------------------------
 
   @field: (obj, row, col, value) ->
-    col = obj[0].indexOf col unless typeof col is 'number'
+    col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     debug "get field #{row}/#{col}"
     # set value
     obj[row][col] = value if value?
@@ -128,7 +128,7 @@ class Table
 
   @column: (obj, col, values) ->
     debug "add or set column #{col}"
-    col = obj[0].indexOf col unless typeof col is 'number'
+    col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     if values
       for row, i in obj
         row.splice col, 0, values?[i-1] ? null
@@ -137,7 +137,7 @@ class Table
   @columnAdd: (obj, col, name, values) ->
     col = obj[0].length unless col
     debug "add column before #{col}"
-    col = obj[0].indexOf col unless typeof col is 'number'
+    col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     for row, i in obj
       row.splice col, 0, values?[i-1] ? null
     obj[0][col] = name
@@ -145,7 +145,7 @@ class Table
   @columnRemove: (obj, col) ->
     col = obj[0].length unless col?
     debug "remove column #{col}"
-    col = obj[0].indexOf col unless typeof col is 'number'
+    col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     row.splice col, 1 for row in obj
 
 
@@ -228,16 +228,34 @@ class Table
     base
 
 
-
   # Transform
   # -------------------------------------------------
 
-  # sort = '1,2-,4' or 'name,age-'
+  # sort = '1,-2,4' or 'name,-age'
   @sort: (table, sort) ->
+    sort = sort.split /,\s*/ if typeof sort is 'string'
+    if Array.isArray sort
+      sort = sort.map (col) ->
+        order = ''
+        if col[0] is '-'
+          order = '-'
+          col = col.substr 1
+        col = table[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
+        "#{order}#{col}"
+      sort = sort.join ','
+    sort = sort.toString()
+    debug "sort by #{sort}"
+    header = table.shift()
+    table = util.array.sortBy.apply this, [table].concat sort
+    table.unshift header
+    table
+
+
   @reverse: (table) ->
   @flip: (table) ->
   # formats = {<name>: <format>} or [<format>, ...]
   @format: (table, formats) ->
+  @rename: (table, col, name) ->
 
 
   # Filtering
@@ -305,6 +323,10 @@ class Table
   join: (type, tables...) ->
     for table in tables
       @data = Table.join @data, type, table.data ? table
+    this
+
+  sort: (sort) ->
+    @data = Table.sort @data, sort
     this
 
 

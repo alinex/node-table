@@ -426,6 +426,21 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+### sort
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `sort` - (string or array) sort columns
+
+The sort columns may be number or names as array or comma delimited string. To
+sort in reverse order prepend the column with '-'.
+
+__Return__
+
+The instance if not called statically, the new table on static calls.
+
+
 
 License
 -------------------------------------------------
