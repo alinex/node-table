@@ -250,11 +250,45 @@ class Table
     table.unshift header
     table
 
-
   @reverse: (table) ->
+    debug "reverse"
+    header = table.shift()
+    table.reverse()
+    table.unshift header
+    table
+
   @flip: (table) ->
-  # formats = {<name>: <format>} or [<format>, ...]
+    debug "flip"
+    # flip
+    flipped = []
+    for row, x in table
+      for col, y in row
+        flipped[y] ?= []
+        flipped[y][x] = col
+    flipped
+
+
+
+
+# formats = {<name>: <format>} or [<format>, ...]
   @format: (table, formats) ->
+    return cb() unless file.format
+    debug chalk.grey "#{meta.job}.#{name}: format columns"
+    async.each file.data, (row, cb) ->
+      async.each Object.keys(row), (col, cb) ->
+        return cb() unless file.format[col]
+        validator.check
+          name: "format-cell"
+          value: row[col]
+          schema: file.format[col]
+        , (err, result) ->
+          row[col] = result
+          cb()
+      , cb
+    , (err) ->
+      return cb err if err
+      cb()
+
   @rename: (table, col, name) ->
 
 
@@ -263,10 +297,14 @@ class Table
 
   # columns = {<title>: <old name> or true or <num>}
   @columns: (table, columns) ->
+
   # columns = <num array> or <string array> (optional)
   @unique: (table, columns) ->
+    file.data = util.array.unique file.data
+
   # conditions = {<name>: <cond>} or [<cond>, ...]
   @filter: (table, conditions) ->
+
   # conditions = {<name>: <cond>} or [<cond>, ...]
   @group: (table, conditions) ->
 
@@ -327,6 +365,12 @@ class Table
 
   sort: (sort) ->
     @data = Table.sort @data, sort
+    this
+  reverse: ->
+    @data = Table.reverse @data
+    this
+  flip: ->
+    @data = Table.flip @data
     this
 
 
