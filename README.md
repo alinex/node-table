@@ -440,6 +440,37 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+### reverse
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+
+__Return__
+
+The instance if not called statically, the table on static calls.
+
+### flip
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+
+__Return__
+
+The instance if not called statically, the new table on static calls.
+
+### rename
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `col` - (string or integer) column to rename
+- `name` - (string) new name for defined column
+
+__Return__
+
+The instance if not called statically, the table on static calls.
 
 
 License

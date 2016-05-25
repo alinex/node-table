@@ -268,8 +268,6 @@ class Table
     flipped
 
 
-
-
 # formats = {<name>: <format>} or [<format>, ...]
   @format: (table, formats) ->
 #    return cb() unless file.format
@@ -290,6 +288,10 @@ class Table
 #      cb()
 
   @rename: (table, col, name) ->
+    debug "rename #{col} to #{name}"
+    col = table[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
+    table[0][col] = name
+    table
 
 
   # Filtering
@@ -371,6 +373,9 @@ class Table
     this
   flip: ->
     @data = Table.flip @data
+    this
+  rename: (col, name) ->
+    Table.rename @data, col, name
     this
 
 

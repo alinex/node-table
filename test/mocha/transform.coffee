@@ -125,3 +125,41 @@ describe "Transform", ->
         [ 'Name', 'one', 'two', 'three', 'four', 'five', 'six' ]
         [ 'DE', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs' ]
       ]
+
+  describe "rename", ->
+
+    it "should rename one column", ->
+      result = Table.rename example, 1, 'EN'
+      expect(result).to.deep.equal [
+        [ 'ID', 'EN', 'DE' ]
+        [ 1, 'one', 'eins' ]
+        [ 2, 'two', 'zwei' ]
+        [ 3, 'three', 'drei' ]
+        [ 4, 'four', 'vier' ]
+        [ 5, 'five', 'fünf' ]
+        [ 6, 'six', 'sechs' ]
+      ]
+    it "should rename one column (instance)", ->
+      result = table.rename 1, 'EN'
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'EN', 'DE' ]
+        [ 1, 'one', 'eins' ]
+        [ 2, 'two', 'zwei' ]
+        [ 3, 'three', 'drei' ]
+        [ 4, 'four', 'vier' ]
+        [ 5, 'five', 'fünf' ]
+        [ 6, 'six', 'sechs' ]
+      ]
+
+    it "should rename one column by name", ->
+      result = Table.rename example, 'Name', 'EN'
+      expect(result).to.deep.equal [
+        [ 'ID', 'EN', 'DE' ]
+        [ 1, 'one', 'eins' ]
+        [ 2, 'two', 'zwei' ]
+        [ 3, 'three', 'drei' ]
+        [ 4, 'four', 'vier' ]
+        [ 5, 'five', 'fünf' ]
+        [ 6, 'six', 'sechs' ]
+      ]
