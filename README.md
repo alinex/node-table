@@ -460,6 +460,22 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+### format
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `formats` - (map or array) formats for the columns
+  - array with each columns format
+  - object with 'column: format'
+
+The format is defined like the [validator](http://alinex.github.io/node-validator)
+schema.
+
+__Return__
+
+The instance if not called statically, the table on static calls.
+
 ### rename
 
 __Arguments__

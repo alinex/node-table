@@ -7,8 +7,11 @@
 
 # include base modules
 debug = require('debug') 'table'
+deasync = require 'deasync'
 # include alinex modules
 util = require 'alinex-util'
+validator = require 'alinex-validator'
+
 
 class Table
 
@@ -267,25 +270,27 @@ class Table
         flipped[y][x] = col
     flipped
 
-
-# formats = {<name>: <format>} or [<format>, ...]
+  # formats = {<name>: <format>} or [<format>, ...]
   @format: (table, formats) ->
-#    return cb() unless file.format
-#    debug chalk.grey "#{meta.job}.#{name}: format columns"
-#    async.each file.data, (row, cb) ->
-#      async.each Object.keys(row), (col, cb) ->
-#        return cb() unless file.format[col]
-#        validator.check
-#          name: "format-cell"
-#          value: row[col]
-#          schema: file.format[col]
-#        , (err, result) ->
-#          row[col] = result
-#          cb()
-#      , cb
-#    , (err) ->
-#      return cb err if err
-#      cb()
+    debug "format columns"
+    # get format object with numbered columns
+    map = {}
+    if Array.isArray formats
+      map[i] = f for f, i in formats
+    else
+      for col, v of formats
+        col = table[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
+        map[col] = v
+    # format columns
+    for col, format of map
+      for row in table[1..]
+        check = deasync validator.check
+        row[col] = check
+          name: "format-cell"
+          value: row[col]
+          schema: format
+    # return
+    table
 
   @rename: (table, col, name) ->
     debug "rename #{col} to #{name}"
@@ -376,6 +381,9 @@ class Table
     this
   rename: (col, name) ->
     Table.rename @data, col, name
+    this
+  format: (formats) ->
+    Table.format @data, formats
     this
 
 

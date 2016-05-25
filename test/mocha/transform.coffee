@@ -163,3 +163,41 @@ describe "Transform", ->
         [ 5, 'five', 'fünf' ]
         [ 6, 'six', 'sechs' ]
       ]
+
+  describe "format", ->
+
+    it "should format columns", ->
+      result = Table.format example,
+        ID:
+          type: 'percent'
+          format: '0%'
+        Name:
+          type: 'string'
+          upperCase: 'first'
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ '100%', 'One', 'eins' ]
+        [ '200%', 'Two', 'zwei' ]
+        [ '300%', 'Three', 'drei' ]
+        [ '400%', 'Four', 'vier' ]
+        [ '500%', 'Five', 'fünf' ]
+        [ '600%', 'Six', 'sechs' ]
+      ]
+    it "should format columns (instance)", ->
+      result = table.format
+        ID:
+          type: 'percent'
+          format: '0%'
+        Name:
+          type: 'string'
+          upperCase: 'first'
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ '100%', 'One', 'eins' ]
+        [ '200%', 'Two', 'zwei' ]
+        [ '300%', 'Three', 'drei' ]
+        [ '400%', 'Four', 'vier' ]
+        [ '500%', 'Five', 'fünf' ]
+        [ '600%', 'Six', 'sechs' ]
+      ]
