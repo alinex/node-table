@@ -69,3 +69,59 @@ describe "Transform", ->
         [ 4, 'four', 'vier' ]
         [ 5, 'five', 'fünf' ]
       ]
+
+  describe "reverse", ->
+
+    it "should reverse sort after one column", ->
+      result = Table.reverse example, 0
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 6, 'six', 'sechs' ]
+        [ 5, 'five', 'fünf' ]
+        [ 4, 'four', 'vier' ]
+        [ 3, 'three', 'drei' ]
+        [ 2, 'two', 'zwei' ]
+        [ 1, 'one', 'eins' ]
+      ]
+    it "should reverse sort after one column (instance)", ->
+      result = table.reverse 0
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 6, 'six', 'sechs' ]
+        [ 5, 'five', 'fünf' ]
+        [ 4, 'four', 'vier' ]
+        [ 3, 'three', 'drei' ]
+        [ 2, 'two', 'zwei' ]
+        [ 1, 'one', 'eins' ]
+      ]
+
+    it "should reverse sort after one column by name", ->
+      result = Table.reverse example, 'ID'
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 6, 'six', 'sechs' ]
+        [ 5, 'five', 'fünf' ]
+        [ 4, 'four', 'vier' ]
+        [ 3, 'three', 'drei' ]
+        [ 2, 'two', 'zwei' ]
+        [ 1, 'one', 'eins' ]
+      ]
+
+  describe "flip", ->
+
+    it "should flip x and y columns", ->
+      result = Table.flip example
+      expect(result).to.deep.equal [
+        [ 'ID', 1, 2, 3, 4, 5, 6 ]
+        [ 'Name', 'one', 'two', 'three', 'four', 'five', 'six' ]
+        [ 'DE', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs' ]
+      ]
+    it "should flip x and y columns (instance)", ->
+      result = table.flip()
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 1, 2, 3, 4, 5, 6 ]
+        [ 'Name', 'one', 'two', 'three', 'four', 'five', 'six' ]
+        [ 'DE', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs' ]
+      ]

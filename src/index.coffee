@@ -272,22 +272,22 @@ class Table
 
 # formats = {<name>: <format>} or [<format>, ...]
   @format: (table, formats) ->
-    return cb() unless file.format
-    debug chalk.grey "#{meta.job}.#{name}: format columns"
-    async.each file.data, (row, cb) ->
-      async.each Object.keys(row), (col, cb) ->
-        return cb() unless file.format[col]
-        validator.check
-          name: "format-cell"
-          value: row[col]
-          schema: file.format[col]
-        , (err, result) ->
-          row[col] = result
-          cb()
-      , cb
-    , (err) ->
-      return cb err if err
-      cb()
+#    return cb() unless file.format
+#    debug chalk.grey "#{meta.job}.#{name}: format columns"
+#    async.each file.data, (row, cb) ->
+#      async.each Object.keys(row), (col, cb) ->
+#        return cb() unless file.format[col]
+#        validator.check
+#          name: "format-cell"
+#          value: row[col]
+#          schema: file.format[col]
+#        , (err, result) ->
+#          row[col] = result
+#          cb()
+#      , cb
+#    , (err) ->
+#      return cb err if err
+#      cb()
 
   @rename: (table, col, name) ->
 
