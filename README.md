@@ -426,6 +426,10 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+
+Transform
+-------------------------------------------------------------
+
 ### sort
 
 __Arguments__
@@ -483,6 +487,35 @@ __Arguments__
 - `table` - (array of arrays) to use as base (only static calls)
 - `col` - (string or integer) column to rename
 - `name` - (string) new name for defined column
+
+__Return__
+
+The instance if not called statically, the table on static calls.
+
+
+Filtering
+-------------------------------------------------------------
+
+### columns
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `columns` - (object) column name: column to use
+
+The columns can be defined all using true, meaning to use them in the existing order
+or with the number or name so a resorting is also possible in one step.
+
+__Return__
+
+The instance if not called statically, the table on static calls.
+
+### unique
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `columns` - (array, string or integer) columns to check for uniqueness
 
 __Return__
 

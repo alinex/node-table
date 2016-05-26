@@ -302,12 +302,44 @@ class Table
   # Filtering
   # -------------------------------------------------
 
-  # columns = {<title>: <old name> or true or <num>}
-  @columns: (table, columns) ->
+  # cols = {<title>: <old name> or true or <num>}
+  @columns: (table, cols) ->
+    debug "change columns #{cols}"
+    # get column numbers
+    num = 0
+    for key, col of cols
+      if col is true
+        col = num++
+      else unless typeof col is 'number' or col.match /^\d+$/
+        col = table[0].indexOf col
+      cols[key] = col
+    # rearrange
+    changed = [Object.keys cols]
+    for row in table[1..]
+      changed.push Object.keys(cols).map (name) -> row[cols[name]]
+    changed
 
-  # columns = <num array> or <string array> (optional)
-  @unique: (table, columns) ->
-    file.data = util.array.unique file.data
+  # cols = <num array> or <string array> (optional)
+  @unique: (table, cols) ->
+    debug "unique in #{cols ? 'all'} columns"
+    # get columns
+    cols = [0..table[0].length-1] unless cols
+    cols = [cols] unless Array.isArray cols
+    cols = cols.map (col) ->
+      if typeof col is 'number' or col.match /^\d+$/ then col else table[0].indexOf col
+    # find duplicates
+    checked = []
+    del = []
+    for row, num in table[1..]
+      c = stringify cols.map (e) -> row[e]
+      if c in checked
+        del.push num+1
+      else
+        checked.push c
+    # and remove them
+    del.reverse()
+    Table.delete table, num for num in del
+    table
 
   # conditions = {<name>: <cond>} or [<cond>, ...]
   @filter: (table, conditions) ->
@@ -384,6 +416,13 @@ class Table
     this
   format: (formats) ->
     Table.format @data, formats
+    this
+
+  columns: (cols) ->
+    @data = Table.columns @data, cols
+    this
+  unique: (cols) ->
+    Table.unique @data, cols
     this
 
 
