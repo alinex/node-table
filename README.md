@@ -158,8 +158,8 @@ result = Table.fromRecordList recordList
 result = Table.fromRecordObject recordObject, idColumn
 result = Table.toRecordList example
 result = Table.toRecordObject example
-
 ```
+
 The conversion to record object will loose the name of the first column so it
 will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
 
@@ -181,6 +181,24 @@ Access
 -------------------------------------------------------------
 
 This methods allows you to easily read and edit the table data in your code.
+
+### data
+
+If used with an instance this is the internal storage of the table structure.
+You may directly access this array of arrays which stores data in rows and columns:
+
+``` coffee
+console.log table.data
+```
+
+This may look like:
+
+``` text
+[ ['ID', 'Name'],
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'] ]
+```
 
 ### field
 
@@ -279,7 +297,7 @@ __Arguments__
 __Examples__
 
 ``` coffee
-Table.insert example, 2, [
+table.insert 2, [
   [5, 'five']
   [6, 'six']
 ]
@@ -301,15 +319,17 @@ The defined row as object.
 
 __Examples__
 
-First you may read one row as record:
 
 ``` coffee
-Table.delete example, 2, 1
+# delete the second data row:
+table.delete 2
+# delete the second and third data row:
+table.delete 2, 2
 ```
 
 ### shift
 
-Remove the first row as record object from the table.
+Remove the first row as record object from the table. The header will be kept.
 
 __Arguments__
 
@@ -318,6 +338,13 @@ __Arguments__
 __Return__
 
 The first row as object.
+
+__Examples__
+
+``` coffee
+record = table.shift()
+# record = {ID: 1, Name: 'one'}
+```
 
 ### unshift
 
@@ -328,9 +355,15 @@ __Arguments__
 - `table` - (array of arrays) to access (only static calls)
 - `record` - (object) record to add
 
+__Examples__
+
+``` coffee
+table.unshift {id: 0, Name: 'zero'}
+```
+
 ### pop
 
-Remove the last row as record object from the table.
+Remove the last row as record object from the table. The header will be kept.
 
 __Arguments__
 
@@ -339,6 +372,13 @@ __Arguments__
 __Return__
 
 The last row as object.
+
+__Examples__
+
+``` coffee
+record = table.pop()
+# record = {ID: 3, Name: 'three'}
+```
 
 ### push
 
@@ -349,22 +389,35 @@ __Arguments__
 - `table` - (array of arrays) to access (only static calls)
 - `record` - (object) record to add
 
+__Examples__
 
-
+``` coffee
+table.unshift {id: 4, Name: 'four'}
+```
 
 ### column
 
-Get a defined column.
+Get a defined column as array.
 
 __Arguments__
 
 - `table` - (array of arrays) to access (only static calls)
 - `column` - (number or string) the column to export
-- `values` - (array) list of values for row 1..
+- `values` - (array) list of values for row 1...
+
+The column number will start at 0...
 
 __Return__
 
-A list of values for the column fields from row 1..
+A list of values for the column fields from row 1... The header name is not
+included.
+
+__Examples__
+
+``` coffee
+result = table.column 'Name'
+# result = ['one', 'two', 'three']
+```
 
 ### columnAdd
 
@@ -381,6 +434,32 @@ __Return__
 
 The instance if not called statically.
 
+__Examples__
+
+You may only add a column (here as second column - index 1):
+
+``` coffee
+table.columnAdd 1, 'DE'
+# table.data = [
+#   [ 'ID', 'DE', 'Name' ]
+#   [ 1, null, 'one' ]
+#   [ 2, null, 'two' ]
+#   [ 3, null, 'three' ]
+# ]
+```
+
+Or also add values for this column:
+
+``` coffee
+table.columnAdd 1, 'DE', ['eins', 'zwei', 'drei']
+# table.data = [
+#   [ 'ID', 'DE', 'Name' ]
+#   [ 1, 'eins', 'one' ]
+#   [ 2, 'zwei', 'two' ]
+#   [ 3, 'drei', 'three' ]
+# ]
+```
+
 ### columnRemove
 
 Get a defined column.
@@ -394,6 +473,20 @@ __Return__
 
 The instance if not called statically.
 
+__Examples__
+
+This will remove the first column with the ID and keep only the Name column:
+
+``` coffee
+table.columnRemove 0
+# table = [
+#   [ 'Name' ]
+#   [ 'one' ]
+#   [ 'two' ]
+#   [ 'three' ]
+# ]
+```
+
 
 Join
 -------------------------------------------------------------
@@ -402,6 +495,9 @@ There are basically two methods of appending. First vertivally by appending the
 tables below each one. And second vertically by combining the rows.
 
 ### append
+
+This may append two tables under each other. The resulting table will have the
+columns from both of them.
 
 __Arguments__
 
@@ -413,7 +509,29 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+__Examples__
+
+``` coffee
+table.append [
+  [4, 'four']
+  [5, 'five']
+  [6, 'six']
+]
+# table.data = [
+#   ['ID', 'Name']
+#   [1, 'one']
+#   [2, 'two']
+#   [3, 'three']
+#   [4, 'four']
+#   [5, 'five']
+#   [6, 'six']
+# ]
+```
+
 ### join
+
+This works like a sql database join and if it is possible better use it within
+the database because of the performance.
 
 __Arguments__
 
@@ -426,11 +544,67 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+__Examples__
+
+``` coffee
+table.join 'left', [
+  ['Name', 'DE']
+  ['two', 'zwei']
+  ['seven', 'sieben']
+]
+# table.data = [
+#   [ 'ID', 'Name', 'DE' ]
+#   [ 1, 'one', null ]
+#   [ 2, 'two', 'zwei' ]
+#   [ 3, 'three', null ]
+# ]
+```
+
+``` coffee
+table.join 'right', [
+  ['Name', 'DE']
+  ['two', 'zwei']
+  ['seven', 'sieben']
+]
+# table.data = [
+#   [ 'ID', 'Name', 'DE' ]
+#   [ 2, 'two', 'zwei' ]
+#   [ null, 'seven', 'sieben' ]
+# ]
+```
+
+``` coffee
+table.join 'inner', [
+  ['Name', 'DE']
+  ['two', 'zwei']
+  ['seven', 'sieben']
+]
+# table.data = [
+#   [ 'ID', 'Name', 'DE' ]
+#   [ 2, 'two', 'zwei' ]
+# ]
+```
+
+``` coffee
+table.join 'outer', [
+  ['Name', 'DE']
+  ['two', 'zwei']
+  ['seven', 'sieben']
+]
+# table.data = [
+#   [ 'ID', 'Name', 'DE' ]
+#   [ 1, 'one', null ]
+#   [ 3, 'three', null ]
+#   [ null, 'seven', 'sieben' ]
+# ]
+```
 
 Transform
 -------------------------------------------------------------
 
 ### sort
+
+Sort the data rows by the specified columns.
 
 __Arguments__
 
@@ -444,7 +618,22 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+__Examples__
+
+``` coffee
+# sort after Name column
+table.sort 'Name'
+# reverse sort
+table.sort '-Name'
+# sort after ID then Name
+table.sort ['ID', 'Name']
+# the same
+table.sort 'ID, Name'
+```
+
 ### reverse
+
+Reverse the order of all data rows in the table.
 
 __Arguments__
 
@@ -454,7 +643,15 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+__Examples__
+
+``` coffee
+table.reverse()
+```
+
 ### flip
+
+You may switch the x-axis and y-axis of your table.
 
 __Arguments__
 
@@ -464,7 +661,19 @@ __Return__
 
 The instance if not called statically, the new table on static calls.
 
+__Examples__
+
+``` coffee
+table.flip()
+# table.data = [
+#   [ 'ID', 1, 2, 3 ]
+#   [ 'Name', 'one', 'two', 'three' ]
+# ]
+```
+
 ### format
+
+Format column values.
 
 __Arguments__
 
@@ -480,7 +689,27 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+__Examples__
+
+``` coffee
+table.format
+  ID:
+    type: 'percent'
+    format: '0%'
+  Name:
+    type: 'string'
+    upperCase: 'first'
+# table.data = [
+#   [ 'ID', 'Name' ]
+#   [ '100%', 'One' ]
+#   [ '200%', 'Two' ]
+#   [ '300%', 'Three' ]
+# ]
+```
+
 ### rename
+
+Rename a column.
 
 __Arguments__
 
@@ -492,11 +721,19 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+__Examples__
+
+``` coffee
+table.rename 'Name', 'EN'
+```
+
 
 Filtering
 -------------------------------------------------------------
 
 ### columns
+
+Rename multiple columns, reorder them and filter them.
 
 __Arguments__
 
@@ -510,7 +747,39 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+__Examples__
+
+In the following example only the first two columns are kept and named:
+
+``` coffee
+table.columns
+  ID: true
+  EN: true
+# table.data = [
+#   [ 'ID', 'EN' ]
+#   [1, 'one']
+#   [2, 'two']
+#   [3, 'three']
+# ]
+```
+
+And here the columns are also reordered:
+
+``` coffee
+table.columns
+  EN: 'Name'
+  ID: 'ID'
+# table.data = [
+#   ['EN', 'ID']
+#   ['one', 1]
+#   ['two', 2]
+#   ['three', 3]
+# ]
+```
+
 ### unique
+
+Remove all duplicate data rows.
 
 __Arguments__
 
@@ -521,7 +790,18 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+__Examples__
+
+``` coffee
+# remove all completely duplicate rows
+table.unique()
+# remove all rows with duplicate Name column
+table.unique 'Name'
+```
+
 ### filter
+
+Filter the rows using specific conditions per column.
 
 __Arguments__
 
@@ -549,6 +829,13 @@ Name not null
 __Return__
 
 The instance if not called statically, the table on static calls.
+
+__Examples__
+
+``` coffee
+table.filter ['ID > 1', 'ID < 8'] # AND
+table.filter [['ID < 2', 'ID > 3']] # OR
+```
 
 
 License
