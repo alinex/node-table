@@ -521,6 +521,35 @@ __Return__
 
 The instance if not called statically, the table on static calls.
 
+### filter
+
+__Arguments__
+
+- `table` - (array of arrays) to use as base (only static calls)
+- `conditions` - (array) conditions to be kept
+
+The conditions are strings consisting of '<column> <operator> <value>'. If given
+as array the different conditions are logical combined using 'AND'. Subarrays
+are combined using 'OR' (even index) and 'AND' (odd index).
+
+``` coffee
+conditions = ['Name not null', ['Name startsWith a', 'Name startsWith b']]
+```
+
+This results in the following logic:
+
+``` text
+Name not null
+# and
+  Name startsWith a
+  # or
+  Name startsWith b
+```
+
+__Return__
+
+The instance if not called statically, the table on static calls.
+
 
 License
 -------------------------------------------------

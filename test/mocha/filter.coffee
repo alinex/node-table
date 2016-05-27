@@ -2,6 +2,7 @@ chai = require 'chai'
 expect = chai.expect
 ### eslint-env node, mocha ###
 
+util = require 'alinex-util'
 Table = require '../../src/index'
 example = null
 table = null
@@ -124,5 +125,77 @@ describe "Filter", ->
         [1, 'one', 'eins']
         [2, 'two', 'zwei']
         [4, 'four', 'vier']
+        [5, 'five', 'fünf']
+      ]
+
+  describe "rows", ->
+
+    it "should keep equal strings", ->
+      result = Table.filter example, 'Name = two'
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+      ]
+    it "should keep equal strings (instance)", ->
+      result = table.filter 'Name = two'
+      expect(result).to.be.instanceof Table
+      expect(table.data).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+      ]
+
+    it "should test integer comparison", ->
+      result = Table.filter util.clone(example), ['ID < 2']
+      expect(result, '<').to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [1, 'one', 'eins']
+      ]
+      result = Table.filter util.clone(example), ['ID <= 2']
+      expect(result, '<=').to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [1, 'one', 'eins']
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+      ]
+      result = Table.filter util.clone(example), ['ID == 2']
+      expect(result, '==').to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+      ]
+      result = Table.filter util.clone(example), ['ID >= 2']
+      expect(result, '>=').to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+        [4, 'four', 'vier']
+        [5, 'five', 'fünf']
+        [5, 'five', 'fünf']
+      ]
+      result = Table.filter util.clone(example), ['ID > 2']
+      expect(result, '>').to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [4, 'four', 'vier']
+        [5, 'five', 'fünf']
+        [5, 'five', 'fünf']
+      ]
+
+    it "should test 'and' rules", ->
+      result = Table.filter example, ['ID < 3', 'ID > 1']
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [2, 'two', 'zwei']
+        [2, 'two', 'zwo']
+      ]
+
+    it "should test 'or' rules", ->
+      result = Table.filter example, [['ID < 2', 'ID > 2']]
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [1, 'one', 'eins']
+        [4, 'four', 'vier']
+        [5, 'five', 'fünf']
         [5, 'five', 'fünf']
       ]

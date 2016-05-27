@@ -341,11 +341,55 @@ class Table
     Table.delete table, num for num in del
     table
 
-  # conditions = {<name>: <cond>} or [<cond>, ...]
+  # conditions = [<cond>, ...]
   @filter: (table, conditions) ->
-
-  # conditions = {<name>: <cond>} or [<cond>, ...]
-  @group: (table, conditions) ->
+    debug "filter #{conditions}"
+    # optimize conditions
+    conditions = [conditions] unless Array.isArray conditions
+    # internal function checking one cell against value
+    check = (cell, op, val) ->
+      switch typeof cell
+        when 'number' then val = Number val
+        when 'boolean' then val = Boolean val
+      res = switch op.toLowerCase()
+        when 'is', '=', '==' then cell is val
+        when 'not', '!=', '<>' then cell isnt val
+        when '>' then cell > val
+        when '<' then cell < val
+        when '>=', '=>' then cell >= val
+        when '<=', '=<' then cell <= val
+      res
+    resolveCols = (cond, logic = false) ->
+      if Array.isArray cond
+        rules = cond.map (e) -> resolveCols e, not logic
+        return if logic
+          (row) ->
+            # OR
+            ok = false
+            for rule in rules when rule row
+              ok = true
+              break
+            ok
+        else
+          (row) ->
+            # AND
+            ok = true
+            for rule in rules when not rule row
+              ok = false
+              break
+            ok
+      [col, op, val] = cond.split /\s+/
+      col = if typeof col is 'number' or col.match /^\d+$/ then col else table[0].indexOf col
+      (row) -> check row[col], op, val
+    conditions = resolveCols conditions
+    # check conditions on each row
+    del = []
+    for row, num in table[1..]
+      del.push num+1 unless conditions row
+    # and remove them
+    del.reverse()
+    Table.delete table, num for num in del
+    table
 
 
   # Instrances
@@ -423,6 +467,9 @@ class Table
     this
   unique: (cols) ->
     Table.unique @data, cols
+    this
+  filter: (conditions) ->
+    Table.filter @data, conditions
     this
 
 
