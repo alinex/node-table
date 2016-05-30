@@ -19,7 +19,7 @@
   },
   "contributors": [],
   "license": "Apache-2.0",
-  "bin": {},
+  "main": "./lib/index.js",
   "scripts": {
     "prepublish": "node_modules/.bin/builder compile --uglify",
     "test": "node_modules/.bin/builder test"
