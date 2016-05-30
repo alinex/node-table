@@ -400,6 +400,7 @@ class Table
 
   constructor: (base) ->
     @data = base ? []
+    @meta = {}
 
   fromRecordList: (obj) ->
     @data = Table.fromRecordList obj
@@ -474,6 +475,47 @@ class Table
   filter: (conditions) ->
     Table.filter @data, conditions
     this
+
+  # Styling
+  # -------------------------------------------------
+  style: ->
+    args = [].slice.apply arguments
+    style = args.pop()
+    [fr, fc, tr, tc] = args
+    if fc
+      fc = if typeof fc is 'number' or fc.match /^\d+$/ then fc else @data[0].indexOf fc ? fc
+    unless tc? or tr?
+      # cell
+      range = "#{fr ? '*'}/#{fc ? '*'}"
+      if style is null
+        delete @meta[range]
+      else
+        @meta[range] ?= {}
+        util.extend @meta[range], style
+      return
+    # range
+    tc = if typeof tc is 'number' or tc.match /^\d+$/ then tc else @data[0].indexOf tc
+    for row in [fr..tr]
+      for col in [fc..tc]
+        range = "#{row}/#{col}"
+        if style is null
+          delete @meta[range]
+        else
+          @meta[range] ?= {}
+          util.extend @meta[range], style
+    this
+
+  getMeta: (row, col) ->
+    if col
+      col = if typeof col is 'number' or col.match /^\d+$/ then col else @data[0].indexOf col
+    res = util.clone @meta['*/*']
+    if col?
+      util.extend res, util.clone @meta["*/#{col}"]
+    if row?
+      util.extend res, util.clone @meta["#{row}/*"]
+    if row? and col?
+      util.extend res, util.clone @meta["#{row}/#{col}"]
+    res
 
 
 # Export class

@@ -846,6 +846,109 @@ table.filter [['ID < 2', 'ID > 3']] # OR
 ```
 
 
+Styling and Meta Data
+-------------------------------------------------------------
+If you use a table instance you may also store meta data in the object which may
+later be used for styling outside of this module.
+
+### style
+
+Set or clear style information.
+
+__Arguments__
+
+To set for a single cel, row, column or the complete sheet:
+
+- `row` - (integer) row number or null for all rows
+- `col` - (integer or string) column number or name, null for all columns
+- `style` - (object) style settings to store or null to delete all
+
+Or for a user defined range:
+
+- `from-row` - (integer) row number
+- `from-col` - (integer or string) column number or name
+- `to-row` - (integer) row number
+- `to-col` - (integer or string) column number or name
+- `style` - (object) style settings to store or null to delete all cell settings
+
+__Return__
+
+The instance.
+
+__Examples__
+
+``` coffee
+# set style for row 0 colummn 1
+table.style 0, 1, {align: 'left'}
+# the same with a named column
+table.style 0, 'Name', {align: 'left'}
+# and remove the styles
+table.style 0, 1, null
+
+# set style for row 1
+table.style 1, null, {align: 'left'}
+# and remove the styles
+table.style 1, null, null
+
+# set style for column 1
+table.style null, 1, {align: 'left'}
+# and remove the styles
+table.style null, 1, null
+
+# set style for the sheets
+table.style null, null, {align: 'left'}
+# and remove the styles
+table.style null, null, null
+
+# set style for user defined range
+table.style 1, 0, 3, 2, {align: 'left'}
+# and remove the styles
+table.style 1, 0, 3, 2, null
+```
+
+### meta
+
+This object collects the resulting meta data. The following order will overwrite
+the general ones.
+
+- '*/*' contains settings for the complete sheet
+- '*/1' contains settings for the column
+- '1/*' contains settings for the row  
+- '1/1' contains settings for the concrete cell  
+
+### getMeta
+
+This will calculate the resulting settings of the combinations of the above.
+
+__Arguments__
+
+To set for a single cel, row, column or the complete sheet:
+
+- `row` - (integer) row number or null for all rows
+- `col` - (integer or string) column number or name, null for all columns
+
+__Return__
+
+The settings object.
+
+__Examples__
+
+``` coffee
+# get styles for cell
+style = table.getMeta 0, 1
+# style = {align: 'left'}
+
+# get styles for row
+style = table.getMeta 0
+
+# get styles for column
+style = table.getMeta null, 1
+
+# get styles for sheet
+style = table.getMeta()
+```
+
+
 License
 -------------------------------------------------
 
