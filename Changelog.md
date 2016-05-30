@@ -4,6 +4,10 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.1 (2016-05-30)
+-------------------------------------------------
+- Define index script.
+
 Version 1.2.0 (2016-05-30)
 -------------------------------------------------
 - Remove unused package.
