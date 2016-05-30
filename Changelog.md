@@ -4,6 +4,12 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.0 (2016-05-30)
+-------------------------------------------------
+- Remove unused package.
+- Support meta data storage in instance.
+- Updated docu for format(9 method.)
+
 Version 1.1.0 (2016-05-30)
 -------------------------------------------------
 - Added ability to give user defined function in format.
