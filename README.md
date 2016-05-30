@@ -683,7 +683,8 @@ __Arguments__
   - object with 'column: format'
 
 The format is defined like the [validator](http://alinex.github.io/node-validator)
-schema.
+schema or a user defined function which will be called with the cell value and should
+return the formatted value.
 
 __Return__
 
@@ -705,6 +706,13 @@ table.format
 #   [ '200%', 'Two' ]
 #   [ '300%', 'Three' ]
 # ]
+```
+
+And with custom functions the call should look like:
+
+``` coffee
+table.format
+  Name: (cell) -> cell.toString().toUpperCase()
 ```
 
 ### rename
