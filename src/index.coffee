@@ -508,7 +508,7 @@ class Table
   getMeta: (row, col) ->
     if col
       col = if typeof col is 'number' or col.match /^\d+$/ then col else @data[0].indexOf col
-    res = util.clone @meta['*/*']
+    res = util.clone(@meta['*/*']) ? {}
     if col?
       util.extend res, util.clone @meta["*/#{col}"]
     if row?
