@@ -285,10 +285,13 @@ class Table
     for col, format of map
       for row in table[1..]
         check = deasync validator.check
-        row[col] = check
-          name: "format-cell"
-          value: row[col]
-          schema: format
+        row[col] = if typeof format is 'function'
+          format row[col]
+        else
+          check
+            name: "format-cell"
+            value: row[col]
+            schema: format
     # return
     table
 

@@ -201,3 +201,16 @@ describe "Transform", ->
         [ '500%', 'Five', 'fünf' ]
         [ '600%', 'Six', 'sechs' ]
       ]
+
+    it "should format columns using custom function", ->
+      result = Table.format example,
+        Name: (cell) -> cell.toString().toUpperCase()
+      expect(result).to.deep.equal [
+        [ 'ID', 'Name', 'DE' ]
+        [ 1, 'ONE', 'eins' ]
+        [ 2, 'TWO', 'zwei' ]
+        [ 3, 'THREE', 'drei' ]
+        [ 4, 'FOUR', 'vier' ]
+        [ 5, 'FIVE', 'fünf' ]
+        [ 6, 'SIX', 'sechs' ]
+      ]
