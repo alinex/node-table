@@ -41,7 +41,7 @@
     <div id="headings">
 
       <div class="heading h1">
-        <a href="#table">Table</a>
+        <a href="#etable">eTable</a>
       </div>
 
       <div class="heading h2">
@@ -53,15 +53,135 @@
       </div>
 
       <div class="heading h3">
+        <a href="#class-vs-static">Class vs Static</a>
+      </div>
+
+      <div class="heading h2">
         <a href="#data-types">Data Types</a>
       </div>
 
-      <div class="heading h3">
+      <div class="heading h2">
         <a href="#conversion">Conversion</a>
       </div>
 
+      <div class="heading h2">
+        <a href="#access">Access</a>
+      </div>
+
       <div class="heading h3">
-        <a href="#manipulation">Manipulation</a>
+        <a href="#data">data</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#field">field</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#row">row</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#insert">insert</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#delete">delete</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#shift">shift</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#unshift">unshift</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#pop">pop</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#push">push</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#column">column</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#columnadd">columnAdd</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#columnremove">columnRemove</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#join">Join</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#append">append</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#join-1">join</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#transform">Transform</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#sort">sort</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#reverse">reverse</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#flip">flip</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#format">format</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#rename">rename</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#filtering">Filtering</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#columns">columns</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#unique">unique</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#filter">filter</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#styling-and-meta-data">Styling and Meta Data</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#style">style</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#meta">meta</a>
+      </div>
+
+      <div class="heading h3">
+        <a href="#getmeta">getMeta</a>
       </div>
 
       <div class="heading h2">
@@ -72,23 +192,25 @@
   </div>
   <div id="sidebar-toggle"></div>
   <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-table" title="Fork me on GitHub"></a>
-    <div class="docs markdown"><div class="pilwrap" id="table">
+    <div class="docs markdown"><div class="pilwrap" id="etable">
   <h1>
-    <a href="#table" name="table" class="pilcrow"></a>
-Table
+    <a href="#etable" name="etable" class="pilcrow"></a>
+eTable
   </h1>
 </div>
 <p><a href="https://travis-ci.org/alinex/node-table"><img src="https://travis-ci.org/alinex/node-table.svg?branch=master" alt="Build Status"></a>
 <a href="https://coveralls.io/r/alinex/node-table?branch=master"><img src="https://coveralls.io/repos/alinex/node-table/badge.png?branch=master" alt="Coverage Status"></a>
 <a href="https://gemnasium.com/alinex/node-table"><img src="https://gemnasium.com/alinex/node-table.png" alt="Dependency Status"></a></p>
-<p>This package contains methods for working with table like data.</p>
+<p>This package contains methods for working with table like data. It collects all
+methods for working with such a data type.</p>
 <ul>
-<li>convert</li>
-<li>filter</li>
-<li>sort</li>
-<li>join</li>
-<li>and more</li>
+<li>read and write at various positions</li>
+<li>convert from and to this data type</li>
+<li>rearranging everything with flip, filter, sort and more</li>
+<li>optimizing for display</li>
+<li>and export/dump as table</li>
 </ul>
+<p>As a new data type you may also use it's methods on an instance or statically.</p>
 <blockquote>
 <p>It is one of the modules of the <a href="http://alinex.github.io/code.html">Alinex Universe</a>
 following the code standards defined in the <a href="http://alinex.github.io/develop">General Docs</a>.</p>
@@ -116,16 +238,45 @@ Install
 Usage
   </h2>
 </div>
-<div class="pilwrap" id="data-types">
+<p>To use these methods include the package first:</p>
+<pre><code class="coffee">Table = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-table'</span>
+
+example = [
+  [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]
+  [<span class="hljs-number">1</span>, <span class="hljs-string">'one'</span>]
+  [<span class="hljs-number">2</span>, <span class="hljs-string">'two'</span>]
+  [<span class="hljs-number">3</span>, <span class="hljs-string">'three'</span>]
+]
+</code></pre>
+<p>Then this module gives you a lot of methods with which you may work and manipulate
+this table.</p>
+<div class="pilwrap" id="class-vs-static">
   <h3>
+    <a href="#class-vs-static" name="class-vs-static" class="pilcrow"></a>
+Class vs Static
+  </h3>
+</div>
+<p>You may use both. As an instance each method will return the instance itself if no need
+to return something else. So you may concatenate most calls.</p>
+<p>You can call each method on an instance like:</p>
+<pre><code class="coffee">table = <span class="hljs-keyword">new</span> Table example
+record = table.shift()
+</code></pre>
+<p>Or you may use them statically on your own data objects:</p>
+<pre><code class="coffee">record = Table.shift example
+</code></pre>
+<p>The class oriented approach often is more readable if multiple manipulations on
+the data object are done, specially if you use command concatenation.</p>
+<div class="pilwrap" id="data-types">
+  <h2>
     <a href="#data-types" name="data-types" class="pilcrow"></a>
 Data Types
-  </h3>
+  </h2>
 </div>
 <p>The data objects which will be used here are:</p>
 <p><strong>Table</strong></p>
 <p>This format stores the data like a table calculation program. It is the format
-derived from the CSV format.</p>
+derived from the CSV format and used as main format in the module.</p>
 <pre><code class="coffee">[
   [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]
   [<span class="hljs-number">1</span>, <span class="hljs-string">'one'</span>]
@@ -133,6 +284,10 @@ derived from the CSV format.</p>
   [<span class="hljs-number">3</span>, <span class="hljs-string">'three'</span>]
 ]
 </code></pre>
+<p>The first line has to be the header.</p>
+<blockquote>
+<p>Keep in mind that the table data always needs a header row as first line.</p>
+</blockquote>
 <p><strong>Record List</strong></p>
 <p>This equals to the format lots of database systems return there records as a list
 of record objects.</p>
@@ -142,27 +297,754 @@ of record objects.</p>
   {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}
 ]
 </code></pre>
+<p>It can be fully converted to a table (see below).</p>
 <p><strong>Record Object</strong></p>
 <p>A slightly variation to the record list in which the records are collected in an
 indexed objected instead of a list.</p>
 <pre><code class="coffee">{
-  <span class="hljs-number">1</span>: {Name: <span class="hljs-string">'one'</span>}
-  <span class="hljs-number">2</span>: {Name: <span class="hljs-string">'two'</span>}
-  <span class="hljs-number">3</span>: {Name: <span class="hljs-string">'three'</span>}
+  <span class="hljs-string">'1'</span>: {Name: <span class="hljs-string">'one'</span>}
+  <span class="hljs-string">'2'</span>: {Name: <span class="hljs-string">'two'</span>}
+  <span class="hljs-string">'3'</span>: {Name: <span class="hljs-string">'three'</span>}
 }
 </code></pre>
+<p>It can also be fully converted to a table (see below).</p>
 <div class="pilwrap" id="conversion">
-  <h3>
+  <h2>
     <a href="#conversion" name="conversion" class="pilcrow"></a>
 Conversion
-  </h3>
+  </h2>
 </div>
-<div class="pilwrap" id="manipulation">
+<p>To convert from and to the different data structures described above, you can
+use the following 4 methods:</p>
+<pre><code class="coffee">table.fromRecordList recordList
+table.fromRecordObject recordObject, idColumn
+result = table.toRecordList()
+result = table.toRecordObject()
+</code></pre>
+<p>The same calls using static methods:</p>
+<pre><code class="coffee">result = Table.fromRecordList recordList
+result = Table.fromRecordObject recordObject, idColumn
+result = Table.toRecordList example
+result = Table.toRecordObject example
+</code></pre>
+<p>The conversion to record object will loose the name of the first column so it
+will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.</p>
+<p>Additionally as one way conversion you may dump into a visible table using the
+<a href="http://alinex.github.io/node-report">report</a> package:</p>
+<pre><code class="coffee">Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span>
+report = <span class="hljs-keyword">new</span> Report()
+report.table example
+<span class="hljs-built_in">console</span>.log report.toString()
+</code></pre>
+<p>This will result in a markdown text displaying a table which can easily be
+converted to ascii art using <code>toConsole()</code> or an html table using <code>toHtml()</code>.</p>
+<div class="pilwrap" id="access">
+  <h2>
+    <a href="#access" name="access" class="pilcrow"></a>
+Access
+  </h2>
+</div>
+<p>This methods allows you to easily read and edit the table data in your code.</p>
+<div class="pilwrap" id="data">
   <h3>
-    <a href="#manipulation" name="manipulation" class="pilcrow"></a>
-Manipulation
+    <a href="#data" name="data" class="pilcrow"></a>
+data
   </h3>
 </div>
+<p>If used with an instance this is the internal storage of the table structure.
+You may directly access this array of arrays which stores data in rows and columns:</p>
+<pre><code class="coffee"><span class="hljs-built_in">console</span>.log table.data
+</code></pre>
+<p>This may look like:</p>
+<pre><code class="text">[ ['ID', 'Name'],
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'] ]
+</code></pre>
+<div class="pilwrap" id="field">
+  <h3>
+    <a href="#field" name="field" class="pilcrow"></a>
+field
+  </h3>
+</div>
+<p>This method is used to access cell values or set them.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>row</code> - (integer) row number from 1.. (0 is the heading)</li>
+<li><code>column</code> - (integer or string) number of column 0.. or the name of a column</li>
+<li><code>value</code> - (optionally) new value for the given cell</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The current (new) value of the given cell or the instance itself if value have
+been set.</p>
+<p><strong>Examples</strong></p>
+<p>Read a cell value:</p>
+<pre><code class="coffee">value = table.field <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
+<span class="hljs-comment"># will result value of field 1/1</span>
+value = table.field <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>
+<span class="hljs-comment"># do the same but using the column name</span>
+
+<span class="hljs-comment"># or statically:</span>
+value = Table.field example, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
+<span class="hljs-comment"># will result value of field 1/1</span>
+value = Table.field example, <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>
+<span class="hljs-comment"># do the same but using the column name</span>
+</code></pre>
+<p>And set a new value to a defined cell:</p>
+<pre><code class="coffee">table.field <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15.8</span>
+<span class="hljs-comment"># will set value of field 1/1</span>
+table.field <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>, <span class="hljs-number">15.8</span>
+<span class="hljs-comment"># do the same but using the column name</span>
+
+<span class="hljs-comment"># or statically:</span>
+Table.field example, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15.8</span>
+<span class="hljs-comment"># will set value of field 1/1</span>
+Table.field example, <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>, <span class="hljs-number">15.8</span>
+<span class="hljs-comment"># do the same but using the column name</span>
+</code></pre>
+<div class="pilwrap" id="row">
+  <h3>
+    <a href="#row" name="row" class="pilcrow"></a>
+row
+  </h3>
+</div>
+<p>Get or set a complete table row.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>row</code> - (integer) row number from 1.. (0 is the heading)</li>
+<li><code>record</code> - (optional object) new value for the given row</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The defined row as object or the inctance if row was set.</p>
+<p><strong>Examples</strong></p>
+<p>First you may read one row as record:</p>
+<pre><code class="coffee">record = table.row <span class="hljs-number">1</span>
+<span class="hljs-comment"># may return something like {ID: 1, Name: 'one'}</span>
+
+<span class="hljs-comment"># or statically called:</span>
+record = Table.row example, <span class="hljs-number">1</span>
+<span class="hljs-comment"># may return something like {ID: 1, Name: 'one'}</span>
+</code></pre>
+<p>And then you may also overwrite it with a changed version:</p>
+<pre><code class="coffee">table.row <span class="hljs-number">1</span>, {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}
+
+<span class="hljs-comment"># or statically called:</span>
+Table.row example, <span class="hljs-number">1</span>, {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}
+</code></pre>
+<div class="pilwrap" id="insert">
+  <h3>
+    <a href="#insert" name="insert" class="pilcrow"></a>
+insert
+  </h3>
+</div>
+<p>Insert multiple rows as into the Table.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>pos</code> - (integer) row position from 1.. (0 is the heading) use 'null' to add at the end</li>
+<li><code>rows</code> - (array of arrays) table rows to add</li>
+</ul>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.insert <span class="hljs-number">2</span>, [
+  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]
+  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]
+]
+</code></pre>
+<div class="pilwrap" id="delete">
+  <h3>
+    <a href="#delete" name="delete" class="pilcrow"></a>
+delete
+  </h3>
+</div>
+<p>Delete some rows.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>pos</code> - (integer) row number from 1.. (0 is the heading)</li>
+<li><code>num</code> - (optional object) new value for the given row</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The defined row as object.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee"><span class="hljs-comment"># delete the second data row:</span>
+table.<span class="hljs-keyword">delete</span> <span class="hljs-number">2</span>
+<span class="hljs-comment"># delete the second and third data row:</span>
+table.<span class="hljs-keyword">delete</span> <span class="hljs-number">2</span>, <span class="hljs-number">2</span>
+</code></pre>
+<div class="pilwrap" id="shift">
+  <h3>
+    <a href="#shift" name="shift" class="pilcrow"></a>
+shift
+  </h3>
+</div>
+<p>Remove the first row as record object from the table. The header will be kept.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The first row as object.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">record = table.shift()
+<span class="hljs-comment"># record = {ID: 1, Name: 'one'}</span>
+</code></pre>
+<div class="pilwrap" id="unshift">
+  <h3>
+    <a href="#unshift" name="unshift" class="pilcrow"></a>
+unshift
+  </h3>
+</div>
+<p>Add record object to the start of the table.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>record</code> - (object) record to add</li>
+</ul>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.unshift {id: <span class="hljs-number">0</span>, Name: <span class="hljs-string">'zero'</span>}
+</code></pre>
+<div class="pilwrap" id="pop">
+  <h3>
+    <a href="#pop" name="pop" class="pilcrow"></a>
+pop
+  </h3>
+</div>
+<p>Remove the last row as record object from the table. The header will be kept.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The last row as object.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">record = table.pop()
+<span class="hljs-comment"># record = {ID: 3, Name: 'three'}</span>
+</code></pre>
+<div class="pilwrap" id="push">
+  <h3>
+    <a href="#push" name="push" class="pilcrow"></a>
+push
+  </h3>
+</div>
+<p>Add record object to the end of the table.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>record</code> - (object) record to add</li>
+</ul>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.unshift {id: <span class="hljs-number">4</span>, Name: <span class="hljs-string">'four'</span>}
+</code></pre>
+<div class="pilwrap" id="column">
+  <h3>
+    <a href="#column" name="column" class="pilcrow"></a>
+column
+  </h3>
+</div>
+<p>Get a defined column as array.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>column</code> - (number or string) the column to export</li>
+<li><code>values</code> - (array) list of values for row 1...</li>
+</ul>
+<p>The column number will start at 0...</p>
+<p><strong>Return</strong></p>
+<p>A list of values for the column fields from row 1... The header name is not
+included.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">result = table.column <span class="hljs-string">'Name'</span>
+<span class="hljs-comment"># result = ['one', 'two', 'three']</span>
+</code></pre>
+<div class="pilwrap" id="columnadd">
+  <h3>
+    <a href="#columnadd" name="columnadd" class="pilcrow"></a>
+columnAdd
+  </h3>
+</div>
+<p>Get a defined column.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>column</code> - (number or string) position there inserting column</li>
+<li><code>name</code> - (string) name of the new column</li>
+<li><code>values</code> - (array) list of values for row 1..</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically.</p>
+<p><strong>Examples</strong></p>
+<p>You may only add a column (here as second column - index 1):</p>
+<pre><code class="coffee">table.columnAdd <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span>
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span>
+<span class="hljs-comment">#   [ 1, null, 'one' ]</span>
+<span class="hljs-comment">#   [ 2, null, 'two' ]</span>
+<span class="hljs-comment">#   [ 3, null, 'three' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<p>Or also add values for this column:</p>
+<pre><code class="coffee">table.columnAdd <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span>, [<span class="hljs-string">'eins'</span>, <span class="hljs-string">'zwei'</span>, <span class="hljs-string">'drei'</span>]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span>
+<span class="hljs-comment">#   [ 1, 'eins', 'one' ]</span>
+<span class="hljs-comment">#   [ 2, 'zwei', 'two' ]</span>
+<span class="hljs-comment">#   [ 3, 'drei', 'three' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="columnremove">
+  <h3>
+    <a href="#columnremove" name="columnremove" class="pilcrow"></a>
+columnRemove
+  </h3>
+</div>
+<p>Get a defined column.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to access (only static calls)</li>
+<li><code>column</code> - (number or string) position there deleting column</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically.</p>
+<p><strong>Examples</strong></p>
+<p>This will remove the first column with the ID and keep only the Name column:</p>
+<pre><code class="coffee">table.columnRemove <span class="hljs-number">0</span>
+<span class="hljs-comment"># table = [</span>
+<span class="hljs-comment">#   [ 'Name' ]</span>
+<span class="hljs-comment">#   [ 'one' ]</span>
+<span class="hljs-comment">#   [ 'two' ]</span>
+<span class="hljs-comment">#   [ 'three' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="join">
+  <h2>
+    <a href="#join" name="join" class="pilcrow"></a>
+Join
+  </h2>
+</div>
+<p>There are basically two methods of appending. First vertivally by appending the
+tables below each one. And second vertically by combining the rows.</p>
+<div class="pilwrap" id="append">
+  <h3>
+    <a href="#append" name="append" class="pilcrow"></a>
+append
+  </h3>
+</div>
+<p>This may append two tables under each other. The resulting table will have the
+columns from both of them.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>table2</code> - (array of arrays) to append</li>
+<li><code>...</code> - more tables</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the new table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.append [
+  [<span class="hljs-number">4</span>, <span class="hljs-string">'four'</span>]
+  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]
+  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]
+]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   ['ID', 'Name']</span>
+<span class="hljs-comment">#   [1, 'one']</span>
+<span class="hljs-comment">#   [2, 'two']</span>
+<span class="hljs-comment">#   [3, 'three']</span>
+<span class="hljs-comment">#   [4, 'four']</span>
+<span class="hljs-comment">#   [5, 'five']</span>
+<span class="hljs-comment">#   [6, 'six']</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="join-1">
+  <h3>
+    <a href="#join-1" name="join-1" class="pilcrow"></a>
+join
+  </h3>
+</div>
+<p>This works like a sql database join and if it is possible better use it within
+the database because of the performance.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>type</code> - (string) type of join like: 'left', 'inner', 'right', 'outer'</li>
+<li><code>table2</code> - (array of arrays) to join</li>
+<li><code>...</code> - more tables</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the new table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.join <span class="hljs-string">'left'</span>, [
+  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]
+  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]
+  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]
+]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span>
+<span class="hljs-comment">#   [ 1, 'one', null ]</span>
+<span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span>
+<span class="hljs-comment">#   [ 3, 'three', null ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<pre><code class="coffee">table.join <span class="hljs-string">'right'</span>, [
+  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]
+  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]
+  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]
+]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span>
+<span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span>
+<span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<pre><code class="coffee">table.join <span class="hljs-string">'inner'</span>, [
+  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]
+  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]
+  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]
+]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span>
+<span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<pre><code class="coffee">table.join <span class="hljs-string">'outer'</span>, [
+  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]
+  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]
+  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]
+]
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span>
+<span class="hljs-comment">#   [ 1, 'one', null ]</span>
+<span class="hljs-comment">#   [ 3, 'three', null ]</span>
+<span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="transform">
+  <h2>
+    <a href="#transform" name="transform" class="pilcrow"></a>
+Transform
+  </h2>
+</div>
+<div class="pilwrap" id="sort">
+  <h3>
+    <a href="#sort" name="sort" class="pilcrow"></a>
+sort
+  </h3>
+</div>
+<p>Sort the data rows by the specified columns.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>sort</code> - (string or array) sort columns</li>
+</ul>
+<p>The sort columns may be number or names as array or comma delimited string. To
+sort in reverse order prepend the column with '-'.</p>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the new table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee"><span class="hljs-comment"># sort after Name column</span>
+table.sort <span class="hljs-string">'Name'</span>
+<span class="hljs-comment"># reverse sort</span>
+table.sort <span class="hljs-string">'-Name'</span>
+<span class="hljs-comment"># sort after ID then Name</span>
+table.sort [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]
+<span class="hljs-comment"># the same</span>
+table.sort <span class="hljs-string">'ID, Name'</span>
+</code></pre>
+<div class="pilwrap" id="reverse">
+  <h3>
+    <a href="#reverse" name="reverse" class="pilcrow"></a>
+reverse
+  </h3>
+</div>
+<p>Reverse the order of all data rows in the table.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.reverse()
+</code></pre>
+<div class="pilwrap" id="flip">
+  <h3>
+    <a href="#flip" name="flip" class="pilcrow"></a>
+flip
+  </h3>
+</div>
+<p>You may switch the x-axis and y-axis of your table.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the new table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.flip()
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 1, 2, 3 ]</span>
+<span class="hljs-comment">#   [ 'Name', 'one', 'two', 'three' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="format">
+  <h3>
+    <a href="#format" name="format" class="pilcrow"></a>
+format
+  </h3>
+</div>
+<p>Format column values.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>formats</code> - (map or array) formats for the columns
+<ul>
+<li>array with each columns format</li>
+<li>object with 'column: format'</li>
+</ul>
+</li>
+</ul>
+<p>The format is defined like the <a href="http://alinex.github.io/node-validator">validator</a>
+schema or a user defined function which will be called with the cell value and should
+return the formatted value.</p>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.format
+  ID:
+    type: <span class="hljs-string">'percent'</span>
+    format: <span class="hljs-string">'0%'</span>
+  Name:
+    type: <span class="hljs-string">'string'</span>
+    upperCase: <span class="hljs-string">'first'</span>
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'Name' ]</span>
+<span class="hljs-comment">#   [ '100%', 'One' ]</span>
+<span class="hljs-comment">#   [ '200%', 'Two' ]</span>
+<span class="hljs-comment">#   [ '300%', 'Three' ]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<p>And with custom functions the call should look like:</p>
+<pre><code class="coffee">table.format
+  Name: <span class="hljs-function"><span class="hljs-params">(cell)</span> -&gt;</span> cell.toString().toUpperCase()
+</code></pre>
+<div class="pilwrap" id="rename">
+  <h3>
+    <a href="#rename" name="rename" class="pilcrow"></a>
+rename
+  </h3>
+</div>
+<p>Rename a column.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>col</code> - (string or integer) column to rename</li>
+<li><code>name</code> - (string) new name for defined column</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.rename <span class="hljs-string">'Name'</span>, <span class="hljs-string">'EN'</span>
+</code></pre>
+<div class="pilwrap" id="filtering">
+  <h2>
+    <a href="#filtering" name="filtering" class="pilcrow"></a>
+Filtering
+  </h2>
+</div>
+<div class="pilwrap" id="columns">
+  <h3>
+    <a href="#columns" name="columns" class="pilcrow"></a>
+columns
+  </h3>
+</div>
+<p>Rename multiple columns, reorder them and filter them.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>columns</code> - (object) column name: column to use</li>
+</ul>
+<p>The columns can be defined all using true, meaning to use them in the existing order
+or with the number or name so a resorting is also possible in one step.</p>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<p>In the following example only the first two columns are kept and named:</p>
+<pre><code class="coffee">table.columns
+  ID: <span class="hljs-literal">true</span>
+  EN: <span class="hljs-literal">true</span>
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   [ 'ID', 'EN' ]</span>
+<span class="hljs-comment">#   [1, 'one']</span>
+<span class="hljs-comment">#   [2, 'two']</span>
+<span class="hljs-comment">#   [3, 'three']</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<p>And here the columns are also reordered:</p>
+<pre><code class="coffee">table.columns
+  EN: <span class="hljs-string">'Name'</span>
+  ID: <span class="hljs-string">'ID'</span>
+<span class="hljs-comment"># table.data = [</span>
+<span class="hljs-comment">#   ['EN', 'ID']</span>
+<span class="hljs-comment">#   ['one', 1]</span>
+<span class="hljs-comment">#   ['two', 2]</span>
+<span class="hljs-comment">#   ['three', 3]</span>
+<span class="hljs-comment"># ]</span>
+</code></pre>
+<div class="pilwrap" id="unique">
+  <h3>
+    <a href="#unique" name="unique" class="pilcrow"></a>
+unique
+  </h3>
+</div>
+<p>Remove all duplicate data rows.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>columns</code> - (array, string or integer) columns to check for uniqueness</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee"><span class="hljs-comment"># remove all completely duplicate rows</span>
+table.unique()
+<span class="hljs-comment"># remove all rows with duplicate Name column</span>
+table.unique <span class="hljs-string">'Name'</span>
+</code></pre>
+<div class="pilwrap" id="filter">
+  <h3>
+    <a href="#filter" name="filter" class="pilcrow"></a>
+filter
+  </h3>
+</div>
+<p>Filter the rows using specific conditions per column.</p>
+<p><strong>Arguments</strong></p>
+<ul>
+<li><code>table</code> - (array of arrays) to use as base (only static calls)</li>
+<li><code>conditions</code> - (array) conditions to be kept</li>
+</ul>
+<p>The conditions are strings consisting of '<column> <operator> <value>'. If given
+as array the different conditions are logical combined using 'AND'. Subarrays
+are combined using 'OR' (even index) and 'AND' (odd index).</p>
+<pre><code class="coffee">conditions = [<span class="hljs-string">'Name not null'</span>, [<span class="hljs-string">'Name startsWith a'</span>, <span class="hljs-string">'Name startsWith b'</span>]]
+</code></pre>
+<p>This results in the following logic:</p>
+<pre><code class="text">Name not null
+# and
+  Name startsWith a
+  # or
+  Name startsWith b
+</code></pre>
+<p><strong>Return</strong></p>
+<p>The instance if not called statically, the table on static calls.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee">table.filter [<span class="hljs-string">'ID &gt; 1'</span>, <span class="hljs-string">'ID &lt; 8'</span>] <span class="hljs-comment"># AND</span>
+table.filter [[<span class="hljs-string">'ID &lt; 2'</span>, <span class="hljs-string">'ID &gt; 3'</span>]] <span class="hljs-comment"># OR</span>
+</code></pre>
+<div class="pilwrap" id="styling-and-meta-data">
+  <h2>
+    <a href="#styling-and-meta-data" name="styling-and-meta-data" class="pilcrow"></a>
+Styling and Meta Data
+  </h2>
+</div>
+<p>If you use a table instance you may also store meta data in the object which may
+later be used for styling outside of this module.</p>
+<div class="pilwrap" id="style">
+  <h3>
+    <a href="#style" name="style" class="pilcrow"></a>
+style
+  </h3>
+</div>
+<p>Set or clear style information.</p>
+<p><strong>Arguments</strong></p>
+<p>To set for a single cel, row, column or the complete sheet:</p>
+<ul>
+<li><code>row</code> - (integer) row number or null for all rows</li>
+<li><code>col</code> - (integer or string) column number or name, null for all columns</li>
+<li><code>style</code> - (object) style settings to store or null to delete all</li>
+</ul>
+<p>Or for a user defined range:</p>
+<ul>
+<li><code>from-row</code> - (integer) row number</li>
+<li><code>from-col</code> - (integer or string) column number or name</li>
+<li><code>to-row</code> - (integer) row number</li>
+<li><code>to-col</code> - (integer or string) column number or name</li>
+<li><code>style</code> - (object) style settings to store or null to delete all cell settings</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The instance.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee"><span class="hljs-comment"># set style for row 0 colummn 1</span>
+table.style <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># the same with a named column</span>
+table.style <span class="hljs-number">0</span>, <span class="hljs-string">'Name'</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># and remove the styles</span>
+table.style <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>
+
+<span class="hljs-comment"># set style for row 1</span>
+table.style <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># and remove the styles</span>
+table.style <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>
+
+<span class="hljs-comment"># set style for column 1</span>
+table.style <span class="hljs-literal">null</span>, <span class="hljs-number">1</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># and remove the styles</span>
+table.style <span class="hljs-literal">null</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>
+
+<span class="hljs-comment"># set style for the sheets</span>
+table.style <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># and remove the styles</span>
+table.style <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>
+
+<span class="hljs-comment"># set style for user defined range</span>
+table.style <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, {align: <span class="hljs-string">'left'</span>}
+<span class="hljs-comment"># and remove the styles</span>
+table.style <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-literal">null</span>
+</code></pre>
+<div class="pilwrap" id="meta">
+  <h3>
+    <a href="#meta" name="meta" class="pilcrow"></a>
+meta
+  </h3>
+</div>
+<p>This object collects the resulting meta data. The following order will overwrite
+the general ones.</p>
+<ul>
+<li>'<em>/</em>' contains settings for the complete sheet</li>
+<li>'*/1' contains settings for the column</li>
+<li>'1/*' contains settings for the row</li>
+<li>'1/1' contains settings for the concrete cell</li>
+</ul>
+<div class="pilwrap" id="getmeta">
+  <h3>
+    <a href="#getmeta" name="getmeta" class="pilcrow"></a>
+getMeta
+  </h3>
+</div>
+<p>This will calculate the resulting settings of the combinations of the above.</p>
+<p><strong>Arguments</strong></p>
+<p>To set for a single cel, row, column or the complete sheet:</p>
+<ul>
+<li><code>row</code> - (integer) row number or null for all rows</li>
+<li><code>col</code> - (integer or string) column number or name, null for all columns</li>
+</ul>
+<p><strong>Return</strong></p>
+<p>The settings object.</p>
+<p><strong>Examples</strong></p>
+<pre><code class="coffee"><span class="hljs-comment"># get styles for cell</span>
+style = table.getMeta <span class="hljs-number">0</span>, <span class="hljs-number">1</span>
+<span class="hljs-comment"># style = {align: 'left'}</span>
+
+<span class="hljs-comment"># get styles for row</span>
+style = table.getMeta <span class="hljs-number">0</span>
+
+<span class="hljs-comment"># get styles for column</span>
+style = table.getMeta <span class="hljs-literal">null</span>, <span class="hljs-number">1</span>
+
+<span class="hljs-comment"># get styles for sheet</span>
+style = table.getMeta()
+</code></pre>
 <div class="pilwrap" id="license">
   <h2>
     <a href="#license" name="license" class="pilcrow"></a>

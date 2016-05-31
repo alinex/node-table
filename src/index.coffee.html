@@ -49,7 +49,39 @@
       </div>
 
       <div class="heading h2">
-        <a href="#initialize">Initialize</a>
+        <a href="#converion">Converion</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#access-entries">Access Entries</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#join">Join</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#transform">Transform</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#filtering">Filtering</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#instrances">Instrances</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#styling">Styling</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#export-class">Export class</a>
+      </div>
+
+      <div class="heading h2">
+        <a href="#helper-methods">Helper methods</a>
       </div>
 
     </div>
@@ -100,8 +132,8 @@ Node Modules
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>) <span class="hljs-string">'###&lt;name&gt;###'</span>
-chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'chalk'</span></pre>
+          <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>) <span class="hljs-string">'table'</span>
+deasync = <span class="hljs-built_in">require</span> <span class="hljs-string">'deasync'</span></pre>
         </td>
       </tr>
     
@@ -114,22 +146,975 @@ chalk = <span class="hljs-built_in">require</span> <span class="hljs-string">'ch
 
         </td>
         <td class="code highlight">
+          <pre class="coffeescript">util = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
+validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span>
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Table</span></span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="converion">
+  <h2>
+    <a href="#converion" name="converion" class="pilcrow"></a>
+Converion
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+  @fromRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    debug <span class="hljs-string">"record list -&gt; table"</span>
+    keys = []
+    list = obj.map (e) -&gt;
+      rows = []
+      <span class="hljs-keyword">for</span> k <span class="hljs-keyword">of</span> e
+        keys.push k <span class="hljs-keyword">unless</span> k <span class="hljs-keyword">in</span> keys
+      <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> keys
+        rows.push e[k]
+      rows
+    list.unshift keys
+    list
+
+  @toRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    debug <span class="hljs-string">"table -&gt; record list"</span>
+    obj = util.clone obj
+    keys = obj.shift()
+    obj.map (e) -&gt;
+      map = {}
+      map[k] = e[i] <span class="hljs-keyword">for</span> k, i <span class="hljs-keyword">in</span> keys
+      map
+
+  @fromRecordObject: <span class="hljs-function"><span class="hljs-params">(obj, idColumn)</span> -&gt;</span>
+    debug <span class="hljs-string">"record object -&gt; table"</span>
+    keys = [idColumn ? <span class="hljs-string">'ID'</span>]
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> obj
+      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">of</span> v
+        keys.push c <span class="hljs-keyword">unless</span> c <span class="hljs-keyword">in</span> keys
+    list = [keys]
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> obj
+      row = [<span class="hljs-keyword">if</span> isNaN k <span class="hljs-keyword">then</span> k <span class="hljs-keyword">else</span> parseInt k]
+      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> keys[<span class="hljs-number">1.</span>.]
+        row.push v[c]
+      list.push row
+    list
+
+  @toRecordObject: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    debug <span class="hljs-string">"table -&gt; record object"</span>
+    res = {}
+    keys = obj[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> obj[<span class="hljs-number">1.</span>.]
+      <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> row[<span class="hljs-number">0</span>]
+      res[row[<span class="hljs-number">0</span>]] = {}
+      <span class="hljs-keyword">for</span> k, i <span class="hljs-keyword">in</span> keys[<span class="hljs-number">1.</span>.]
+        res[row[<span class="hljs-number">0</span>]][k] = row[i+<span class="hljs-number">1</span>]
+    res</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="access-entries">
+  <h2>
+    <a href="#access-entries" name="access-entries" class="pilcrow"></a>
+Access Entries
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+  @field: <span class="hljs-function"><span class="hljs-params">(obj, row, col, value)</span> -&gt;</span>
+    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+    debug <span class="hljs-string">"get field <span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
+</div>
+<p>set value</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    obj[row][col] = value <span class="hljs-keyword">if</span> value?</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
+</div>
+<p>get value</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    obj[row][col]
+
+  @row: <span class="hljs-function"><span class="hljs-params">(obj, row, value)</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">and</span> <span class="hljs-keyword">typeof</span> value <span class="hljs-keyword">isnt</span> <span class="hljs-string">'object'</span>
+      <span class="hljs-keyword">throw</span> Error <span class="hljs-string">"Could only set object as value of row"</span>
+    debug <span class="hljs-string">"get row <span class="hljs-subst">#{row}</span>"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9"></a>
+</div>
+<p>set value</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">if</span> value
+      <span class="hljs-keyword">for</span> key, i <span class="hljs-keyword">in</span> obj[<span class="hljs-number">0</span>]
+        obj[row][i] = value[key] <span class="hljs-keyword">if</span> value[key]?</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10"></a>
+</div>
+<p>get value</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    result = {}
+    result[key] = obj[row][i] <span class="hljs-keyword">for</span> key, i <span class="hljs-keyword">in</span> obj[<span class="hljs-number">0</span>]
+    result
+
+  @insert: <span class="hljs-function"><span class="hljs-params">(obj, pos, rows)</span> -&gt;</span>
+    <span class="hljs-keyword">unless</span> rows
+      rows = pos
+      pos = <span class="hljs-literal">null</span>
+    pos = obj.length <span class="hljs-keyword">unless</span> pos
+    debug <span class="hljs-string">"add row at position <span class="hljs-subst">#{pos}</span>"</span>
+    <span class="hljs-keyword">if</span> pos
+      obj.splice pos+i, <span class="hljs-number">0</span>, row <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> rows
+    <span class="hljs-keyword">else</span>
+      obj.push.apply obj, rows
+    obj
+
+  @delete: <span class="hljs-function"><span class="hljs-params">(obj, pos, num = <span class="hljs-number">1</span>)</span> -&gt;</span>
+    debug <span class="hljs-string">"remove <span class="hljs-subst">#{num}</span> rows at position <span class="hljs-subst">#{pos}</span>"</span>
+    obj.splice pos, num
+    obj
+
+  @shift: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    debug <span class="hljs-string">"shift"</span>
+    result = @row obj, <span class="hljs-number">1</span>
+    @delete obj, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
+    result
+
+  @unshift: <span class="hljs-function"><span class="hljs-params">(obj, record)</span> -&gt;</span>
+    debug <span class="hljs-string">"unshift"</span>
+    @insert obj, <span class="hljs-number">1</span>, [[]]
+    @row obj, <span class="hljs-number">1</span>, record
+
+  @pop: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    debug <span class="hljs-string">"pop"</span>
+    result = @row obj, obj.length<span class="hljs-number">-1</span>
+    @delete obj, obj.length<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>
+    result
+
+  @push: <span class="hljs-function"><span class="hljs-params">(obj, record)</span> -&gt;</span>
+    debug <span class="hljs-string">"push"</span>
+    obj.push []
+    @row obj, obj.length<span class="hljs-number">-1</span>, record
+
+  @column: <span class="hljs-function"><span class="hljs-params">(obj, col, values)</span> -&gt;</span>
+    debug <span class="hljs-string">"add or set column <span class="hljs-subst">#{col}</span>"</span>
+    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+    <span class="hljs-keyword">if</span> values
+      <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> obj
+        row.splice col, <span class="hljs-number">0</span>, values?[i<span class="hljs-number">-1</span>] ? <span class="hljs-literal">null</span>
+    obj[<span class="hljs-number">1.</span>.].map (row) -&gt; row[col]
+
+  @columnAdd: <span class="hljs-function"><span class="hljs-params">(obj, col, name, values)</span> -&gt;</span>
+    col = obj[<span class="hljs-number">0</span>].length <span class="hljs-keyword">unless</span> col
+    debug <span class="hljs-string">"add column before <span class="hljs-subst">#{col}</span>"</span>
+    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+    <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> obj
+      row.splice col, <span class="hljs-number">0</span>, values?[i<span class="hljs-number">-1</span>] ? <span class="hljs-literal">null</span>
+    obj[<span class="hljs-number">0</span>][col] = name
+
+  @columnRemove: <span class="hljs-function"><span class="hljs-params">(obj, col)</span> -&gt;</span>
+    col = obj[<span class="hljs-number">0</span>].length <span class="hljs-keyword">unless</span> col?
+    debug <span class="hljs-string">"remove column <span class="hljs-subst">#{col}</span>"</span>
+    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+    row.splice col, <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> obj</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="join">
+  <h2>
+    <a href="#join" name="join" class="pilcrow"></a>
+Join
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+  @append: <span class="hljs-function"><span class="hljs-params">(base, tables...)</span> -&gt;</span>
+    debug <span class="hljs-string">"append"</span>
+    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12"></a>
+</div>
+<p>check or add cols</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      baseCols = []
+      <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> table[<span class="hljs-number">0</span>]
+        i = base[<span class="hljs-number">0</span>].indexOf name
+        <span class="hljs-keyword">if</span> i &gt;= <span class="hljs-number">0</span>
+          baseCols.push i
+        <span class="hljs-keyword">else</span>
+          baseCols.push base[<span class="hljs-number">0</span>].length
+          exports.columnAdd base, <span class="hljs-number">1</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13"></a>
+</div>
+<p>add data</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+        nrow = base[<span class="hljs-number">0</span>].map -&gt; <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">for</span> e, i <span class="hljs-keyword">in</span> baseCols
+          nrow[e] = row[i]
+        base.push nrow
+    base
+
+  @join: <span class="hljs-function"><span class="hljs-params">(base, type, tables...)</span> -&gt;</span>
+    debug <span class="hljs-string">"join <span class="hljs-subst">#{type}</span>"</span>
+    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14"></a>
+</div>
+<p>get equal columns</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      res = [util.clone base[<span class="hljs-number">0</span>]]
+      baseJoin = []
+      baseJoinToTable = []
+      tableJoin = []
+      tableAdd = []
+      <span class="hljs-keyword">for</span> name, k <span class="hljs-keyword">in</span> table[<span class="hljs-number">0</span>]
+        i = base[<span class="hljs-number">0</span>].indexOf name
+        <span class="hljs-keyword">if</span> i &gt;= <span class="hljs-number">0</span>
+          baseJoin.push i
+          baseJoinToTable.push [i, k]
+          tableJoin.push k
+        <span class="hljs-keyword">else</span>
+          res[<span class="hljs-number">0</span>].push name
+          tableAdd.push k</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15"></a>
+</div>
+<p>index</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      index = {}
+      <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> base[<span class="hljs-number">1.</span>.]
+        name = stringify(baseJoin.map (e) -&gt; row[e])
+        index[name] ?=
+          source: []
+          dest: []
+        index[name].source.push num+<span class="hljs-number">1</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16"></a>
+</div>
+<p>join dest</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+        name = stringify(tableJoin.map (e) -&gt; row[e])
+        index[name] ?=
+          source: []
+          dest: []
+        index[name].dest.push num+<span class="hljs-number">1</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17"></a>
+</div>
+<p>set values from table</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      <span class="hljs-keyword">for</span> _, v <span class="hljs-keyword">of</span> index</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18"></a>
+</div>
+<p>all inner</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">        <span class="hljs-keyword">if</span> v.source.length <span class="hljs-keyword">and</span> v.dest.length
+          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'left'</span>, <span class="hljs-string">'inner'</span>, <span class="hljs-string">'right'</span>]
+          <span class="hljs-keyword">for</span> source <span class="hljs-keyword">in</span> v.source
+            <span class="hljs-keyword">for</span> dest <span class="hljs-keyword">in</span> v.dest
+              res.push base[source].concat tableAdd.map (e) -&gt; table[dest][e]
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> v.source.length
+          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'left'</span>, <span class="hljs-string">'outer'</span>]
+          <span class="hljs-keyword">for</span> source <span class="hljs-keyword">in</span> v.source
+            res.push base[source].concat tableAdd.map -&gt; <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> v.dest.length
+          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'right'</span>, <span class="hljs-string">'outer'</span>]
+          <span class="hljs-keyword">for</span> dest <span class="hljs-keyword">in</span> v.dest
+<span class="hljs-function">            <span class="hljs-title">nrow</span> = <span class="hljs-params">(base[<span class="hljs-number">0</span>].map -&gt; <span class="hljs-literal">null</span>)</span>.<span class="hljs-title">concat</span> <span class="hljs-title">tableAdd</span>.<span class="hljs-title">map</span> <span class="hljs-params">(e)</span> -&gt;</span> table[dest][e]
+            <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> baseJoinToTable
+              nrow[e[<span class="hljs-number">0</span>]] = table[dest][e[<span class="hljs-number">1</span>]]
+            res.push nrow
+      base = res
+    base</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="transform">
+  <h2>
+    <a href="#transform" name="transform" class="pilcrow"></a>
+Transform
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
           
         </td>
       </tr>
     
       <tr>
         <td class="docs">
-          <div class="pilwrap" id="initialize">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-20" id="section-20"></a>
+</div>
+<p>sort = '1,-2,4' or 'name,-age'</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  @sort: <span class="hljs-function"><span class="hljs-params">(table, sort)</span> -&gt;</span>
+    sort = sort.split <span class="hljs-regexp">/,\s*/</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> sort <span class="hljs-keyword">is</span> <span class="hljs-string">'string'</span>
+    <span class="hljs-keyword">if</span> Array.isArray sort
+      sort = sort.map (col) -&gt;
+        order = <span class="hljs-string">''</span>
+        <span class="hljs-keyword">if</span> col[<span class="hljs-number">0</span>] <span class="hljs-keyword">is</span> <span class="hljs-string">'-'</span>
+          order = <span class="hljs-string">'-'</span>
+          col = col.substr <span class="hljs-number">1</span>
+        col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+        <span class="hljs-string">"<span class="hljs-subst">#{order}</span><span class="hljs-subst">#{col}</span>"</span>
+      sort = sort.join <span class="hljs-string">','</span>
+    sort = sort.toString()
+    debug <span class="hljs-string">"sort by <span class="hljs-subst">#{sort}</span>"</span>
+    header = table.shift()
+    table = util.array.sortBy.apply <span class="hljs-keyword">this</span>, [table].concat sort
+    table.unshift header
+    table
+
+  @reverse: <span class="hljs-function"><span class="hljs-params">(table)</span> -&gt;</span>
+    debug <span class="hljs-string">"reverse"</span>
+    header = table.shift()
+    table.reverse()
+    table.unshift header
+    table
+
+  @flip: <span class="hljs-function"><span class="hljs-params">(table)</span> -&gt;</span>
+    debug <span class="hljs-string">"flip"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-21" id="section-21"></a>
+</div>
+<p>flip</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    flipped = []
+    <span class="hljs-keyword">for</span> row, x <span class="hljs-keyword">in</span> table
+      <span class="hljs-keyword">for</span> col, y <span class="hljs-keyword">in</span> row
+        flipped[y] ?= []
+        flipped[y][x] = col
+    flipped</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-22" id="section-22"></a>
+</div>
+<p>formats = {<name>: <format>} or [<format>, ...]</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  @format: <span class="hljs-function"><span class="hljs-params">(table, formats)</span> -&gt;</span>
+    debug <span class="hljs-string">"format columns"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-23" id="section-23"></a>
+</div>
+<p>get format object with numbered columns</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    map = {}
+    <span class="hljs-keyword">if</span> Array.isArray formats
+      map[i] = f <span class="hljs-keyword">for</span> f, i <span class="hljs-keyword">in</span> formats
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">for</span> col, v <span class="hljs-keyword">of</span> formats
+        col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+        map[col] = v</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-24" id="section-24"></a>
+</div>
+<p>format columns</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    <span class="hljs-keyword">for</span> col, format <span class="hljs-keyword">of</span> map
+      <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+        check = deasync validator.check
+        row[col] = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> format <span class="hljs-keyword">is</span> <span class="hljs-string">'function'</span>
+          format row[col]
+        <span class="hljs-keyword">else</span>
+          check
+            name: <span class="hljs-string">"format-cell"</span>
+            value: row[col]
+            schema: format</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-25" id="section-25"></a>
+</div>
+<p>return</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    table
+
+  @rename: <span class="hljs-function"><span class="hljs-params">(table, col, name)</span> -&gt;</span>
+    debug <span class="hljs-string">"rename <span class="hljs-subst">#{col}</span> to <span class="hljs-subst">#{name}</span>"</span>
+    col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+    table[<span class="hljs-number">0</span>][col] = name
+    table</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="filtering">
   <h2>
-    <a href="#initialize" name="initialize" class="pilcrow"></a>
-Initialize
+    <a href="#filtering" name="filtering" class="pilcrow"></a>
+Filtering
   </h2>
 </div>
 
         </td>
         <td class="code highlight">
-          <pre class="coffeescript">exports.setup = <span class="hljs-function"><span class="hljs-params">(cb)</span> -&gt;</span></pre>
+          
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-27" id="section-27"></a>
+</div>
+<p>cols = {<title>: <old name> or true or <num>}</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  @columns: <span class="hljs-function"><span class="hljs-params">(table, cols)</span> -&gt;</span>
+    debug <span class="hljs-string">"change columns <span class="hljs-subst">#{cols}</span>"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-28" id="section-28"></a>
+</div>
+<p>get column numbers</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    num = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> key, col <span class="hljs-keyword">of</span> cols
+      <span class="hljs-keyword">if</span> col <span class="hljs-keyword">is</span> <span class="hljs-literal">true</span>
+        col = num++
+      <span class="hljs-keyword">else</span> <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
+        col = table[<span class="hljs-number">0</span>].indexOf col
+      cols[key] = col</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-29" id="section-29"></a>
+</div>
+<p>rearrange</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    changed = [Object.keys cols]
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+      changed.push Object.keys(cols).map (name) -&gt; row[cols[name]]
+    changed</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-30" id="section-30"></a>
+</div>
+<p>cols = <num array> or <string array> (optional)</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  @unique: <span class="hljs-function"><span class="hljs-params">(table, cols)</span> -&gt;</span>
+    debug <span class="hljs-string">"unique in <span class="hljs-subst">#{cols ? <span class="hljs-string">'all'</span>}</span> columns"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-31" id="section-31"></a>
+</div>
+<p>get columns</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    cols = [<span class="hljs-number">0.</span>.table[<span class="hljs-number">0</span>].length<span class="hljs-number">-1</span>] <span class="hljs-keyword">unless</span> cols
+    cols = [cols] <span class="hljs-keyword">unless</span> Array.isArray cols
+    cols = cols.map (col) -&gt;
+      <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> table[<span class="hljs-number">0</span>].indexOf col</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-32" id="section-32"></a>
+</div>
+<p>find duplicates</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    checked = []
+    del = []
+    <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+      c = stringify cols.map (e) -&gt; row[e]
+      <span class="hljs-keyword">if</span> c <span class="hljs-keyword">in</span> checked
+        del.push num+<span class="hljs-number">1</span>
+      <span class="hljs-keyword">else</span>
+        checked.push c</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-33" id="section-33"></a>
+</div>
+<p>and remove them</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    del.reverse()
+    Table.<span class="hljs-keyword">delete</span> table, num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> del
+    table</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-34" id="section-34"></a>
+</div>
+<p>conditions = [<cond>, ...]</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  @filter: <span class="hljs-function"><span class="hljs-params">(table, conditions)</span> -&gt;</span>
+    debug <span class="hljs-string">"filter <span class="hljs-subst">#{conditions}</span>"</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-35" id="section-35"></a>
+</div>
+<p>optimize conditions</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    conditions = [conditions] <span class="hljs-keyword">unless</span> Array.isArray conditions</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-36" id="section-36"></a>
+</div>
+<p>internal function checking one cell against value</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-function">    <span class="hljs-title">check</span> = <span class="hljs-params">(cell, op, val)</span> -&gt;</span>
+      <span class="hljs-keyword">switch</span> <span class="hljs-keyword">typeof</span> cell
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">then</span> val = Number val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'boolean'</span> <span class="hljs-keyword">then</span> val = Boolean val
+      res = <span class="hljs-keyword">switch</span> op.toLowerCase()
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'is'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'=='</span> <span class="hljs-keyword">then</span> cell <span class="hljs-keyword">is</span> val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'not'</span>, <span class="hljs-string">'!='</span>, <span class="hljs-string">'&lt;&gt;'</span> <span class="hljs-keyword">then</span> cell <span class="hljs-keyword">isnt</span> val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'&gt;'</span> <span class="hljs-keyword">then</span> cell &gt; val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'&lt;'</span> <span class="hljs-keyword">then</span> cell &lt; val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'&gt;='</span>, <span class="hljs-string">'=&gt;'</span> <span class="hljs-keyword">then</span> cell &gt;= val
+        <span class="hljs-keyword">when</span> <span class="hljs-string">'&lt;='</span>, <span class="hljs-string">'=&lt;'</span> <span class="hljs-keyword">then</span> cell &lt;= val
+      res
+<span class="hljs-function">    <span class="hljs-title">resolveCols</span> = <span class="hljs-params">(cond, logic = <span class="hljs-literal">false</span>)</span> -&gt;</span>
+      <span class="hljs-keyword">if</span> Array.isArray cond
+        rules = cond.map (e) -&gt; resolveCols e, <span class="hljs-keyword">not</span> logic
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> logic
+          (row) -&gt;</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-37" id="section-37"></a>
+</div>
+<p>OR</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">            ok = <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">for</span> rule <span class="hljs-keyword">in</span> rules <span class="hljs-keyword">when</span> rule row
+              ok = <span class="hljs-literal">true</span>
+              <span class="hljs-keyword">break</span>
+            ok
+        <span class="hljs-keyword">else</span>
+          (row) -&gt;</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-38" id="section-38"></a>
+</div>
+<p>AND</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">            ok = <span class="hljs-literal">true</span>
+            <span class="hljs-keyword">for</span> rule <span class="hljs-keyword">in</span> rules <span class="hljs-keyword">when</span> <span class="hljs-keyword">not</span> rule row
+              ok = <span class="hljs-literal">false</span>
+              <span class="hljs-keyword">break</span>
+            ok
+      [col, op, val] = cond.split <span class="hljs-regexp">/\s+/</span>
+      col = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> table[<span class="hljs-number">0</span>].indexOf col
+      (row) -&gt; check row[col], op, val
+    conditions = resolveCols conditions</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-39" id="section-39"></a>
+</div>
+<p>check conditions on each row</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    del = []
+    <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
+      del.push num+<span class="hljs-number">1</span> <span class="hljs-keyword">unless</span> conditions row</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-40" id="section-40"></a>
+</div>
+<p>and remove them</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    del.reverse()
+    Table.<span class="hljs-keyword">delete</span> table, num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> del
+    table</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="instrances">
+  <h2>
+    <a href="#instrances" name="instrances" class="pilcrow"></a>
+Instrances
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">
+  constructor: <span class="hljs-function"><span class="hljs-params">(base)</span> -&gt;</span>
+    @data = base ? []
+    @meta = {}
+
+  fromRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    @data = Table.fromRecordList obj
+    <span class="hljs-keyword">this</span>
+  fromRecordObject: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
+    @data = Table.fromRecordObject obj
+    <span class="hljs-keyword">this</span>
+  toRecordList: <span class="hljs-function">-&gt;</span> Table.toRecordList @data
+  toRecordObject: <span class="hljs-function">-&gt;</span> Table.toRecordObject @data
+
+  field: <span class="hljs-function"><span class="hljs-params">(row, col, value)</span> -&gt;</span>
+    result = Table.field @data, row, col, value
+    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
+  row: <span class="hljs-function"><span class="hljs-params">(row, value)</span> -&gt;</span>
+    result = Table.row @data, row, value
+    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
+  insert: <span class="hljs-function"><span class="hljs-params">(pos, rows)</span> -&gt;</span>
+    Table.insert @data, pos, rows
+    <span class="hljs-keyword">this</span>
+  delete: <span class="hljs-function"><span class="hljs-params">(pos, num)</span> -&gt;</span>
+    Table.<span class="hljs-keyword">delete</span> @data, pos, num
+    <span class="hljs-keyword">this</span>
+  shift: <span class="hljs-function">-&gt;</span> Table.shift @data
+  unshift: <span class="hljs-function"><span class="hljs-params">(record)</span> -&gt;</span>
+    Table.unshift @data, record
+    <span class="hljs-keyword">this</span>
+  pop: <span class="hljs-function">-&gt;</span> Table.pop @data
+  push: <span class="hljs-function"><span class="hljs-params">(record)</span> -&gt;</span>
+    Table.push @data, record
+    <span class="hljs-keyword">this</span>
+  column: <span class="hljs-function"><span class="hljs-params">(col, values)</span> -&gt;</span>
+    result = Table.column @data, col, values
+    <span class="hljs-keyword">if</span> values? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
+  columnAdd: <span class="hljs-function"><span class="hljs-params">(col, name, values)</span> -&gt;</span>
+    Table.columnAdd @data, col, name, values
+    <span class="hljs-keyword">this</span>
+  columnRemove: <span class="hljs-function"><span class="hljs-params">(col)</span> -&gt;</span>
+    Table.columnRemove @data, col
+    <span class="hljs-keyword">this</span>
+
+  append: <span class="hljs-function"><span class="hljs-params">(tables...)</span> -&gt;</span>
+    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables
+      @data = Table.append @data, table.data ? table
+    <span class="hljs-keyword">this</span>
+  join: <span class="hljs-function"><span class="hljs-params">(type, tables...)</span> -&gt;</span>
+    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables
+      @data = Table.join @data, type, table.data ? table
+    <span class="hljs-keyword">this</span>
+
+  sort: <span class="hljs-function"><span class="hljs-params">(sort)</span> -&gt;</span>
+    @data = Table.sort @data, sort
+    <span class="hljs-keyword">this</span>
+  reverse: <span class="hljs-function">-&gt;</span>
+    @data = Table.reverse @data
+    <span class="hljs-keyword">this</span>
+  flip: <span class="hljs-function">-&gt;</span>
+    @data = Table.flip @data
+    <span class="hljs-keyword">this</span>
+  rename: <span class="hljs-function"><span class="hljs-params">(col, name)</span> -&gt;</span>
+    Table.rename @data, col, name
+    <span class="hljs-keyword">this</span>
+  format: <span class="hljs-function"><span class="hljs-params">(formats)</span> -&gt;</span>
+    Table.format @data, formats
+    <span class="hljs-keyword">this</span>
+
+  columns: <span class="hljs-function"><span class="hljs-params">(cols)</span> -&gt;</span>
+    @data = Table.columns @data, cols
+    <span class="hljs-keyword">this</span>
+  unique: <span class="hljs-function"><span class="hljs-params">(cols)</span> -&gt;</span>
+    Table.unique @data, cols
+    <span class="hljs-keyword">this</span>
+  filter: <span class="hljs-function"><span class="hljs-params">(conditions)</span> -&gt;</span>
+    Table.filter @data, conditions
+    <span class="hljs-keyword">this</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="styling">
+  <h2>
+    <a href="#styling" name="styling" class="pilcrow"></a>
+Styling
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">  style: <span class="hljs-function">-&gt;</span>
+    args = [].slice.apply arguments
+    style = args.pop()
+    [fr, fc, tr, tc] = args
+    <span class="hljs-keyword">if</span> fc
+      fc = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> fc <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> fc.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> fc <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf fc ? fc
+    <span class="hljs-keyword">unless</span> tc? <span class="hljs-keyword">or</span> tr?</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-43" id="section-43"></a>
+</div>
+<p>cell</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">      range = <span class="hljs-string">"<span class="hljs-subst">#{fr ? <span class="hljs-string">'*'</span>}</span>/<span class="hljs-subst">#{fc ? <span class="hljs-string">'*'</span>}</span>"</span>
+      <span class="hljs-keyword">if</span> style <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>
+        <span class="hljs-keyword">delete</span> @meta[range]
+      <span class="hljs-keyword">else</span>
+        @meta[range] ?= {}
+        util.extend @meta[range], style
+      <span class="hljs-keyword">return</span></pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-44" id="section-44"></a>
+</div>
+<p>range</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">    tc = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> tc <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> tc.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> tc <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf tc
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> [fr..tr]
+      <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> [fc..tc]
+        range = <span class="hljs-string">"<span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span>
+        <span class="hljs-keyword">if</span> style <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>
+          <span class="hljs-keyword">delete</span> @meta[range]
+        <span class="hljs-keyword">else</span>
+          @meta[range] ?= {}
+          util.extend @meta[range], style
+    <span class="hljs-keyword">this</span>
+
+  getMeta: <span class="hljs-function"><span class="hljs-params">(row, col)</span> -&gt;</span>
+    <span class="hljs-keyword">if</span> col
+      col = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf col
+    res = util.clone(@meta[<span class="hljs-string">'*/*'</span>]) ? {}
+    <span class="hljs-keyword">if</span> col?
+      util.extend res, util.clone @meta[<span class="hljs-string">"*/<span class="hljs-subst">#{col}</span>"</span>]
+    <span class="hljs-keyword">if</span> row?
+      util.extend res, util.clone @meta[<span class="hljs-string">"<span class="hljs-subst">#{row}</span>/*"</span>]
+    <span class="hljs-keyword">if</span> row? <span class="hljs-keyword">and</span> col?
+      util.extend res, util.clone @meta[<span class="hljs-string">"<span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span>]
+    res</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="export-class">
+  <h2>
+    <a href="#export-class" name="export-class" class="pilcrow"></a>
+Export class
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript"><span class="hljs-built_in">module</span>.exports = Table</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap" id="helper-methods">
+  <h2>
+    <a href="#helper-methods" name="helper-methods" class="pilcrow"></a>
+Helper methods
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="coffeescript">stringify = JSON.stringify</pre>
         </td>
       </tr>
     
