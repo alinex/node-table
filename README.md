@@ -1,4 +1,4 @@
-eTable
+Table
 =================================================
 
 [![Build Status](https://travis-ci.org/alinex/node-table.svg?branch=master)](https://travis-ci.org/alinex/node-table)
