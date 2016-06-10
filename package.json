@@ -29,12 +29,12 @@
   },
   "dependencies": {
     "alinex-util": "^2.2.0",
-    "alinex-validator": "^1.6.2",
+    "alinex-validator": "^1.6.6",
     "deasync": "^0.1.6",
     "debug": "^2.2.0"
   },
   "devDependencies": {
-    "alinex-builder": "^2.1.2",
+    "alinex-builder": "^2.1.9",
     "chai": "^3.5.0"
   },
   "optionalDependencies": {},
