@@ -4,6 +4,14 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.3 (2016-06-10)
+-------------------------------------------------
+- Upgrade validator and builder package.
+- Appending of empty tables made faster.
+- Add more examples for creating a table instance.
+- Optimize to combine table instance and raw tables.
+- Fix docu typo.
+
 Version 1.2.2 (2016-05-30)
 -------------------------------------------------
 - Return empty object if no styles in getMeta().
