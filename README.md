@@ -163,6 +163,12 @@ result = Table.toRecordObject example
 The conversion to record object will loose the name of the first column so it
 will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
 
+To initialize a new Table instance from a RecordList use:
+
+``` coffee
+table = (new Table()).fromRecordList records
+```
+
 Additionally as one way conversion you may dump into a visible table using the
 [report](http://alinex.github.io/node-report) package:
 
