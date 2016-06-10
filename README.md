@@ -851,6 +851,10 @@ Styling and Meta Data
 If you use a table instance you may also store meta data in the object which may
 later be used for styling outside of this module.
 
+Supported in [Report](http://alinex.github.io/node-report):
+
+- 'align' on column or sheet with values: 'left', 'center', 'right' ('left' is default)
+
 ### style
 
 Set or clear style information.

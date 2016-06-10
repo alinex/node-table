@@ -158,6 +158,7 @@ class Table
   @append: (base, tables...) ->
     debug "append"
     for table in tables
+      table = table.data if table instanceof Table
       # check or add cols
       baseCols = []
       for name in table[0]
@@ -178,6 +179,7 @@ class Table
   @join: (base, type, tables...) ->
     debug "join #{type}"
     for table in tables
+      table = table.data if table instanceof Table
       # get equal columns
       res = [util.clone base[0]]
       baseJoin = []
@@ -443,11 +445,11 @@ class Table
 
   append: (tables...) ->
     for table in tables
-      @data = Table.append @data, table.data ? table
+      @data = Table.append @data, table
     this
   join: (type, tables...) ->
     for table in tables
-      @data = Table.join @data, type, table.data ? table
+      @data = Table.join @data, type, table
     this
 
   sort: (sort) ->
