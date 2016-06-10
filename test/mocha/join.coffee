@@ -72,6 +72,24 @@ describe "Join", ->
         [6, 'six']
       ]
 
+    it "should append to empty table", ->
+      result = Table.append [], example1
+      expect(result).to.deep.equal [
+        ['ID', 'Name']
+        [4, 'four']
+        [5, 'five']
+        [6, 'six']
+      ]
+    it "should append to empty table (instance)", ->
+      result = (new Table()).append table1
+      expect(result).to.be.instanceof Table
+      expect(result.data).to.deep.equal [
+        ['ID', 'Name']
+        [4, 'four']
+        [5, 'five']
+        [6, 'six']
+      ]
+
   describe "join", ->
 
     it "should left join tables", ->

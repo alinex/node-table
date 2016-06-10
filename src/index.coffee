@@ -159,6 +159,12 @@ class Table
     debug "append"
     for table in tables
       table = table.data if table instanceof Table
+      # go on if table is empty
+      continue unless table.length
+      # easy step to do if base table is empty
+      unless base.length
+        base = table[0..]
+        continue
       # check or add cols
       baseCols = []
       for name in table[0]
