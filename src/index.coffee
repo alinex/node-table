@@ -184,16 +184,17 @@ class Table
 
   @join: (base, type, tables...) ->
     debug "join #{type}"
+    console.log base, type, tables
     for table in tables
       table = table.data if table instanceof Table
       # get equal columns
-      res = [util.clone base[0]]
+      res = [util.clone base[0] ? []]
       baseJoin = []
       baseJoinToTable = []
       tableJoin = []
       tableAdd = []
       for name, k in table[0]
-        i = base[0].indexOf name
+        i = base[0]?.indexOf name
         if i >= 0
           baseJoin.push i
           baseJoinToTable.push [i, k]
