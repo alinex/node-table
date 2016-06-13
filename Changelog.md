@@ -4,6 +4,11 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.4 (2016-06-13)
+-------------------------------------------------
+- Upgrade util package.
+- Fix bug in joining with empty table as base.
+
 Version 1.2.3 (2016-06-10)
 -------------------------------------------------
 - Upgrade validator and builder package.
