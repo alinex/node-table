@@ -184,7 +184,6 @@ class Table
 
   @join: (base, type, tables...) ->
     debug "join #{type}"
-    console.log base, type, tables
     for table in tables
       table = table.data if table instanceof Table
       # get equal columns
