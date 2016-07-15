@@ -16,7 +16,7 @@ methods for working with such a data type.
 
 As a new data type you may also use it's methods on an instance or statically.
 
-> It is one of the modules of the [Alinex Universe](http://alinex.github.io/code.html)
+> It is one of the modules of the [Alinex Namespace](http://alinex.github.io/code.html)
 > following the code standards defined in the [General Docs](http://alinex.github.io/develop).
 
 
