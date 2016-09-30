@@ -1,11 +1,13 @@
-# Main controlling class
-# =================================================
+###
+Class - API Usage
+=================================================
+The exported class allows you to work with table data using it's class methods or
+by creating an instance.
+###
 
 
 # Node Modules
 # -------------------------------------------------
-
-# include base modules
 debug = require('debug') 'table'
 deasync = require 'deasync'
 # include alinex modules
@@ -13,11 +15,34 @@ util = require 'alinex-util'
 validator = require 'alinex-validator'
 
 
+# Class Definition
+# -------------------------------------------------
 class Table
 
-  # Converion
-  # -------------------------------------------------
 
+  ###
+  Static Conversion
+  -------------------------------------------------
+  To convert from and to the different data structures described above, you can
+  use the following 4 methods:
+
+  ``` coffee
+  result = Table.fromRecordList recordList
+  result = Table.fromRecordObject recordObject, idColumn
+  result = Table.toRecordList example
+  result = Table.toRecordObject example
+  ```
+
+  The conversion to record object will loose the name of the first column so it
+  will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
+  ###
+
+  ###
+  Convert from record list to table structure.
+
+  @param {Array<Object>} obj record list to read
+  @return {Array<Array>} table structure
+  ###
   @fromRecordList: (obj) ->
     debug "record list -> table"
     keys = []
@@ -31,6 +56,12 @@ class Table
     list.unshift keys
     list
 
+  ###
+  Convert from table structure to record list.
+
+  @param {Array<Array>} obj table structure
+  @return {Array<Object>} record list to read
+  ###
   @toRecordList: (obj) ->
     debug "table -> record list"
     obj = util.clone obj
@@ -40,6 +71,13 @@ class Table
       map[k] = e[i] for k, i in keys
       map
 
+  ###
+  Convert from record object to table structure.
+
+  @param {Object<Object>} obj record object to read
+  @param {String} [idColumn] title for the id column to be used
+  @return {Array<Array>} table structure
+  ###
   @fromRecordObject: (obj, idColumn) ->
     debug "record object -> table"
     keys = [idColumn ? 'ID']
@@ -54,6 +92,12 @@ class Table
       list.push row
     list
 
+  ###
+  Convert from table structure to record object.
+
+  @param {Array<Array>} obj table structure
+  @return {Object<Object>} record object to read
+  ###
   @toRecordObject: (obj) ->
     debug "table -> record object"
     res = {}
@@ -66,9 +110,41 @@ class Table
     res
 
 
-  # Access Entries
-  # -------------------------------------------------
+  ###
+  Static Access
+  -------------------------------------------------
+  This methods allows you to easily read and edit the table data in your code.
+  ###
 
+  ###
+  This method is used to access cell values or set them.
+
+  __Examples__
+
+  Read a cell value:
+
+  ``` coffee
+  value = Table.field example, 1, 1
+  # will result value of field 1/1
+  value = Table.field example, 1, 'Name'
+  # do the same but using the column name
+  ```
+
+  And set a new value to a defined cell:
+
+  ``` coffee
+  Table.field example, 1, 1, 15.8
+  # will set value of field 1/1
+  Table.field example, 1, 'Name', 15.8
+  # do the same but using the column name
+  ```
+
+  @param {Array<Array>} obj to access
+  @param {Integer} row number from 1.. (0 is the heading)
+  @param {Integer|String} column number of column 0.. or the name of a column
+  @param [value] new value for the given cell
+  @return the current (new) value of the given cell
+  ###
   @field: (obj, row, col, value) ->
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     debug "get field #{row}/#{col}"
@@ -77,6 +153,29 @@ class Table
     # get value
     obj[row][col]
 
+  ###
+  Get or set a complete table row.
+
+  __Examples__
+
+  First you may read one row as record:
+
+  ``` coffee
+  record = Table.row example, 1
+  # may return something like {ID: 1, Name: 'one'}
+  ```
+
+  And then you may also overwrite it with a changed version:
+
+  ``` coffee
+  Table.row example, 1, {ID: 3, Name: 'three'}
+  ```
+
+  @param {Array<Array>} obj to access
+  @param {Integer} row number from 1.. (0 is the heading)
+  @param {Array} [value] new value for the given row
+  @return the defined row as object
+  ###
   @row: (obj, row, value) ->
     if value? and typeof value isnt 'object'
       throw Error "Could only set object as value of row"
@@ -152,8 +251,10 @@ class Table
     row.splice col, 1 for row in obj
 
 
-  # Join
-  # -------------------------------------------------
+  ###
+  Static Join Functions
+  -------------------------------------------------
+  ###
 
   @append: (base, tables...) ->
     debug "append"
@@ -239,8 +340,10 @@ class Table
     base
 
 
-  # Transform
-  # -------------------------------------------------
+  ###
+  Static Transform Functions
+  -------------------------------------------------
+  ###
 
   # sort = '1,-2,4' or 'name,-age'
   @sort: (table, sort) ->
@@ -310,8 +413,10 @@ class Table
     table
 
 
-  # Filtering
-  # -------------------------------------------------
+  ###
+  Static Filtering Functions
+  -------------------------------------------------
+  ###
 
   # cols = {<title>: <old name> or true or <num>}
   @columns: (table, cols) ->
@@ -403,28 +508,153 @@ class Table
     table
 
 
-  # Instrances
-  # -------------------------------------------------
+  ###
+  Create Instrances
+  -------------------------------------------------
+  A new `Table` instance can be done by using it's
+  ###
 
   constructor: (base) ->
     @data = base ? []
     @meta = {}
 
+
+  ###
+  Conversion Methods
+  -----------------------------------------------------
+  To convert from and to the different data structures described above, you can
+  use the following 4 methods:
+
+  ``` coffee
+  table.fromRecordList recordList
+  table.fromRecordObject recordObject, idColumn
+  result = table.toRecordList()
+  result = table.toRecordObject()
+  ```
+
+  The conversion to record object will loose the name of the first column so it
+  will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
+  ###
+
+  ###
+  Convert from record list to table structure.
+
+  @param {Array<Object>} obj record list to read
+  @return {Table} class instance itself
+  ###
   fromRecordList: (obj) ->
     @data = Table.fromRecordList obj
     this
-  fromRecordObject: (obj) ->
-    @data = Table.fromRecordObject obj
-    this
+
+  ###
+  Convert from table structure to record list.
+
+  @return {Array<Object>} record list to read
+  ###
   toRecordList: -> Table.toRecordList @data
+
+  ###
+  Convert from record object to table structure.
+
+  @param {Object<Object>} obj record object to read
+  @param {String} [idColumn] title for the id column to be used
+  @return {Table} class instance itself
+  ###
+  fromRecordObject: (obj, idColumn) ->
+    @data = Table.fromRecordObject obj, idColumn
+    this
+
+  ###
+  Convert from table structure to record object.
+
+  @return {Object<Object>} record object to read
+  ###
   toRecordObject: -> Table.toRecordObject @data
 
+
+  ###
+  Access Methods
+  -------------------------------------------------
+  This methods allows you to easily read and edit the table data in your code.
+  ###
+
+  ###
+  #3 data
+
+  This is the internal storage of the table structure.
+  You may directly access this array of arrays which stores data in rows and columns:
+
+  ``` coffee
+  console.log table.data
+  ```
+
+  This may look like:
+
+      [ ['ID', 'Name'],
+        [1, 'one'],
+        [2, 'two'],
+        [3, 'three'] ]
+  ###
+
+  ###
+  This method is used to access cell values or set them.
+
+  __Examples__
+
+  Read a cell value:
+
+  ``` coffee
+  value = table.field 1, 1
+  # will result value of field 1/1
+  value = table.field 1, 'Name'
+  # do the same but using the column name
+  ```
+
+  And set a new value to a defined cell:
+
+  ``` coffee
+  table.field 1, 1, 15.8
+  # will set value of field 1/1
+  table.field 1, 'Name', 15.8
+  # do the same but using the column name
+  ```
+
+  @param {Integer} row number from 1.. (0 is the heading)
+  @param {Integer|String} column number of column 0.. or the name of a column
+  @param [value] new value for the given cell
+  @return the current (new) value of the given cell or the instance itself if no
+  new value was given
+  ###
   field: (row, col, value) ->
     result = Table.field @data, row, col, value
     if value? then this else result
+
+  ###
+  Get or set a complete table row.
+
+  __Examples__
+
+  First you may read one row as record:
+
+  ``` coffee
+  record = table.row 1
+  # may return something like {ID: 1, Name: 'one'}
+  ```
+
+  And then you may also overwrite it with a changed version:
+
+  ``` coffee
+  table.row 1, {ID: 3, Name: 'three'}
+  ```
+
+  @param {Integer} row number from 1.. (0 is the heading)
+  @param {Array} [value] new value for the given row
+  @return the defined row as object or the inctance if value was given
+  ###
   row: (row, value) ->
     result = Table.row @data, row, value
     if value? then this else result
+
   insert: (pos, rows) ->
     Table.insert @data, pos, rows
     this
@@ -526,7 +756,7 @@ class Table
     res
 
 
-# Export class
+# Exported `table` Class
 # -------------------------------------------------
 module.exports = Table
 

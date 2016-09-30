@@ -1,12 +1,38 @@
-Table
+Alinex Table: Readme
 =================================================
 
-[![Build Status](https://travis-ci.org/alinex/node-table.svg?branch=master)](https://travis-ci.org/alinex/node-table)
-[![Coverage Status](https://coveralls.io/repos/alinex/node-table/badge.png?branch=master)](https://coveralls.io/r/alinex/node-table?branch=master)
-[![Dependency Status](https://gemnasium.com/alinex/node-table.png)](https://gemnasium.com/alinex/node-table)
+[![GitHub watchers](
+  https://img.shields.io/github/watchers/alinex/node-table.svg?style=social&label=Watch&maxAge=2592000)](
+  https://github.com/alinex/node-table/subscription)<!-- {.hidden-small} -->
+[![GitHub stars](
+  https://img.shields.io/github/stars/alinex/node-table.svg?style=social&label=Star&maxAge=2592000)](
+  https://github.com/alinex/node-table)
+[![GitHub forks](
+  https://img.shields.io/github/forks/alinex/node-table.svg?style=social&label=Fork&maxAge=2592000)](
+  https://github.com/alinex/node-table)<!-- {.hidden-small} -->
+<!-- {p:.right} -->
+
+[![npm package](
+  https://img.shields.io/npm/v/alinex-table.svg?maxAge=2592000&label=latest%20version)](
+  https://www.npmjs.com/package/alinex-table)
+[![latest version](
+  https://img.shields.io/npm/l/alinex-table.svg?maxAge=2592000)](
+  #license)<!-- {.hidden-small} -->
+[![Travis status](
+  https://img.shields.io/travis/alinex/node-table.svg?maxAge=2592000&label=develop)](
+  https://travis-ci.org/alinex/node-table)
+[![Coveralls status](
+  https://img.shields.io/coveralls/alinex/node-table.svg?maxAge=2592000)](
+  https://coveralls.io/r/alinex/node-table?branch=master)
+[![Gemnasium status](
+  https://img.shields.io/gemnasium/alinex/node-table.svg?maxAge=2592000)](
+  https://gemnasium.com/alinex/node-table)
+[![GitHub issues](
+  https://img.shields.io/github/issues/alinex/node-table.svg?maxAge=2592000)](
+  https://github.com/alinex/node-table/issues)<!-- {.hidden-small} -->
 
 This package contains methods for working with table like data. It collects all
-methods for working with such a data type.
+methods for working with such a data type:
 
 - read and write at various positions
 - convert from and to this data type
@@ -16,8 +42,12 @@ methods for working with such a data type.
 
 As a new data type you may also use it's methods on an instance or statically.
 
-> It is one of the modules of the [Alinex Namespace](http://alinex.github.io/code.html)
-> following the code standards defined in the [General Docs](http://alinex.github.io/develop).
+> It is one of the modules of the [Alinex Namespace](https://alinex.github.io/code.html)
+> following the code standards defined in the [General Docs](https://alinex.github.io/develop).
+
+__Read the complete documentation under
+[https://alinex.github.io/node-codedoc](https://alinex.github.io/node-codedoc).__
+<!-- {p: .hidden} -->
 
 
 Install
@@ -83,93 +113,15 @@ record = Table.shift example
 The class oriented approach often is more readable if multiple manipulations on
 the data object are done, specially if you use command concatenation.
 
-
-Data Types
--------------------------------------------------
-
-The data objects which will be used here are:
-
-__Table__
-
-This format stores the data like a table calculation program. It is the format
-derived from the CSV format and used as main format in the module.
-
-``` coffee
-[
-  ['ID', 'Name']
-  [1, 'one']
-  [2, 'two']
-  [3, 'three']
-]
-```
-
-The first line has to be the header.
-
-> Keep in mind that the table data always needs a header row as first line.
-
-__Record List__
-
-This equals to the format lots of database systems return there records as a list
-of record objects.
-
-``` coffee
-[
-  {ID: 1, Name: 'one'}
-  {ID: 2, Name: 'two'}
-  {ID: 3, Name: 'three'}
-]
-```
-
-It can be fully converted to a table (see below).
-
-__Record Object__
-
-A slightly variation to the record list in which the records are collected in an
-indexed objected instead of a list.
-
-``` coffee
-{
-  '1': {Name: 'one'}
-  '2': {Name: 'two'}
-  '3': {Name: 'three'}
-}
-```
-
-It can also be fully converted to a table (see below).
-
-
-Conversion
-------------------------------------------------------------
-
-To convert from and to the different data structures described above, you can
-use the following 4 methods:
-
-``` coffee
-table.fromRecordList recordList
-table.fromRecordObject recordObject, idColumn
-result = table.toRecordList()
-result = table.toRecordObject()
-```
-
-The same calls using static methods:
-
-``` coffee
-result = Table.fromRecordList recordList
-result = Table.fromRecordObject recordObject, idColumn
-result = Table.toRecordList example
-result = Table.toRecordObject example
-```
-
-The conversion to record object will loose the name of the first column so it
-will always get 'ID' on back conversion ''fromRecordObject' if not defined otherwise.
-
-To initialize a new Table instance from a RecordList use:
+To initialize a new Table instance from an existing RecordList use:
 
 ``` coffee
 table = (new Table()).fromRecordList records
 ```
 
-Additionally as one way conversion you may dump into a visible table using the
+See the [supported data types](src/data.md) to see how such structures may look like.
+
+Additionally as an one way conversion you may dump into a visible table using the
 [report](http://alinex.github.io/node-report) package:
 
 ``` coffee
@@ -183,122 +135,12 @@ This will result in a markdown text displaying a table which can easily be
 converted to ascii art using `toConsole()` or an html table using `toHtml()`.
 
 
-Access
--------------------------------------------------------------
 
-This methods allows you to easily read and edit the table data in your code.
 
-### data
-
-If used with an instance this is the internal storage of the table structure.
-You may directly access this array of arrays which stores data in rows and columns:
-
-``` coffee
-console.log table.data
-```
-
-This may look like:
-
-``` text
-[ ['ID', 'Name'],
-  [1, 'one'],
-  [2, 'two'],
-  [3, 'three'] ]
-```
-
-### field
-
-This method is used to access cell values or set them.
-
-__Arguments__
-
-- `table` - (array of arrays) to access (only static calls)
-- `row` - (integer) row number from 1.. (0 is the heading)
-- `column` - (integer or string) number of column 0.. or the name of a column
-- `value` - (optionally) new value for the given cell
-
-__Return__
-
-The current (new) value of the given cell or the instance itself if value have
-been set.
-
-__Examples__
-
-Read a cell value:
-
-``` coffee
-value = table.field 1, 1
-# will result value of field 1/1
-value = table.field 1, 'Name'
-# do the same but using the column name
-
-# or statically:
-value = Table.field example, 1, 1
-# will result value of field 1/1
-value = Table.field example, 1, 'Name'
-# do the same but using the column name
-```
-
-And set a new value to a defined cell:
-
-``` coffee
-table.field 1, 1, 15.8
-# will set value of field 1/1
-table.field 1, 'Name', 15.8
-# do the same but using the column name
-
-# or statically:
-Table.field example, 1, 1, 15.8
-# will set value of field 1/1
-Table.field example, 1, 'Name', 15.8
-# do the same but using the column name
-```
-
-### row
-
-Get or set a complete table row.
-
-__Arguments__
-
-- `table` - (array of arrays) to access (only static calls)
-- `row` - (integer) row number from 1.. (0 is the heading)
-- `record` - (optional object) new value for the given row
-
-__Return__
-
-The defined row as object or the inctance if row was set.
-
-__Examples__
-
-First you may read one row as record:
-
-``` coffee
-record = table.row 1
-# may return something like {ID: 1, Name: 'one'}
-
-# or statically called:
-record = Table.row example, 1
-# may return something like {ID: 1, Name: 'one'}
-```
-
-And then you may also overwrite it with a changed version:
-
-``` coffee
-table.row 1, {ID: 3, Name: 'three'}
-
-# or statically called:
-Table.row example, 1, {ID: 3, Name: 'three'}
-```
 
 ### insert
 
 Insert multiple rows as into the Table.
-
-__Arguments__
-
-- `table` - (array of arrays) to access (only static calls)
-- `pos` - (integer) row position from 1.. (0 is the heading) use 'null' to add at the end
-- `rows` - (array of arrays) table rows to add
 
 __Examples__
 
@@ -309,19 +151,19 @@ table.insert 2, [
 ]
 ```
 
+@param {Array<Array>} obj table to access (only static calls)
+@param {Integer} pos row position from 1.. (0 is the heading) use 'null' to add at the end
+@param {Array|Array<Array>} rows table rows to add
+@return {Array<Array>} the new table structure
+
 ### delete
 
 Delete some rows.
 
-__Arguments__
-
-- `table` - (array of arrays) to access (only static calls)
-- `pos` - (integer) row number from 1.. (0 is the heading)
-- `num` - (optional object) new value for the given row
-
-__Return__
-
-The defined row as object.
+@param {Array<Array>} obj table to access (only static calls)
+@param {Integer} pos row number from 1.. (0 is the heading)
+@param {Integer} [num] number of rows to delete (defaults to 0)
+@return {Array<Array>} the new table structure
 
 __Examples__
 
@@ -339,11 +181,8 @@ Remove the first row as record object from the table. The header will be kept.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-
-__Return__
-
-The first row as object.
+@param {Array<Array>} obj table to access (only static calls)
+@return the first row as object
 
 __Examples__
 
@@ -358,8 +197,8 @@ Add record object to the start of the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-- `record` - (object) record to add
+@param {Array<Array>} obj table to access (only static calls)
+@param {Object} record record to add
 
 __Examples__
 
@@ -373,11 +212,8 @@ Remove the last row as record object from the table. The header will be kept.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-
-__Return__
-
-The last row as object.
+@param {Array<Array>} obj table to access (only static calls)
+@return the last row as object.
 
 __Examples__
 
@@ -392,8 +228,8 @@ Add record object to the end of the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-- `record` - (object) record to add
+@param {Array<Array>} obj table to access (only static calls)
+@param {Object} record record to add
 
 __Examples__
 
@@ -407,9 +243,9 @@ Get a defined column as array.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-- `column` - (number or string) the column to export
-- `values` - (array) list of values for row 1...
+@param {} table` - (array of arrays) to access (only static calls)
+@param {} column` - (number or string) the column to export
+@param {} values` - (array) list of values for row 1...
 
 The column number will start at 0...
 
@@ -431,10 +267,10 @@ Get a defined column.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-- `column` - (number or string) position there inserting column
-- `name` - (string) name of the new column
-- `values` - (array) list of values for row 1..
+@param {} table` - (array of arrays) to access (only static calls)
+@param {} column` - (number or string) position there inserting column
+@param {} name` - (string) name of the new column
+@param {} values` - (array) list of values for row 1..
 
 __Return__
 
@@ -472,8 +308,8 @@ Get a defined column.
 
 __Arguments__
 
-- `table` - (array of arrays) to access (only static calls)
-- `column` - (number or string) position there deleting column
+@param {} table` - (array of arrays) to access (only static calls)
+@param {} column` - (number or string) position there deleting column
 
 __Return__
 
@@ -507,9 +343,9 @@ columns from both of them.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `table2` - (array of arrays) to append
-- `...` - more tables
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} table2` - (array of arrays) to append
+@param {} ...` - more tables
 
 __Return__
 
@@ -541,10 +377,10 @@ the database because of the performance.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `type` - (string) type of join like: 'left', 'inner', 'right', 'outer'
-- `table2` - (array of arrays) to join
-- `...` - more tables
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} type` - (string) type of join like: 'left', 'inner', 'right', 'outer'
+@param {} table2` - (array of arrays) to join
+@param {} ...` - more tables
 
 __Return__
 
@@ -614,8 +450,8 @@ Sort the data rows by the specified columns.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `sort` - (string or array) sort columns
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} sort` - (string or array) sort columns
 
 The sort columns may be number or names as array or comma delimited string. To
 sort in reverse order prepend the column with '-'.
@@ -643,7 +479,7 @@ Reverse the order of all data rows in the table.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
+@param {} table` - (array of arrays) to use as base (only static calls)
 
 __Return__
 
@@ -661,7 +497,7 @@ You may switch the x-axis and y-axis of your table.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
+@param {} table` - (array of arrays) to use as base (only static calls)
 
 __Return__
 
@@ -683,8 +519,8 @@ Format column values.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `formats` - (map or array) formats for the columns
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} formats` - (map or array) formats for the columns
   - array with each columns format
   - object with 'column: format'
 
@@ -727,9 +563,9 @@ Rename a column.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `col` - (string or integer) column to rename
-- `name` - (string) new name for defined column
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} col` - (string or integer) column to rename
+@param {} name` - (string) new name for defined column
 
 __Return__
 
@@ -751,8 +587,8 @@ Rename multiple columns, reorder them and filter them.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `columns` - (object) column name: column to use
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} columns` - (object) column name: column to use
 
 The columns can be defined all using true, meaning to use them in the existing order
 or with the number or name so a resorting is also possible in one step.
@@ -797,8 +633,8 @@ Remove all duplicate data rows.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `columns` - (array, string or integer) columns to check for uniqueness
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} columns` - (array, string or integer) columns to check for uniqueness
 
 __Return__
 
@@ -819,8 +655,8 @@ Filter the rows using specific conditions per column.
 
 __Arguments__
 
-- `table` - (array of arrays) to use as base (only static calls)
-- `conditions` - (array) conditions to be kept
+@param {} table` - (array of arrays) to use as base (only static calls)
+@param {} conditions` - (array) conditions to be kept
 
 The conditions are strings consisting of '<column> <operator> <value>'. If given
 as array the different conditions are logical combined using 'AND'. Subarrays
@@ -869,17 +705,17 @@ __Arguments__
 
 To set for a single cel, row, column or the complete sheet:
 
-- `row` - (integer) row number or null for all rows
-- `col` - (integer or string) column number or name, null for all columns
-- `style` - (object) style settings to store or null to delete all
+@param {} row` - (integer) row number or null for all rows
+@param {} col` - (integer or string) column number or name, null for all columns
+@param {} style` - (object) style settings to store or null to delete all
 
 Or for a user defined range:
 
-- `from-row` - (integer) row number
-- `from-col` - (integer or string) column number or name
-- `to-row` - (integer) row number
-- `to-col` - (integer or string) column number or name
-- `style` - (object) style settings to store or null to delete all cell settings
+@param {} from-row` - (integer) row number
+@param {} from-col` - (integer or string) column number or name
+@param {} to-row` - (integer) row number
+@param {} to-col` - (integer or string) column number or name
+@param {} style` - (object) style settings to store or null to delete all cell settings
 
 __Return__
 
@@ -934,8 +770,8 @@ __Arguments__
 
 To set for a single cel, row, column or the complete sheet:
 
-- `row` - (integer) row number or null for all rows
-- `col` - (integer or string) column number or name, null for all columns
+@param {} row` - (integer) row number or null for all rows
+@param {} col` - (integer or string) column number or name, null for all columns
 
 __Return__
 
@@ -957,6 +793,20 @@ style = table.getMeta null, 1
 # get styles for sheet
 style = table.getMeta()
 ```
+
+
+Debugging
+-------------------------------------------------
+If you have any problems you may debug the code with the predefined flags. It uses
+the debug module to let you define what to debug.
+
+Call it with the DEBUG environment variable set:
+
+``` bash
+DEBUG=table <command>   # general information and checking schema
+```
+
+Additional value checking will be done if the debugging for `table` is enabled.
 
 
 License
