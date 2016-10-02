@@ -147,7 +147,7 @@ class Table
   ###
   @field: (obj, row, col, value) ->
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
-    debug "get field #{row}/#{col}"
+    debug "get field #{row}/#{col}" if debug.enabled
     # set value
     obj[row][col] = value if value?
     # get value
@@ -179,7 +179,7 @@ class Table
   @row: (obj, row, value) ->
     if value? and typeof value isnt 'object'
       throw Error "Could only set object as value of row"
-    debug "get row #{row}"
+    debug "get row #{row}" if debug.enabled
     # set value
     if value
       for key, i in obj[0]
@@ -214,7 +214,7 @@ class Table
       rows = pos
       pos = null
     pos = obj.length unless pos
-    debug "add row at position #{pos}"
+    debug "add row at position #{pos}" if debug.enabled
     if pos
       obj.splice pos+i, 0, row for row, i in rows
     else
@@ -239,7 +239,7 @@ class Table
   @return {Array<Array>} the changed object
   ###
   @delete: (obj, pos, num = 1) ->
-    debug "remove #{num} rows at position #{pos}"
+    debug "remove #{num} rows at position #{pos}" if debug.enabled
     obj.splice pos, num
     obj
 
@@ -335,7 +335,7 @@ class Table
   @return {Array} values for the column fields from row 1... The header name is not included.
   ###
   @column: (obj, col, values) ->
-    debug "add or set column #{col}"
+    debug "add or set column #{col}" if debug.enabled
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     if values
       for row, i in obj
@@ -378,7 +378,7 @@ class Table
   ###
   @columnAdd: (obj, col, name, values) ->
     col = obj[0].length unless col
-    debug "add column before #{col}"
+    debug "add column before #{col}" if debug.enabled
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     for row, i in obj
       row.splice col, 0, values?[i-1] ? null
@@ -406,7 +406,7 @@ class Table
   ###
   @columnRemove: (obj, col) ->
     col = obj[0].length unless col?
-    debug "remove column #{col}"
+    debug "remove column #{col}" if debug.enabled
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     row.splice col, 1 for row in obj
 
@@ -539,7 +539,7 @@ class Table
   @return {Array<Array>} the changed table
   ###
   @join: (base, type, tables...) ->
-    debug "join #{type}"
+    debug "join #{type}" if debug.enabled
     for table in tables
       table = table.data if table instanceof Table
       # get equal columns
@@ -634,7 +634,7 @@ class Table
         "#{order}#{col}"
       sort = sort.join ','
     sort = sort.toString()
-    debug "sort by #{sort}"
+    debug "sort by #{sort}" if debug.enabled
     header = table.shift()
     table = util.array.sortBy.apply this, [table].concat sort
     table.unshift header
@@ -762,7 +762,7 @@ class Table
   @return {Array<Array>} the changed table
   ###
   @rename: (table, col, name) ->
-    debug "rename #{col} to #{name}"
+    debug "rename #{col} to #{name}" if debug.enabled
     col = table[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
     table[0][col] = name
     table
@@ -814,7 +814,7 @@ class Table
   @return {Array<Array>} the new table structure
   ###
   @columns: (table, cols) ->
-    debug "change columns #{cols}"
+    debug "change columns #{cols}" if debug.enabled
     # get column numbers
     num = 0
     for key, col of cols
@@ -846,7 +846,7 @@ class Table
   @return {Array<Array>} the changed table
   ###
   @unique: (table, cols) ->
-    debug "unique in #{cols ? 'all'} columns"
+    debug "unique in #{cols ? 'all'} columns" if debug.enabled
     # get columns
     cols = [0..table[0].length-1] unless cols
     cols = [cols] unless Array.isArray cols
@@ -899,7 +899,7 @@ class Table
   @return {Array<Array>} the changed table
   ###
   @filter: (table, conditions) ->
-    debug "filter #{conditions}"
+    debug "filter #{conditions}" if debug.enabled
     # optimize conditions
     conditions = [conditions] unless Array.isArray conditions
     # internal function checking one cell against value
