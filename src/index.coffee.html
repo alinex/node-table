@@ -1,1126 +1,1672 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>index.coffee</title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" media="all" href="../doc-style.css" />
-  <script src="../doc-filelist.js"></script>
-  <script>
-    var relativeDir = "../";
-    var thisFile = "src/index.coffee";
-    var defaultSidebar = true;
-  </script>
-  <script src="../doc-script.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Class - API Usage</title>
+    <meta name="HandheldFriendly" content="true" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.5.0/styles/solarized_light.min.css" /><style type="text/css">#topnav{text-align:center;background:#333;padding-bottom:20px;position:fixed;margin-top:0;width:100%;bottom:0;top:51px;}#topnav .navbar-nav{margin:0;margin-top:8px;display:-webkit-inline-box;display:-moz-inline-box;display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-box;display:inline-flex}#topnav .sidebar-to-top .btn{text-align:left}#topnav .sidebar-to-top li.level2>a{margin-left:20px}#topnav .sidebar-to-top li.level3>a{margin-left:40px}#topnav .sidebar-to-top li.level4>a{margin-left:60px}#topnav .sidebar-to-top li.level5>a{margin-left:80px}#topnav .sidebar-to-top li.level6>a{margin-left:100px}.navbar-fixed-top .navbar-collapse{max-height:100%}.navbar{min-width:300px}.nav>li{padding:2px 12px}.navbar-inverse .nav>li>a{color:#222;font-weight:bold;padding-top:6px;padding-bottom:6px;}.navbar-inverse .nav>li>a:focus,.navbar-inverse .nav>li>a:hover{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x}.navbar-inverse .nav>li>a.btn-warning:focus,.navbar-inverse .nav>li>a.btn-warning:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x}.navbar-spacer{height:51px}.btn-warning:active,.btn-primary:active{-webkit-transform:scale(.92);-moz-transform:scale(.92);-o-transform:scale(.92);-ms-transform:scale(.92);transform:scale(.92)}.btn-warning{background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x}.btn-primary{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x}.sidebar .nav{display:none;list-style:disc;padding-left:25px;}.sidebar .nav>li{display:list-item;}.sidebar .nav>li>a{color:#222;}.sidebar .nav>li>a:active{-webkit-box-shadow:0 2px 10px 2px rgba(0,0,0,0.25);box-shadow:0 2px 10px 2px rgba(0,0,0,0.25)}.sidebar .nav>li>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header,.sidebar .nav>li.active{display:none}.sidebar .nav>li.active>a{background:#73aad8;background:#4b91cd -webkit-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -moz-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -o-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd -ms-linear-gradient(270deg, #73aad8, #4b91cd) repeat-x;background:#4b91cd linear-gradient(180deg, #73aad8, #4b91cd) repeat-x;}.sidebar .nav>li.active>a:hover{background:#3d88c9;background:#2e6ea5 -webkit-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -moz-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -o-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 -ms-linear-gradient(270deg, #3d88c9, #2e6ea5) repeat-x;background:#2e6ea5 linear-gradient(180deg, #3d88c9, #2e6ea5) repeat-x;color:#fff}.sidebar .nav>li.header>a{font-weight:bold;background:#f2b560;background:#ee9f31 -webkit-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -moz-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -o-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 -ms-linear-gradient(270deg, #f2b560, #ee9f31) repeat-x;background:#ee9f31 linear-gradient(180deg, #f2b560, #ee9f31) repeat-x;}.sidebar .nav>li.header>a:hover{background:#ec9721;background:#c97c11 -webkit-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -moz-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -o-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 -ms-linear-gradient(270deg, #ec9721, #c97c11) repeat-x;background:#c97c11 linear-gradient(180deg, #ec9721, #c97c11) repeat-x;color:#fff}.sidebar .nav>li.level2>a{padding-left:30px}.sidebar .nav>li.level3>a{padding-left:50px}.sidebar .nav>li.level4>a{padding-left:70px}.sidebar .nav>li.level5>a,.sidebar .nav>li.level6>a{padding-left:90px}.navbar-inverse .navbar-toggle{background-color:#444;}.navbar-inverse .navbar-toggle:hover{background-color:#666}@media (min-width:768px){#topnav{position:inherit;background:#222;padding-bottom:0}#topnav .nav>li{padding:0 4px}#topnav .sidebar-to-top{display:none}.navbar-right{margin-right:0}.navbar-nav >li>a{padding:6px 10px}.sidebar{overflow:auto;position:fixed;top:51px;left:0;bottom:0;background:#ddd;padding:0;}.sidebar h1,.sidebar h2{display:none}.sidebar .nav{display:block;list-style:none;padding-left:0;}.sidebar .nav>li{padding:0;}.sidebar .nav>li.header,.sidebar .nav>li.active{display:block;}.sidebar .nav>li.header.level2>a:before,.sidebar .nav>li.active.level2>a:before,.sidebar .nav>li.header.level3>a:before,.sidebar .nav>li.active.level3>a:before,.sidebar .nav>li.header.level4>a:before,.sidebar .nav>li.active.level4>a:before,.sidebar .nav>li.header.level5>a:before,.sidebar .nav>li.active.level5>a:before,.sidebar .nav>li.header.level6>a:before,.sidebar .nav>li.active.level6>a:before{content:"•"}.sidebar .nav>li>a{padding-top:8px;padding-bottom:8px}.sidebar .nav>li.level2>a:before,.sidebar .nav>li.level3>a:before,.sidebar .nav>li.level4>a:before,.sidebar .nav>li.level5>a:before,.sidebar .nav>li.level6>a:before{content:"◦";font-size:150%;line-height:10%;font-weight:bold;padding-right:5px;display:block;float:left;margin-top:8px;margin-left:-15px;color:#666}}img.preload{display:none}body{font-family:"Helvetica Neue",Helvetica,"Segoe UI",Arial,freesans,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";font-size:16px;line-height:1.2;-ms-word-break:break-all;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;-ms-hyphens:auto;hyphens:auto;-webkit-hyphenate-before:2;-webkit-hyphenate-after:3;hyphenate-lines:3;min-width:300px}h1,h2,h3,h4,h5,h6{font-weight:bold;}h1:before,h2:before,h3:before,h4:before,h5:before,h6:before{display:block;content:" ";margin-top:-66px;height:66px;visibility:hidden}h1,h2,h3{clear:both}h1{border-bottom:3px solid #222;padding-bottom:5px}h2{border-bottom:2px dotted #222;padding-bottom:3px}h3{border-bottom:2px dotted #aaa;padding-bottom:2px}h4{border-bottom:1px dotted #aaa}dt{font-weight:bold;margin-top:8px}dd{margin-left:20px}blockquote{border:1px solid #eee;border-radius:3px;border-left:5px solid #337ab7;padding:5px 15px;margin:10px 0;}blockquote ul li p{margin-bottom:0}svg,img{max-width:100%}table{border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all;margin-bottom:10px;}table th,table td{padding:6px 13px;border:1px solid #ddd}table th{background-color:rgba(0,0,0,0.04);font-weight:bold;border-bottom:3px solid #999}table tr{background-color:#fff;border-top:1px solid #ccc;}table tr:nth-child(2n){background-color:rgba(0,0,0,0.04)}img{vertical-align:middle}.emoji{height:1em}abbr,acronym{border-bottom:dotted 1px}a code{color:#337ab7}code,tt{background-color:#fafafa;border-radius:4px;font-size:85%;margin:0;padding:.2em 0}pre{background-color:#fafafa;border-radius:10px;border:1px solid #a4a4a4;font-size:85%;margin:20px;padding:10px;}pre code,pre tt{background:none}pre.language{counter-reset:line;max-height:265px;padding-top:30px;padding-bottom:0;overflow-x:hidden;}pre.language code,pre.language tt{display:block;position:relative;float:left;width:100%;border-left:45px solid #ddd;margin-left:-10px;padding-left:5px;}pre.language code:before,pre.language tt:before{counter-increment:line;content:counter(line);min-width:35px;float:left;text-align:right;padding-right:5px;color:#808080;-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-user-select:none;margin-left:-45px}pre.language code:first-of-type,pre.language tt:first-of-type{padding-top:10px}pre.language code:last-child,pre.language tt:last-child{padding-bottom:10px}pre.language header{border-top-left-radius:4px;border-top-right-radius:4px;font-weight:bold;background:#fafafa;margin:-30px -10px 0 -10px;padding:5px 15px}pre.language.coffeescript header,pre.language.javascript header,pre.language.ruby header,pre.language.python header,pre.language.perl header,pre.language.cc header,pre.language.cpp header,pre.language.cs header,pre.language.java header,pre.language.jsp header,pre.language.groovy header,pre.language.php header,pre.language.bash header,pre.language.sql header,pre.language.makefile header{background:#f0ad4e}pre.language.json header,pre.language.cson header,pre.language.yaml header{background:#61b961}pre.language.handlebars header,pre.language.css header,pre.language.stylus header,pre.language.scss header,pre.language.less header,pre.language.markdown header{background:#76abca}ul.table-of-contents{max-width:100px;max-height:30px;overflow:hidden;position:fixed;top:51px;right:0;background:#ddd;padding:5px 15px;-webkit-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-moz-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-o-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;-ms-transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;transition:max-width 100ms ease 1.2s, max-height 1s ease 200ms;border-left:2px solid #999;border-bottom:2px solid #999;border-bottom-left-radius:10px;list-style-type:none;white-space:nowrap;z-index:100;}ul.table-of-contents:hover{max-width:285px;max-height:248px;-webkit-transition:max-width 100ms ease, max-height 1s ease 100ms;-moz-transition:max-width 100ms ease, max-height 1s ease 100ms;-o-transition:max-width 100ms ease, max-height 1s ease 100ms;-ms-transition:max-width 100ms ease, max-height 1s ease 100ms;transition:max-width 100ms ease, max-height 1s ease 100ms;overflow-y:auto}ul.table-of-contents header{background:#999;font-weight:bold;margin:-5px -15px;padding:5px 15px}ul.table-of-contents>li{padding-bottom:2px;padding-right:8px;}ul.table-of-contents>li:first-of-type{padding-top:10px}ul.table-of-contents a{color:#222}ul.table-of-contents li.sidebar{display:list-item}@media (min-width:768px){ul.table-of-contents li.sidebar{display:none}}div.detail,div.info,div.warning,div.alert{padding:30px 10px 6px 10px;margin:5px 0 8px 0;border-radius:3px;padding-left:60px;border-radius:18px;border-top-left-radius:0;}div.detail>p,div.info>p,div.warning>p,div.alert>p{margin-bottom:0}div.detail header,div.info header,div.warning header,div.alert header{font-weight:bold;position:absolute;margin-top:-30px;margin-left:-60px;padding:3px 20px 3px 10px;border-bottom-right-radius:18px}div:before{content:'\24D8';color:#666;position:absolute;font-size:28px;font-weight:900;padding-top:5px;margin-left:-50px}div.detail{background-color:#fafafa;border:2px solid #ddd;padding-top:0}div.info{background-color:#9f9;background-image:-webkit-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-moz-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-o-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:-ms-linear-gradient(top, #bfb 0%, #6d6 100%);background-image:linear-gradient(to bottom, #bfb 0%, #6d6 100%);border:2px solid #6d6;}div.info header{background-color:#6d6}div.info:before{content:'\24D8';text-shadow:0 -1px 0 #6d6}div.warning{background-color:#fc9;background-image:-webkit-linear-gradient(top, #f97 0%, #e86 100%);background-image:-moz-linear-gradient(top, #f97 0%, #e86 100%);background-image:-o-linear-gradient(top, #f97 0%, #e86 100%);background-image:-ms-linear-gradient(top, #f97 0%, #e86 100%);background-image:linear-gradient(to bottom, #f97 0%, #e86 100%);border:2px solid #e86;}div.warning header{background-color:#e86}div.warning:before{content:'\2605';text-shadow:0 -1px 0 #e86}div.alert{background-color:#f99;background-image:-webkit-linear-gradient(top, #faa 0%, #c00 100%);background-image:-moz-linear-gradient(top, #faa 0%, #c00 100%);background-image:-o-linear-gradient(top, #faa 0%, #c00 100%);background-image:-ms-linear-gradient(top, #faa 0%, #c00 100%);background-image:linear-gradient(to bottom, #faa 0%, #c00 100%);border:2px solid #c00;}div.alert header{background-color:#c00;color:#fff}div.alert:before{content:'\24D8';text-shadow:0 -1px 0 #c00}.cse .gsc-control-cse,.gsc-control-cse{padding:0 !important;}.cse .gsc-control-cse table tr,.gsc-control-cse table tr,.cse .gsc-control-cse table th,.gsc-control-cse table th,.cse .gsc-control-cse table td,.gsc-control-cse table td{border:0}.cse .gsc-control-cse .gsc-cursor-current-page,.gsc-control-cse .gsc-cursor-current-page{color:#fff !important}.cse .gsc-control-cse .gsc-webResult.gsc-result:hover,.gsc-control-cse .gsc-webResult.gsc-result:hover,.cse .gsc-control-cse .gsc-imageResult:hover,.gsc-control-cse .gsc-imageResult:hover{border-left:5px solid #337ab7;padding-left:3px}.cse .gsc-control-cse .gcsc-branding,.gsc-control-cse .gcsc-branding{display:none !important}.gsc-adBlock{display:none !important}@media print{.navbar-spacer,.table-of-contents,.sidebar{display:none}.main{left:0;width:100%}pre.language header{border-bottom:2px solid #999}}.text-red{color:#d13f19}.text-green{color:#2ecc40}.text-yellow{color:#ffdc00}.text-blue{color:#0074d9}.text-magenta{color:#f0f}.text-cyan{color:#0ff}.text-gray{color:#aaa}.bg-white{background-color:#fff}.center{text-align:center}.left{float:left}.right{float:right}.spacing{padding:10px}.hidden{display:none}@media (max-width:767px){.hidden-small{display:none}}@media (min-width:768px){.hidden-large{display:none}}</style>
+  </head>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0" /></head>
-<body>
-  <nav>
-<div class="logo"><a href="http://alinex.github.io"
-  onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'"
-  onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
-  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png"
-    width="150" title="Alinex Universe Homepage" />
-  </a>
-  <img src="http://alinex.github.io/images/Alinex-200.png"
-    style="display:none" alt="preloading" />
-</div>
-<div class="links">
-  <a href="http://alinex.github.io/blog"
-    class="btn btn-primary"><span class="glyphicon-pencil"></span> Blog</a>
-  <a href="http://alinex.github.io/develop"
-    class="btn btn-primary"><span class="glyphicon-book"></span> Develop</a>
-  <a href="http://alinex.github.io/code.html"
-    class="btn btn-warning"><span class="glyphicon-cog"></span> Code</a>
-</div>
-</nav><div id="sidebar_wrapper">
-    <div id="sidebar_switch">
-      <span class="tree">Files</span>
-      <span class="headings">Headings</span>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topnav" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="https://alinex.github.io/" onmouseover="logo.src='https://alinex.github.io/images/Alinex-200.png'" onmouseout="logo.src='https://alinex.github.io/images/Alinex-black-200.png'">
+  <img name="logo" src="https://alinex.github.io/images/Alinex-black-200.png" width="150" title="Alinex Homepage">
+</a>
+<img class="preload" src="https://alinex.github.io/images/Alinex-200.png" aria-hidden="true">
+
+        </div>
+        <div id="topnav" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://alinex.github.io/blog" class="btn btn-primary">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Blog
+  </a></li>
+<li><a href="https://alinex.github.io/develop" class="btn btn-primary">
+    <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Develop
+  </a></li>
+<li><a href="https://alinex.github.io/code.html" class="btn btn-warning">
+    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Code
+  </a></li>
+
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input name="q" type="text" class="form-control" placeholder="Search...">
+          </form>
+          <ul class="nav sidebar-to-top">
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex Table: Readme (/README.md)" class="btn btn-primary">Readme</a>
+                </li>
+                <li class="level1">
+                  <a href="data.md.html" title="Data Types (/src/data.md)" class="btn btn-primary">Data Types</a>
+                </li>
+                <li class="active level0">
+                  <a href="index.coffee.html" title="Class - API Usage (/src/index.coffee)" class="btn btn-warning">API Usage <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
+                </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="navbar-spacer"></div>
+
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col-sm-9 col-sm-push-3 main">
+          <script>
+  (function() {
+    var cx = '010539487162786288372:chxqbheanxc';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+          <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
+<li><a href="#static-conversion">Static Conversion</a>
+<ul>
+<li><a href="#fromrecordlist">@fromRecordList()</a></li>
+<li><a href="#torecordlist">@toRecordList()</a></li>
+<li><a href="#fromrecordobject">@fromRecordObject()</a></li>
+<li><a href="#torecordobject">@toRecordObject()</a></li>
+</ul>
+</li>
+<li><a href="#static-access">Static Access</a>
+<ul>
+<li><a href="#field">@field()</a></li>
+<li><a href="#row">@row()</a></li>
+<li><a href="#insert">@insert()</a></li>
+<li><a href="#delete">@delete()</a></li>
+<li><a href="#shift">@shift()</a></li>
+<li><a href="#unshift">@unshift()</a></li>
+<li><a href="#pop">@pop()</a></li>
+<li><a href="#push">@push()</a></li>
+<li><a href="#column">@column()</a></li>
+<li><a href="#columnadd">@columnAdd()</a></li>
+<li><a href="#columnremove">@columnRemove()</a></li>
+</ul>
+</li>
+<li><a href="#static-join">Static Join</a>
+<ul>
+<li><a href="#append">@append()</a></li>
+<li><a href="#join">@join()</a></li>
+</ul>
+</li>
+<li><a href="#static-transform">Static Transform</a>
+<ul>
+<li><a href="#sort">@sort()</a></li>
+<li><a href="#reverse">@reverse()</a></li>
+<li><a href="#flip">@flip()</a></li>
+<li><a href="#format">@format()</a></li>
+<li><a href="#rename">@rename()</a></li>
+</ul>
+</li>
+<li><a href="#static-filtering">Static Filtering</a>
+<ul>
+<li><a href="#columns">@columns()</a></li>
+<li><a href="#unique">@unique()</a></li>
+<li><a href="#filter">@filter()</a></li>
+</ul>
+</li>
+<li><a href="#create-instrances">Create Instrances</a></li>
+<li><a href="#conversion-methods">Conversion Methods</a>
+<ul>
+<li><a href="#fromrecordlist-2">fromRecordList()</a></li>
+<li><a href="#torecordlist-2">toRecordList()</a></li>
+<li><a href="#fromrecordobject-2">fromRecordObject()</a></li>
+<li><a href="#torecordobject-2">toRecordObject()</a></li>
+</ul>
+</li>
+<li><a href="#access-methods">Access Methods</a>
+<ul>
+<li><a href="#data">data</a></li>
+<li><a href="#field-2">field()</a></li>
+<li><a href="#row-2">row()</a></li>
+<li><a href="#insert-2">insert()</a></li>
+<li><a href="#delete-2">delete()</a></li>
+<li><a href="#shift-2">shift()</a></li>
+<li><a href="#unshift-2">unshift()</a></li>
+<li><a href="#pop-2">pop()</a></li>
+<li><a href="#push-2">push()</a></li>
+<li><a href="#column-2">column()</a></li>
+<li><a href="#columnadd-2">columnAdd()</a></li>
+<li><a href="#columnremove-2">columnRemove()</a></li>
+</ul>
+</li>
+<li><a href="#join-methods">Join Methods</a>
+<ul>
+<li><a href="#append-2">append()</a></li>
+<li><a href="#join-2">join()</a></li>
+</ul>
+</li>
+<li><a href="#transform-methods">Transform Methods</a>
+<ul>
+<li><a href="#sort-2">sort()</a></li>
+<li><a href="#reverse-2">reverse()</a></li>
+<li><a href="#flip-2">flip()</a></li>
+<li><a href="#format-2">format()</a></li>
+<li><a href="#rename-2">rename()</a></li>
+</ul>
+</li>
+<li><a href="#filtering-methods">Filtering Methods</a>
+<ul>
+<li><a href="#columns-2">columns()</a></li>
+<li><a href="#unique-2">unique()</a></li>
+<li><a href="#filter-2">filter()</a></li>
+</ul>
+</li>
+<li><a href="#styling">Styling</a>
+<ul>
+<li><a href="#style">style()</a></li>
+<li><a href="#getmeta">getMeta()</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="class-api-usage">Class - API Usage</h1>
+<blockquote>
+<p>Path: <code>/src/index.coffee</code> compiled to <code>/lib/index.js</code></p>
+</blockquote>
+<p>The exported class allows you to work with table data using it’s class methods or
+by creating an instance.</p>
+<h2 id="static-conversion">Static Conversion</h2>
+<p>To convert from and to the different data structures described above, you can
+use the following 4 methods:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>result = Table.fromRecordList recordList</code>
+<code>result = Table.fromRecordObject recordObject, idColumn</code>
+<code>result = Table.toRecordList example</code>
+<code>result = Table.toRecordObject example</code></pre>
+<p>The conversion to record object will loose the name of the first column so it
+will always get ‘ID’ on back conversion '‘fromRecordObject’ if not defined otherwise.</p>
+<h3 id="fromrecordlist">@fromRecordList()</h3>
+<p>Convert from record list to table structure.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@fromRecordList(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Object&gt;</code> record list to read</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> table structure</dd>
+</dl>
+<h3 id="torecordlist">@toRecordList()</h3>
+<p>Convert from table structure to record list.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@toRecordList(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Array&gt;</code> table structure</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Object&gt;</code> record list to read</dd>
+</dl>
+<h3 id="fromrecordobject">@fromRecordObject()</h3>
+<p>Convert from record object to table structure.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@fromRecordObject(obj, idColumn)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Object&lt;Object&gt;</code> record object to read</p>
+</li>
+<li>
+<p><code>idColumn</code> - <code>String</code> optional title for the id column to be used</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> table structure</dd>
+</dl>
+<h3 id="torecordobject">@toRecordObject()</h3>
+<p>Convert from table structure to record object.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@toRecordObject(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Array&gt;</code> table structure</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object&lt;Object&gt;</code> record object to read</dd>
+</dl>
+<h2 id="static-access">Static Access</h2>
+<p>This methods allows you to easily read and edit the table data in your code.</p>
+<h3 id="field">@field()</h3>
+<p>This method is used to access cell values or set them.</p>
+<p><strong>Examples</strong></p>
+<p>Read a cell value:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>value = Table.field example, <span class="hljs-number">1</span>, <span class="hljs-number">1</span></code>
+<code><span class="hljs-comment"># will result value of field 1/1</span></code>
+<code>value = Table.field example, <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># do the same but using the column name</span></code></pre>
+<p>And set a new value to a defined cell:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.field example, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15.8</span></code>
+<code><span class="hljs-comment"># will set value of field 1/1</span></code>
+<code>Table.field example, <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>, <span class="hljs-number">15.8</span></code>
+<code><span class="hljs-comment"># do the same but using the column name</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@field(obj, row, column, value)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> to access</p>
+</li>
+<li>
+<p><code>row</code> - <code>Integer</code> number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>column</code> - <code>Integer|String</code> number of column 0… or the name of a column</p>
+</li>
+<li>
+<p><code>value</code> - optional new value for the given cell</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd>the current (new) value of the given cell</dd>
+</dl>
+<h3 id="row">@row()</h3>
+<p>Get or set a complete table row.</p>
+<p><strong>Examples</strong></p>
+<p>First you may read one row as record:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = Table.row example, <span class="hljs-number">1</span></code>
+<code><span class="hljs-comment"># may return something like {ID: 1, Name: 'one'}</span></code></pre>
+<p>And then you may also overwrite it with a changed version:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.row example, <span class="hljs-number">1</span>, {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@row(obj, row, value)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> to access</p>
+</li>
+<li>
+<p><code>row</code> - <code>Integer</code> number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>value</code> - <code>Array</code> optional new value for the given row</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd>the defined row as object</dd>
+</dl>
+<h3 id="insert">@insert()</h3>
+<p>Insert multiple rows into the Table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>result = Table.insert example, <span class="hljs-number">2</span>, [</code>
+<code>  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]</code>
+<code>  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]</code>
+<code>]</code></pre>
+<p>If you want to insert record list or record object data you have to convert them
+first.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@insert(obj, pos, rows)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</p>
+</li>
+<li>
+<p><code>pos</code> - <code>Integer</code> row position from 1… (0 is the heading) use ‘null’ to add at the end</p>
+</li>
+<li>
+<p><code>rows</code> - <code>Array|Array&lt;Array&gt;</code> table rows to add</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed object</dd>
+</dl>
+<h3 id="delete">@delete()</h3>
+<p>Delete some rows.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># delete the second data row:</span></code>
+<code>result = Table.<span class="hljs-keyword">delete</span> example, <span class="hljs-number">2</span></code>
+<code><span class="hljs-comment"># delete the second and third data row:</span></code>
+<code>result = Table.<span class="hljs-keyword">delete</span> example <span class="hljs-number">2</span>, <span class="hljs-number">2</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@delete(obj, pos, num)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</p>
+</li>
+<li>
+<p><code>pos</code> - <code>Integer</code> row number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>num</code> - <code>Integer</code> optional number of rows to delete (defaults to 0)</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed object</dd>
+</dl>
+<h3 id="shift">@shift()</h3>
+<p>Remove the first row as record object from the table. The header will be kept.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = Table.shift example</code>
+<code><span class="hljs-comment"># record = {ID: 1, Name: 'one'}</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@shift(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the first, removed record</dd>
+</dl>
+<h3 id="unshift">@unshift()</h3>
+<p>Add record object to the start of the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.unshift example, {id: <span class="hljs-number">0</span>, Name: <span class="hljs-string">'zero'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@unshift(obj, record)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</p>
+</li>
+<li>
+<p><code>record</code> - <code>Object</code> record to add</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the changed table structure</dd>
+</dl>
+<h3 id="pop">@pop()</h3>
+<p>Remove the last row as record object from the table. The header will be kept.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = Table.pop example</code>
+<code><span class="hljs-comment"># record = {ID: 3, Name: 'three'}</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@pop(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the last row</dd>
+</dl>
+<h3 id="push">@push()</h3>
+<p>Add record object to the end of the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.push example, {id: <span class="hljs-number">4</span>, Name: <span class="hljs-string">'four'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@push(obj, record)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Array&lt;Array&gt;</code> table to access</p>
+</li>
+<li>
+<p><code>record</code> - <code>Object</code> to add</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the just added record</dd>
+</dl>
+<h3 id="column">@column()</h3>
+<p>Get a defined column as array.</p>
+<p>The column number will start at 0…</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>result = Table.column example, <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># result = ['one', 'two', 'three']</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@column(table, column, values)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> to access</p>
+</li>
+<li>
+<p><code>column</code> - <code>Integer|String</code> the column to export</p>
+</li>
+<li>
+<p><code>values</code> - <code>Array</code> optional values for row 1…</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array</code> values for the column fields from row 1… The header name is not included.</dd>
+</dl>
+<h3 id="columnadd">@columnAdd()</h3>
+<p>Get a defined column.</p>
+<p><strong>Examples</strong></p>
+<p>You may only add a column (here as second column - index 1):</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.columnAdd example, <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, null, 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, null, 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, null, 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>Or also add values for this column:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.columnAdd example, <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span>, [<span class="hljs-string">'eins'</span>, <span class="hljs-string">'zwei'</span>, <span class="hljs-string">'drei'</span>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'eins', 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'zwei', 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'drei', 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@columnAdd(table, column, name, values)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> structure to access</p>
+</li>
+<li>
+<p><code>column</code> - <code>Integer|String</code> position there inserting new column</p>
+</li>
+<li>
+<p><code>name</code> - <code>String</code> of the new column</p>
+</li>
+<li>
+<p><code>values</code> - <code>Array</code> optional values for row 1…</p>
+</li>
+</ul>
+</dd>
+</dl>
+<h3 id="columnremove">@columnRemove()</h3>
+<p>Get a defined column.</p>
+<p><strong>Examples</strong></p>
+<p>This will remove the first column with the ID and keep only the Name column:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.columnRemove example, <span class="hljs-number">0</span></code>
+<code><span class="hljs-comment"># table = [</span></code>
+<code><span class="hljs-comment">#   [ 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@columnRemove(table, column)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> structure to access</p>
+</li>
+<li>
+<p><code>column</code> - <code>Integer|String</code> position there deleting column</p>
+</li>
+</ul>
+</dd>
+</dl>
+<h2 id="static-join">Static Join</h2>
+<p>There are basically two methods of appending. First vertivally by appending the
+tables below each one. And second vertically by combining the rows.</p>
+<h3 id="append">@append()</h3>
+<p>This may append two tables under each other. The resulting table will have the
+columns from both of them.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.append [</code>
+<code>  [<span class="hljs-number">4</span>, <span class="hljs-string">'four'</span>]</code>
+<code>  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]</code>
+<code>  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   ['ID', 'Name']</span></code>
+<code><span class="hljs-comment">#   [1, 'one']</span></code>
+<code><span class="hljs-comment">#   [2, 'two']</span></code>
+<code><span class="hljs-comment">#   [3, 'three']</span></code>
+<code><span class="hljs-comment">#   [4, 'four']</span></code>
+<code><span class="hljs-comment">#   [5, 'five']</span></code>
+<code><span class="hljs-comment">#   [6, 'six']</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@append(table, table2, ...)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>table2</code> - <code>Array&lt;Array&gt;</code> to append</p>
+</li>
+<li>
+<p><code>...</code> - <code>Array&lt;Array&gt;</code> more tables</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h3 id="join">@join()</h3>
+<p>This works like a sql database join and if it is possible better use it within
+the database because of the performance.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.join example, <span class="hljs-string">'left'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'one', null ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'three', null ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.join example, <span class="hljs-string">'right'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.join example, <span class="hljs-string">'inner'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.join example, <span class="hljs-string">'outer'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'one', null ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'three', null ]</span></code>
+<code><span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@join(table, type, table2, ...)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>type</code> - <code>String</code> type of join like: ‘left’, ‘inner’, ‘right’, ‘outer’</p>
+</li>
+<li>
+<p><code>table2</code> - <code>Array&lt;Array&gt;</code> to join</p>
+</li>
+<li>
+<p><code>...</code> - <code>Array&lt;Array&gt;</code> more tables</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h2 id="static-transform">Static Transform</h2>
+<h3 id="sort">@sort()</h3>
+<p>Sort the data rows by the specified columns.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># sort after Name column</span></code>
+<code>Table.sort example, <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># reverse sort</span></code>
+<code>Table.sort example, <span class="hljs-string">'-Name'</span></code>
+<code><span class="hljs-comment"># sort after ID then Name</span></code>
+<code>Table.sort example, [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]</code>
+<code><span class="hljs-comment"># the same</span></code>
+<code>Table.sort example, <span class="hljs-string">'ID, Name'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@sort(table, sort)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>sort</code> - <code>String|Array</code> columns to order by.
+The sort columns may be number or names as array or comma delimited string. To
+sort. For reverse order prepend the column with ‘-’.</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h3 id="reverse">@reverse()</h3>
+<p>Reverse the order of all data rows in the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.reverse example</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@reverse(table)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h3 id="flip">@flip()</h3>
+<p>You may switch the x-axis and y-axis of your table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.flip example</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 1, 2, 3 ]</span></code>
+<code><span class="hljs-comment">#   [ 'Name', 'one', 'two', 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@flip(table)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the new table</dd>
+</dl>
+<h3 id="format">@format()</h3>
+<p>Format column values.</p>
+<p>The format is defined like the <a href="http://alinex.github.io/node-validator">validator</a>
+schema or a user defined function which will be called with the cell value and should
+return the formatted value.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.format examples,</code>
+<code>  ID:</code>
+<code>    type: <span class="hljs-string">'percent'</span></code>
+<code>    format: <span class="hljs-string">'0%'</span></code>
+<code>  Name:</code>
+<code>    type: <span class="hljs-string">'string'</span></code>
+<code>    upperCase: <span class="hljs-string">'first'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ '100%', 'One' ]</span></code>
+<code><span class="hljs-comment">#   [ '200%', 'Two' ]</span></code>
+<code><span class="hljs-comment">#   [ '300%', 'Three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>And with custom functions the call should look like:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.format examples,</code>
+<code>  Name: <span class="hljs-function"><span class="hljs-params">(cell)</span> -&gt;</span> cell.toString().toUpperCase()</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@format(table, formats)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>formats</code> - <code>Array|Object</code> for the columns
+- array with each columns format
+- object with ‘column: format’</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h3 id="rename">@rename()</h3>
+<p>Rename a column.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.rename example, <span class="hljs-string">'Name'</span>, <span class="hljs-string">'EN'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@rename(table, col, name)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>col</code> - <code>Integer|String</code> column to rename</p>
+</li>
+<li>
+<p><code>name</code> - <code>String</code> new name for defined column</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h2 id="static-filtering">Static Filtering</h2>
+<h3 id="columns">@columns()</h3>
+<p>Rename multiple columns, reorder them and filter them.</p>
+<p>The columns can be defined all using true, meaning to use them in the existing order
+or with the number or name so a resorting is also possible in one step.</p>
+<p><strong>Examples</strong></p>
+<p>In the following example only the first two columns are kept and named:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.columns example,</code>
+<code>  ID: <span class="hljs-literal">true</span></code>
+<code>  EN: <span class="hljs-literal">true</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'EN' ]</span></code>
+<code><span class="hljs-comment">#   [1, 'one']</span></code>
+<code><span class="hljs-comment">#   [2, 'two']</span></code>
+<code><span class="hljs-comment">#   [3, 'three']</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>And here the columns are also reordered:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.columns example,</code>
+<code>  EN: <span class="hljs-string">'Name'</span></code>
+<code>  ID: <span class="hljs-string">'ID'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   ['EN', 'ID']</span></code>
+<code><span class="hljs-comment">#   ['one', 1]</span></code>
+<code><span class="hljs-comment">#   ['two', 2]</span></code>
+<code><span class="hljs-comment">#   ['three', 3]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@columns(table, columns)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>columns</code> - <code>Object&lt;String&gt;</code> column name: column to use</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the new table structure</dd>
+</dl>
+<h3 id="unique">@unique()</h3>
+<p>Remove all duplicate data rows.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># remove all completely duplicate rows</span></code>
+<code>Table.unique example</code>
+<code><span class="hljs-comment"># remove all rows with duplicate Name column</span></code>
+<code>Table.unique example, <span class="hljs-string">'Name'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@unique(table, columns)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>columns</code> - <code>Integer|String|Array</code> to check for uniqueness</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h3 id="filter">@filter()</h3>
+<p>Filter the rows using specific conditions per column.</p>
+<p>The conditions are strings consisting of ’<column> <operator> <value>'. If given
+as array the different conditions are logical combined using ‘AND’. Subarrays
+are combined using ‘OR’ (even index) and ‘AND’ (odd index).</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>conditions = [<span class="hljs-string">'Name not null'</span>, [<span class="hljs-string">'Name startsWith a'</span>, <span class="hljs-string">'Name startsWith b'</span>]]</code></pre>
+<p>This results in the following logic:</p>
+<pre class="language text"><code><span class="hljs-keyword">Name</span> <span class="hljs-keyword">not</span> null</code>
+<code># <span class="hljs-keyword">and</span></code>
+<code>  <span class="hljs-keyword">Name</span> startsWith a</code>
+<code>  # <span class="hljs-keyword">or</span></code>
+<code>  <span class="hljs-keyword">Name</span> startsWith b</code></pre>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table.filter example, [<span class="hljs-string">'ID &gt; 1'</span>, <span class="hljs-string">'ID &lt; 8'</span>] <span class="hljs-comment"># AND</span></code>
+<code>Table.filter example, [[<span class="hljs-string">'ID &lt; 2'</span>, <span class="hljs-string">'ID &gt; 3'</span>]] <span class="hljs-comment"># OR</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>@filter(table, conditions)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table</code> - <code>Array&lt;Array&gt;</code> the table structure to use as base</p>
+</li>
+<li>
+<p><code>conditions</code> - <code>Array</code> for records to be kept</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array&lt;Array&gt;</code> the changed table</dd>
+</dl>
+<h2 id="create-instrances">Create Instrances</h2>
+<p>A new <code>Table</code> instance can be done by using it’s</p>
+<h2 id="conversion-methods">Conversion Methods</h2>
+<p>To convert from and to the different data structures described above, you can
+use the following 4 methods:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.fromRecordList recordList</code>
+<code>table.fromRecordObject recordObject, idColumn</code>
+<code>result = table.toRecordList()</code>
+<code>result = table.toRecordObject()</code></pre>
+<p>The conversion to record object will loose the name of the first column so it
+will always get ‘ID’ on back conversion '‘fromRecordObject’ if not defined otherwise.</p>
+<h3 id="fromrecordlist-2">fromRecordList()</h3>
+<p>Convert from record list to table structure.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>fromRecordList(obj)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>obj</code> - <code>Array&lt;Object&gt;</code> record list to read</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> class instance itself</dd>
+</dl>
+<h3 id="torecordlist-2">toRecordList()</h3>
+<p>Convert from table structure to record list.</p>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd><code>Array&lt;Object&gt;</code> record list to read</dd>
+</dl>
+<h3 id="fromrecordobject-2">fromRecordObject()</h3>
+<p>Convert from record object to table structure.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>fromRecordObject(obj, idColumn)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>obj</code> - <code>Object&lt;Object&gt;</code> record object to read</p>
+</li>
+<li>
+<p><code>idColumn</code> - <code>String</code> optional title for the id column to be used</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> class instance itself</dd>
+</dl>
+<h3 id="torecordobject-2">toRecordObject()</h3>
+<p>Convert from table structure to record object.</p>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd><code>Object&lt;Object&gt;</code> record object to read</dd>
+</dl>
+<h2 id="access-methods">Access Methods</h2>
+<p>This methods allows you to easily read and edit the table data in your code.</p>
+<h3 id="data">data</h3>
+<p>This is the internal storage of the table structure.
+You may directly access this array of arrays which stores data in rows and columns:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-built_in">console</span>.log table.data</code></pre>
+<p>This may look like:</p>
+<pre><code>  [ ['ID', 'Name'],
+    [1, 'one'],
+    [2, 'two'],
+    [3, 'three'] ]
+</code></pre>
+<h3 id="field-2">field()</h3>
+<p>This method is used to access cell values or set them.</p>
+<p><strong>Examples</strong></p>
+<p>Read a cell value:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>value = table.field <span class="hljs-number">1</span>, <span class="hljs-number">1</span></code>
+<code><span class="hljs-comment"># will result value of field 1/1</span></code>
+<code>value = table.field <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># do the same but using the column name</span></code></pre>
+<p>And set a new value to a defined cell:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.field <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15.8</span></code>
+<code><span class="hljs-comment"># will set value of field 1/1</span></code>
+<code>table.field <span class="hljs-number">1</span>, <span class="hljs-string">'Name'</span>, <span class="hljs-number">15.8</span></code>
+<code><span class="hljs-comment"># do the same but using the column name</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>field(row, column, value)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>row</code> - <code>Integer</code> number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>column</code> - <code>Integer|String</code> number of column 0… or the name of a column</p>
+</li>
+<li>
+<p><code>value</code> - optional new value for the given cell</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd>the current (new) value of the given cell or the instance itself if no
+new value was given</dd>
+</dl>
+<h3 id="row-2">row()</h3>
+<p>Get or set a complete table row.</p>
+<p><strong>Examples</strong></p>
+<p>First you may read one row as record:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = table.row <span class="hljs-number">1</span></code>
+<code><span class="hljs-comment"># may return something like {ID: 1, Name: 'one'}</span></code></pre>
+<p>And then you may also overwrite it with a changed version:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.row <span class="hljs-number">1</span>, {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>row(row, value)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>row</code> - <code>Integer</code> number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>value</code> - <code>Array</code> optional new value for the given row</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd>the defined row as object or the inctance if value was given</dd>
+</dl>
+<h3 id="insert-2">insert()</h3>
+<p>Insert multiple rows into the Table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.insert <span class="hljs-number">2</span>, [</code>
+<code>  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]</code>
+<code>  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]</code>
+<code>]</code></pre>
+<p>If you want to insert record list or record object data you have to convert them
+first.</p>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>insert(pos, rows)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>pos</code> - <code>Integer</code> row position from 1… (0 is the heading) use ‘null’ to add at the end</p>
+</li>
+<li>
+<p><code>rows</code> - <code>Array|Array&lt;Array&gt;</code> table rows to add</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the inctance itself</dd>
+</dl>
+<h3 id="delete-2">delete()</h3>
+<p>Delete some rows.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># delete the second data row:</span></code>
+<code>table.<span class="hljs-keyword">delete</span> <span class="hljs-number">2</span></code>
+<code><span class="hljs-comment"># delete the second and third data row:</span></code>
+<code>table.<span class="hljs-keyword">delete</span> <span class="hljs-number">2</span>, <span class="hljs-number">2</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>delete(pos, num)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>pos</code> - <code>Integer</code> row number from 1… (0 is the heading)</p>
+</li>
+<li>
+<p><code>num</code> - <code>Integer</code> optional number of rows to delete (defaults to 0)</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the inctance itself</dd>
+</dl>
+<h3 id="shift-2">shift()</h3>
+<p>Remove the first row as record object from the table. The header will be kept.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = table.shift()</code>
+<code><span class="hljs-comment"># record = {ID: 1, Name: 'one'}</span></code></pre>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd>the first row as object</dd>
+</dl>
+<h3 id="unshift-2">unshift()</h3>
+<p>Add record object to the start of the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.unshift {id: <span class="hljs-number">0</span>, Name: <span class="hljs-string">'zero'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>unshift(record)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>record</code> - <code>Object</code> to add</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the inctance itself</dd>
+</dl>
+<h3 id="pop-2">pop()</h3>
+<p>Remove the last row as record object from the table. The header will be kept.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = table.pop()</code>
+<code><span class="hljs-comment"># record = {ID: 3, Name: 'three'}</span></code></pre>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd>the last row as object.</dd>
+</dl>
+<h3 id="push-2">push()</h3>
+<p>Add record object to the end of the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.push {id: <span class="hljs-number">4</span>, Name: <span class="hljs-string">'four'</span>}</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>push(record)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>record</code> - <code>Object</code> to add</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the just added record</dd>
+</dl>
+<h3 id="column-2">column()</h3>
+<p>Get a defined column as array.</p>
+<p>The column number will start at 0…</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>result = table.column <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># result = ['one', 'two', 'three']</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>column(column, values)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>column</code> - <code>Integer|String</code> the column to export</p>
+</li>
+<li>
+<p><code>values</code> - <code>Array</code> optional values for row 1…</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Array</code> values for the column fields from row 1… The header name is not included.</dd>
+</dl>
+<h3 id="columnadd-2">columnAdd()</h3>
+<p>Get a defined column.</p>
+<p><strong>Examples</strong></p>
+<p>You may only add a column (here as second column - index 1):</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.columnAdd <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, null, 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, null, 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, null, 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>Or also add values for this column:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.columnAdd <span class="hljs-number">1</span>, <span class="hljs-string">'DE'</span>, [<span class="hljs-string">'eins'</span>, <span class="hljs-string">'zwei'</span>, <span class="hljs-string">'drei'</span>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'DE', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'eins', 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'zwei', 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'drei', 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>columnAdd(column, name, values)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>column</code> - <code>Integer|String</code> position there inserting new column</p>
+</li>
+<li>
+<p><code>name</code> - <code>String</code> of the new column</p>
+</li>
+<li>
+<p><code>values</code> - <code>Array</code> optional values for row 1…</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="columnremove-2">columnRemove()</h3>
+<p>Get a defined column.</p>
+<p><strong>Examples</strong></p>
+<p>This will remove the first column with the ID and keep only the Name column:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.columnRemove <span class="hljs-number">0</span></code>
+<code><span class="hljs-comment"># table = [</span></code>
+<code><span class="hljs-comment">#   [ 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ 'one' ]</span></code>
+<code><span class="hljs-comment">#   [ 'two' ]</span></code>
+<code><span class="hljs-comment">#   [ 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>columnRemove(column)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>column</code> - <code>Integer|String</code> position there deleting column</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> instance itself</dd>
+</dl>
+<h2 id="join-methods">Join Methods</h2>
+<p>There are basically two methods of appending. First vertivally by appending the
+tables below each one. And second vertically by combining the rows.</p>
+<h3 id="append-2">append()</h3>
+<p>This may append two tables under each other. The resulting table will have the
+columns from both of them.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.append [</code>
+<code>  [<span class="hljs-number">4</span>, <span class="hljs-string">'four'</span>]</code>
+<code>  [<span class="hljs-number">5</span>, <span class="hljs-string">'five'</span>]</code>
+<code>  [<span class="hljs-number">6</span>, <span class="hljs-string">'six'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   ['ID', 'Name']</span></code>
+<code><span class="hljs-comment">#   [1, 'one']</span></code>
+<code><span class="hljs-comment">#   [2, 'two']</span></code>
+<code><span class="hljs-comment">#   [3, 'three']</span></code>
+<code><span class="hljs-comment">#   [4, 'four']</span></code>
+<code><span class="hljs-comment">#   [5, 'five']</span></code>
+<code><span class="hljs-comment">#   [6, 'six']</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>append(table2, ...)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>table2</code> - <code>Array&lt;Array&gt;</code> to append</p>
+</li>
+<li>
+<p><code>...</code> - <code>Array&lt;Array&gt;</code> more tables</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="join-2">join()</h3>
+<p>This works like a sql database join and if it is possible better use it within
+the database because of the performance.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.join <span class="hljs-string">'left'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'one', null ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'three', null ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.join <span class="hljs-string">'right'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.join <span class="hljs-string">'inner'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 2, 'two', 'zwei' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.join <span class="hljs-string">'outer'</span>, [</code>
+<code>  [<span class="hljs-string">'Name'</span>, <span class="hljs-string">'DE'</span>]</code>
+<code>  [<span class="hljs-string">'two'</span>, <span class="hljs-string">'zwei'</span>]</code>
+<code>  [<span class="hljs-string">'seven'</span>, <span class="hljs-string">'sieben'</span>]</code>
+<code>]</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name', 'DE' ]</span></code>
+<code><span class="hljs-comment">#   [ 1, 'one', null ]</span></code>
+<code><span class="hljs-comment">#   [ 3, 'three', null ]</span></code>
+<code><span class="hljs-comment">#   [ null, 'seven', 'sieben' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>join(type, table2, ...)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>type</code> - <code>String</code> type of join like: ‘left’, ‘inner’, ‘right’, ‘outer’</p>
+</li>
+<li>
+<p><code>table2</code> - <code>Array&lt;Array&gt;</code> to join</p>
+</li>
+<li>
+<p><code>...</code> - <code>Array&lt;Array&gt;</code> more tables</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h2 id="transform-methods">Transform Methods</h2>
+<h3 id="sort-2">sort()</h3>
+<p>Sort the data rows by the specified columns.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># sort after Name column</span></code>
+<code>table.sort <span class="hljs-string">'Name'</span></code>
+<code><span class="hljs-comment"># reverse sort</span></code>
+<code>table.sort <span class="hljs-string">'-Name'</span></code>
+<code><span class="hljs-comment"># sort after ID then Name</span></code>
+<code>table.sort [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]</code>
+<code><span class="hljs-comment"># the same</span></code>
+<code>table.sort <span class="hljs-string">'ID, Name'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>sort(sort)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>sort</code> - <code>String|Array</code> columns to order by.
+The sort columns may be number or names as array or comma delimited string. To
+sort. For reverse order prepend the column with ‘-’.</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="reverse-2">reverse()</h3>
+<p>Reverse the order of all data rows in the table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.reverse()</code></pre>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="flip-2">flip()</h3>
+<p>You may switch the x-axis and y-axis of your table.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.flip()</code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 1, 2, 3 ]</span></code>
+<code><span class="hljs-comment">#   [ 'Name', 'one', 'two', 'three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<dl class="api-spec">
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="format-2">format()</h3>
+<p>Format column values.</p>
+<p>The format is defined like the <a href="http://alinex.github.io/node-validator">validator</a>
+schema or a user defined function which will be called with the cell value and should
+return the formatted value.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.format</code>
+<code>  ID:</code>
+<code>    type: <span class="hljs-string">'percent'</span></code>
+<code>    format: <span class="hljs-string">'0%'</span></code>
+<code>  Name:</code>
+<code>    type: <span class="hljs-string">'string'</span></code>
+<code>    upperCase: <span class="hljs-string">'first'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'Name' ]</span></code>
+<code><span class="hljs-comment">#   [ '100%', 'One' ]</span></code>
+<code><span class="hljs-comment">#   [ '200%', 'Two' ]</span></code>
+<code><span class="hljs-comment">#   [ '300%', 'Three' ]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>And with custom functions the call should look like:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.format</code>
+<code>  Name: <span class="hljs-function"><span class="hljs-params">(cell)</span> -&gt;</span> cell.toString().toUpperCase()</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>format(formats)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>formats</code> - <code>Array|Object</code> for the columns
+- array with each columns format
+- object with ‘column: format’</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="rename-2">rename()</h3>
+<p>Rename a column.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.rename <span class="hljs-string">'Name'</span>, <span class="hljs-string">'EN'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>rename(col, name)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>col</code> - <code>Integer|String</code> column to rename</p>
+</li>
+<li>
+<p><code>name</code> - <code>String</code> new name for defined column</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h2 id="filtering-methods">Filtering Methods</h2>
+<h3 id="columns-2">columns()</h3>
+<p>Rename multiple columns, reorder them and filter them.</p>
+<p>The columns can be defined all using true, meaning to use them in the existing order
+or with the number or name so a resorting is also possible in one step.</p>
+<p><strong>Examples</strong></p>
+<p>In the following example only the first two columns are kept and named:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.columns</code>
+<code>  ID: <span class="hljs-literal">true</span></code>
+<code>  EN: <span class="hljs-literal">true</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   [ 'ID', 'EN' ]</span></code>
+<code><span class="hljs-comment">#   [1, 'one']</span></code>
+<code><span class="hljs-comment">#   [2, 'two']</span></code>
+<code><span class="hljs-comment">#   [3, 'three']</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<p>And here the columns are also reordered:</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.columns</code>
+<code>  EN: <span class="hljs-string">'Name'</span></code>
+<code>  ID: <span class="hljs-string">'ID'</span></code>
+<code><span class="hljs-comment"># table.data = [</span></code>
+<code><span class="hljs-comment">#   ['EN', 'ID']</span></code>
+<code><span class="hljs-comment">#   ['one', 1]</span></code>
+<code><span class="hljs-comment">#   ['two', 2]</span></code>
+<code><span class="hljs-comment">#   ['three', 3]</span></code>
+<code><span class="hljs-comment"># ]</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>columns(columns)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>columns</code> - <code>Object&lt;String&gt;</code> column name: column to use</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="unique-2">unique()</h3>
+<p>Remove all duplicate data rows.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># remove all completely duplicate rows</span></code>
+<code>table.unique()</code>
+<code><span class="hljs-comment"># remove all rows with duplicate Name column</span></code>
+<code>table.unique <span class="hljs-string">'Name'</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>unique(columns)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>columns</code> - <code>Integer|String|Array</code> to check for uniqueness</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="filter-2">filter()</h3>
+<p>Filter the rows using specific conditions per column.</p>
+<p>The conditions are strings consisting of ’<column> <operator> <value>'. If given
+as array the different conditions are logical combined using ‘AND’. Subarrays
+are combined using ‘OR’ (even index) and ‘AND’ (odd index).</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>conditions = [<span class="hljs-string">'Name not null'</span>, [<span class="hljs-string">'Name startsWith a'</span>, <span class="hljs-string">'Name startsWith b'</span>]]</code></pre>
+<p>This results in the following logic:</p>
+<pre class="language text"><code><span class="hljs-keyword">Name</span> <span class="hljs-keyword">not</span> null</code>
+<code># <span class="hljs-keyword">and</span></code>
+<code>  <span class="hljs-keyword">Name</span> startsWith a</code>
+<code>  # <span class="hljs-keyword">or</span></code>
+<code>  <span class="hljs-keyword">Name</span> startsWith b</code></pre>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table.filter [<span class="hljs-string">'ID &gt; 1'</span>, <span class="hljs-string">'ID &lt; 8'</span>] <span class="hljs-comment"># AND</span></code>
+<code>table.filter [[<span class="hljs-string">'ID &lt; 2'</span>, <span class="hljs-string">'ID &gt; 3'</span>]] <span class="hljs-comment"># OR</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>filter(conditions)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li><code>conditions</code> - <code>Array</code> for records to be kept</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h2 id="styling">Styling</h2>
+<p>If you use a table instance you may also store meta data in the object which may
+later be used for styling outside of this module.</p>
+<p>Supported in <a href="http://alinex.github.io/node-report">Report</a>:</p>
+<ul>
+<li>‘align’ on column or sheet with values: ‘left’, ‘center’, ‘right’ (‘left’ is default)</li>
+</ul>
+<h3 id="style">style()</h3>
+<p>Set or clear style information.
+To set for a single cel, row, column or the complete sheet.</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># set style for row 0 colummn 1</span></code>
+<code>table.style <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># the same with a named column</span></code>
+<code>table.style <span class="hljs-number">0</span>, <span class="hljs-string">'Name'</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># and remove the styles</span></code>
+<code>table.style <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">null</span></code>
+<code></code>
+<code><span class="hljs-comment"># set style for row 1</span></code>
+<code>table.style <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># and remove the styles</span></code>
+<code>table.style <span class="hljs-number">1</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span></code>
+<code></code>
+<code><span class="hljs-comment"># set style for column 1</span></code>
+<code>table.style <span class="hljs-literal">null</span>, <span class="hljs-number">1</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># and remove the styles</span></code>
+<code>table.style <span class="hljs-literal">null</span>, <span class="hljs-number">1</span>, <span class="hljs-literal">null</span></code>
+<code></code>
+<code><span class="hljs-comment"># set style for the sheets</span></code>
+<code>table.style <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># and remove the styles</span></code>
+<code>table.style <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span></code>
+<code></code>
+<code><span class="hljs-comment"># set style for user defined range</span></code>
+<code>table.style <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, {align: <span class="hljs-string">'left'</span>}</code>
+<code><span class="hljs-comment"># and remove the styles</span></code>
+<code>table.style <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-literal">null</span></code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>style(from-row, from-col, to-row, to-col, style)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>from-row</code> - <code>Integer</code> row number</p>
+</li>
+<li>
+<p><code>from-col</code> - <code>Integer|String</code> column number or name</p>
+</li>
+<li>
+<p><code>to-row</code> - <code>Integer</code> optional row number</p>
+</li>
+<li>
+<p><code>to-col</code> - <code>Integer|String</code> optional column number or name</p>
+</li>
+<li>
+<p><code>style</code> - <code>Object</code> optional settings to store or null to delete all</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Table</code> the instance itself</dd>
+</dl>
+<h3 id="getmeta">getMeta()</h3>
+<p>This will calculate the resulting settings of the combinations of the above.</p>
+<p>To set for a single cel, row, column or the complete sheet:</p>
+<p><strong>Examples</strong></p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code><span class="hljs-comment"># get styles for cell</span></code>
+<code>style = table.getMeta <span class="hljs-number">0</span>, <span class="hljs-number">1</span></code>
+<code><span class="hljs-comment"># style = {align: 'left'}</span></code>
+<code></code>
+<code><span class="hljs-comment"># get styles for row</span></code>
+<code>style = table.getMeta <span class="hljs-number">0</span></code>
+<code></code>
+<code><span class="hljs-comment"># get styles for column</span></code>
+<code>style = table.getMeta <span class="hljs-literal">null</span>, <span class="hljs-number">1</span></code>
+<code></code>
+<code><span class="hljs-comment"># get styles for sheet</span></code>
+<code>style = table.getMeta()</code></pre>
+<blockquote>
+<p class="api-usage"><strong>Usage:</strong> <code>getMeta(row, col)</code></p>
+</blockquote>
+<dl class="api-spec">
+<dt>Parameter</dt>
+<dd>
+<ul>
+<li>
+<p><code>row</code> - <code>Integer</code> number or null for all rows</p>
+</li>
+<li>
+<p><code>col</code> - <code>Integer|String</code> column number or name, null for all columns</p>
+</li>
+</ul>
+</dd>
+<dt>Return</dt>
+<dd><code>Object</code> the combined style settings</dd>
+</dl>
+</main>
+        </div>
+        <div class="col-sm-3 col-cm-pull-9 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="header">
+              <a href="../README.md.html">Alinex Table</a>
+            </li>
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex Table: Readme (/README.md)">Readme</a>
+                </li>
+                <li class="level1">
+                  <a href="data.md.html" title="Data Types (/src/data.md)">Data Types</a>
+                </li>
+                <li class="active level0">
+                  <a href="index.coffee.html" title="Class - API Usage (/src/index.coffee)">API Usage <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="level0">
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
+                </li>
+          </ul>
+        </div>
+
+      </div>
     </div>
-    <div id="tree"></div>
-    <div id="headings">
 
-      <div class="heading h1">
-        <a href="#main-controlling-class">Main controlling class</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#node-modules">Node Modules</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#converion">Converion</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#access-entries">Access Entries</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#join">Join</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#transform">Transform</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#filtering">Filtering</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#instrances">Instrances</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#styling">Styling</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#export-class">Export class</a>
-      </div>
-
-      <div class="heading h2">
-        <a href="#helper-methods">Helper methods</a>
-      </div>
-
-    </div>
-  </div>
-  <div id="sidebar-toggle"></div>
-  <div id="container" tabindex="0"><a id="fork" href="https://github.com/alinex/node-table" title="Fork me on GitHub"></a>
-    <div class="background highlight"></div>
-<table cellpadding="0" cellspacing="0">
-  <tbody>
-    
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="main-controlling-class">
-  <h1>
-    <a href="#main-controlling-class" name="main-controlling-class" class="pilcrow"></a>
-Main controlling class
-  </h1>
-</div>
-
-        </td>
-        <td class="code highlight">
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="node-modules">
-  <h2>
-    <a href="#node-modules" name="node-modules" class="pilcrow"></a>
-Node Modules
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-3" id="section-3"></a>
-</div>
-<p>include base modules</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">debug = <span class="hljs-built_in">require</span>(<span class="hljs-string">'debug'</span>) <span class="hljs-string">'table'</span>
-deasync = <span class="hljs-built_in">require</span> <span class="hljs-string">'deasync'</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4"></a>
-</div>
-<p>include alinex modules</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">util = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-util'</span>
-validator = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-validator'</span>
-
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Table</span></span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="converion">
-  <h2>
-    <a href="#converion" name="converion" class="pilcrow"></a>
-Converion
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">
-  @fromRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    debug <span class="hljs-string">"record list -&gt; table"</span>
-    keys = []
-    list = obj.map (e) -&gt;
-      rows = []
-      <span class="hljs-keyword">for</span> k <span class="hljs-keyword">of</span> e
-        keys.push k <span class="hljs-keyword">unless</span> k <span class="hljs-keyword">in</span> keys
-      <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> keys
-        rows.push e[k]
-      rows
-    list.unshift keys
-    list
-
-  @toRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    debug <span class="hljs-string">"table -&gt; record list"</span>
-    obj = util.clone obj
-    keys = obj.shift()
-    obj.map (e) -&gt;
-      map = {}
-      map[k] = e[i] <span class="hljs-keyword">for</span> k, i <span class="hljs-keyword">in</span> keys
-      map
-
-  @fromRecordObject: <span class="hljs-function"><span class="hljs-params">(obj, idColumn)</span> -&gt;</span>
-    debug <span class="hljs-string">"record object -&gt; table"</span>
-    keys = [idColumn ? <span class="hljs-string">'ID'</span>]
-    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> obj
-      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">of</span> v
-        keys.push c <span class="hljs-keyword">unless</span> c <span class="hljs-keyword">in</span> keys
-    list = [keys]
-    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> obj
-      row = [<span class="hljs-keyword">if</span> isNaN k <span class="hljs-keyword">then</span> k <span class="hljs-keyword">else</span> parseInt k]
-      <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> keys[<span class="hljs-number">1.</span>.]
-        row.push v[c]
-      list.push row
-    list
-
-  @toRecordObject: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    debug <span class="hljs-string">"table -&gt; record object"</span>
-    res = {}
-    keys = obj[<span class="hljs-number">0</span>]
-    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> obj[<span class="hljs-number">1.</span>.]
-      <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> row[<span class="hljs-number">0</span>]
-      res[row[<span class="hljs-number">0</span>]] = {}
-      <span class="hljs-keyword">for</span> k, i <span class="hljs-keyword">in</span> keys[<span class="hljs-number">1.</span>.]
-        res[row[<span class="hljs-number">0</span>]][k] = row[i+<span class="hljs-number">1</span>]
-    res</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="access-entries">
-  <h2>
-    <a href="#access-entries" name="access-entries" class="pilcrow"></a>
-Access Entries
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">
-  @field: <span class="hljs-function"><span class="hljs-params">(obj, row, col, value)</span> -&gt;</span>
-    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-    debug <span class="hljs-string">"get field <span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7"></a>
-</div>
-<p>set value</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    obj[row][col] = value <span class="hljs-keyword">if</span> value?</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8"></a>
-</div>
-<p>get value</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    obj[row][col]
-
-  @row: <span class="hljs-function"><span class="hljs-params">(obj, row, value)</span> -&gt;</span>
-    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">and</span> <span class="hljs-keyword">typeof</span> value <span class="hljs-keyword">isnt</span> <span class="hljs-string">'object'</span>
-      <span class="hljs-keyword">throw</span> Error <span class="hljs-string">"Could only set object as value of row"</span>
-    debug <span class="hljs-string">"get row <span class="hljs-subst">#{row}</span>"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-9" id="section-9"></a>
-</div>
-<p>set value</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    <span class="hljs-keyword">if</span> value
-      <span class="hljs-keyword">for</span> key, i <span class="hljs-keyword">in</span> obj[<span class="hljs-number">0</span>]
-        obj[row][i] = value[key] <span class="hljs-keyword">if</span> value[key]?</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-10" id="section-10"></a>
-</div>
-<p>get value</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    result = {}
-    result[key] = obj[row][i] <span class="hljs-keyword">for</span> key, i <span class="hljs-keyword">in</span> obj[<span class="hljs-number">0</span>]
-    result
-
-  @insert: <span class="hljs-function"><span class="hljs-params">(obj, pos, rows)</span> -&gt;</span>
-    <span class="hljs-keyword">unless</span> rows
-      rows = pos
-      pos = <span class="hljs-literal">null</span>
-    pos = obj.length <span class="hljs-keyword">unless</span> pos
-    debug <span class="hljs-string">"add row at position <span class="hljs-subst">#{pos}</span>"</span>
-    <span class="hljs-keyword">if</span> pos
-      obj.splice pos+i, <span class="hljs-number">0</span>, row <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> rows
-    <span class="hljs-keyword">else</span>
-      obj.push.apply obj, rows
-    obj
-
-  @delete: <span class="hljs-function"><span class="hljs-params">(obj, pos, num = <span class="hljs-number">1</span>)</span> -&gt;</span>
-    debug <span class="hljs-string">"remove <span class="hljs-subst">#{num}</span> rows at position <span class="hljs-subst">#{pos}</span>"</span>
-    obj.splice pos, num
-    obj
-
-  @shift: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    debug <span class="hljs-string">"shift"</span>
-    result = @row obj, <span class="hljs-number">1</span>
-    @delete obj, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>
-    result
-
-  @unshift: <span class="hljs-function"><span class="hljs-params">(obj, record)</span> -&gt;</span>
-    debug <span class="hljs-string">"unshift"</span>
-    @insert obj, <span class="hljs-number">1</span>, [[]]
-    @row obj, <span class="hljs-number">1</span>, record
-
-  @pop: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    debug <span class="hljs-string">"pop"</span>
-    result = @row obj, obj.length<span class="hljs-number">-1</span>
-    @delete obj, obj.length<span class="hljs-number">-1</span>, <span class="hljs-number">1</span>
-    result
-
-  @push: <span class="hljs-function"><span class="hljs-params">(obj, record)</span> -&gt;</span>
-    debug <span class="hljs-string">"push"</span>
-    obj.push []
-    @row obj, obj.length<span class="hljs-number">-1</span>, record
-
-  @column: <span class="hljs-function"><span class="hljs-params">(obj, col, values)</span> -&gt;</span>
-    debug <span class="hljs-string">"add or set column <span class="hljs-subst">#{col}</span>"</span>
-    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-    <span class="hljs-keyword">if</span> values
-      <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> obj
-        row.splice col, <span class="hljs-number">0</span>, values?[i<span class="hljs-number">-1</span>] ? <span class="hljs-literal">null</span>
-    obj[<span class="hljs-number">1.</span>.].map (row) -&gt; row[col]
-
-  @columnAdd: <span class="hljs-function"><span class="hljs-params">(obj, col, name, values)</span> -&gt;</span>
-    col = obj[<span class="hljs-number">0</span>].length <span class="hljs-keyword">unless</span> col
-    debug <span class="hljs-string">"add column before <span class="hljs-subst">#{col}</span>"</span>
-    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-    <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> obj
-      row.splice col, <span class="hljs-number">0</span>, values?[i<span class="hljs-number">-1</span>] ? <span class="hljs-literal">null</span>
-    obj[<span class="hljs-number">0</span>][col] = name
-
-  @columnRemove: <span class="hljs-function"><span class="hljs-params">(obj, col)</span> -&gt;</span>
-    col = obj[<span class="hljs-number">0</span>].length <span class="hljs-keyword">unless</span> col?
-    debug <span class="hljs-string">"remove column <span class="hljs-subst">#{col}</span>"</span>
-    col = obj[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-    row.splice col, <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> obj</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="join">
-  <h2>
-    <a href="#join" name="join" class="pilcrow"></a>
-Join
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">
-  @append: <span class="hljs-function"><span class="hljs-params">(base, tables...)</span> -&gt;</span>
-    debug <span class="hljs-string">"append"</span>
-    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-12" id="section-12"></a>
-</div>
-<p>check or add cols</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      baseCols = []
-      <span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> table[<span class="hljs-number">0</span>]
-        i = base[<span class="hljs-number">0</span>].indexOf name
-        <span class="hljs-keyword">if</span> i &gt;= <span class="hljs-number">0</span>
-          baseCols.push i
-        <span class="hljs-keyword">else</span>
-          baseCols.push base[<span class="hljs-number">0</span>].length
-          exports.columnAdd base, <span class="hljs-number">1</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-13" id="section-13"></a>
-</div>
-<p>add data</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      <span class="hljs-keyword">for</span> row, i <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-        nrow = base[<span class="hljs-number">0</span>].map -&gt; <span class="hljs-literal">null</span>
-        <span class="hljs-keyword">for</span> e, i <span class="hljs-keyword">in</span> baseCols
-          nrow[e] = row[i]
-        base.push nrow
-    base
-
-  @join: <span class="hljs-function"><span class="hljs-params">(base, type, tables...)</span> -&gt;</span>
-    debug <span class="hljs-string">"join <span class="hljs-subst">#{type}</span>"</span>
-    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-14" id="section-14"></a>
-</div>
-<p>get equal columns</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      res = [util.clone base[<span class="hljs-number">0</span>]]
-      baseJoin = []
-      baseJoinToTable = []
-      tableJoin = []
-      tableAdd = []
-      <span class="hljs-keyword">for</span> name, k <span class="hljs-keyword">in</span> table[<span class="hljs-number">0</span>]
-        i = base[<span class="hljs-number">0</span>].indexOf name
-        <span class="hljs-keyword">if</span> i &gt;= <span class="hljs-number">0</span>
-          baseJoin.push i
-          baseJoinToTable.push [i, k]
-          tableJoin.push k
-        <span class="hljs-keyword">else</span>
-          res[<span class="hljs-number">0</span>].push name
-          tableAdd.push k</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-15" id="section-15"></a>
-</div>
-<p>index</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      index = {}
-      <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> base[<span class="hljs-number">1.</span>.]
-        name = stringify(baseJoin.map (e) -&gt; row[e])
-        index[name] ?=
-          source: []
-          dest: []
-        index[name].source.push num+<span class="hljs-number">1</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-16" id="section-16"></a>
-</div>
-<p>join dest</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-        name = stringify(tableJoin.map (e) -&gt; row[e])
-        index[name] ?=
-          source: []
-          dest: []
-        index[name].dest.push num+<span class="hljs-number">1</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-17" id="section-17"></a>
-</div>
-<p>set values from table</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      <span class="hljs-keyword">for</span> _, v <span class="hljs-keyword">of</span> index</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-18" id="section-18"></a>
-</div>
-<p>all inner</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">        <span class="hljs-keyword">if</span> v.source.length <span class="hljs-keyword">and</span> v.dest.length
-          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'left'</span>, <span class="hljs-string">'inner'</span>, <span class="hljs-string">'right'</span>]
-          <span class="hljs-keyword">for</span> source <span class="hljs-keyword">in</span> v.source
-            <span class="hljs-keyword">for</span> dest <span class="hljs-keyword">in</span> v.dest
-              res.push base[source].concat tableAdd.map (e) -&gt; table[dest][e]
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> v.source.length
-          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'left'</span>, <span class="hljs-string">'outer'</span>]
-          <span class="hljs-keyword">for</span> source <span class="hljs-keyword">in</span> v.source
-            res.push base[source].concat tableAdd.map -&gt; <span class="hljs-literal">null</span>
-        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> v.dest.length
-          <span class="hljs-keyword">continue</span> <span class="hljs-keyword">unless</span> type <span class="hljs-keyword">in</span> [<span class="hljs-string">'right'</span>, <span class="hljs-string">'outer'</span>]
-          <span class="hljs-keyword">for</span> dest <span class="hljs-keyword">in</span> v.dest
-<span class="hljs-function">            <span class="hljs-title">nrow</span> = <span class="hljs-params">(base[<span class="hljs-number">0</span>].map -&gt; <span class="hljs-literal">null</span>)</span>.<span class="hljs-title">concat</span> <span class="hljs-title">tableAdd</span>.<span class="hljs-title">map</span> <span class="hljs-params">(e)</span> -&gt;</span> table[dest][e]
-            <span class="hljs-keyword">for</span> e <span class="hljs-keyword">in</span> baseJoinToTable
-              nrow[e[<span class="hljs-number">0</span>]] = table[dest][e[<span class="hljs-number">1</span>]]
-            res.push nrow
-      base = res
-    base</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="transform">
-  <h2>
-    <a href="#transform" name="transform" class="pilcrow"></a>
-Transform
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-20" id="section-20"></a>
-</div>
-<p>sort = '1,-2,4' or 'name,-age'</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  @sort: <span class="hljs-function"><span class="hljs-params">(table, sort)</span> -&gt;</span>
-    sort = sort.split <span class="hljs-regexp">/,\s*/</span> <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> sort <span class="hljs-keyword">is</span> <span class="hljs-string">'string'</span>
-    <span class="hljs-keyword">if</span> Array.isArray sort
-      sort = sort.map (col) -&gt;
-        order = <span class="hljs-string">''</span>
-        <span class="hljs-keyword">if</span> col[<span class="hljs-number">0</span>] <span class="hljs-keyword">is</span> <span class="hljs-string">'-'</span>
-          order = <span class="hljs-string">'-'</span>
-          col = col.substr <span class="hljs-number">1</span>
-        col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-        <span class="hljs-string">"<span class="hljs-subst">#{order}</span><span class="hljs-subst">#{col}</span>"</span>
-      sort = sort.join <span class="hljs-string">','</span>
-    sort = sort.toString()
-    debug <span class="hljs-string">"sort by <span class="hljs-subst">#{sort}</span>"</span>
-    header = table.shift()
-    table = util.array.sortBy.apply <span class="hljs-keyword">this</span>, [table].concat sort
-    table.unshift header
-    table
-
-  @reverse: <span class="hljs-function"><span class="hljs-params">(table)</span> -&gt;</span>
-    debug <span class="hljs-string">"reverse"</span>
-    header = table.shift()
-    table.reverse()
-    table.unshift header
-    table
-
-  @flip: <span class="hljs-function"><span class="hljs-params">(table)</span> -&gt;</span>
-    debug <span class="hljs-string">"flip"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-21" id="section-21"></a>
-</div>
-<p>flip</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    flipped = []
-    <span class="hljs-keyword">for</span> row, x <span class="hljs-keyword">in</span> table
-      <span class="hljs-keyword">for</span> col, y <span class="hljs-keyword">in</span> row
-        flipped[y] ?= []
-        flipped[y][x] = col
-    flipped</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-22" id="section-22"></a>
-</div>
-<p>formats = {<name>: <format>} or [<format>, ...]</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  @format: <span class="hljs-function"><span class="hljs-params">(table, formats)</span> -&gt;</span>
-    debug <span class="hljs-string">"format columns"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-23" id="section-23"></a>
-</div>
-<p>get format object with numbered columns</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    map = {}
-    <span class="hljs-keyword">if</span> Array.isArray formats
-      map[i] = f <span class="hljs-keyword">for</span> f, i <span class="hljs-keyword">in</span> formats
-    <span class="hljs-keyword">else</span>
-      <span class="hljs-keyword">for</span> col, v <span class="hljs-keyword">of</span> formats
-        col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-        map[col] = v</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-24" id="section-24"></a>
-</div>
-<p>format columns</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    <span class="hljs-keyword">for</span> col, format <span class="hljs-keyword">of</span> map
-      <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-        check = deasync validator.check
-        row[col] = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> format <span class="hljs-keyword">is</span> <span class="hljs-string">'function'</span>
-          format row[col]
-        <span class="hljs-keyword">else</span>
-          check
-            name: <span class="hljs-string">"format-cell"</span>
-            value: row[col]
-            schema: format</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-25" id="section-25"></a>
-</div>
-<p>return</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    table
-
-  @rename: <span class="hljs-function"><span class="hljs-params">(table, col, name)</span> -&gt;</span>
-    debug <span class="hljs-string">"rename <span class="hljs-subst">#{col}</span> to <span class="hljs-subst">#{name}</span>"</span>
-    col = table[<span class="hljs-number">0</span>].indexOf col <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-    table[<span class="hljs-number">0</span>][col] = name
-    table</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="filtering">
-  <h2>
-    <a href="#filtering" name="filtering" class="pilcrow"></a>
-Filtering
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-27" id="section-27"></a>
-</div>
-<p>cols = {<title>: <old name> or true or <num>}</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  @columns: <span class="hljs-function"><span class="hljs-params">(table, cols)</span> -&gt;</span>
-    debug <span class="hljs-string">"change columns <span class="hljs-subst">#{cols}</span>"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-28" id="section-28"></a>
-</div>
-<p>get column numbers</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    num = <span class="hljs-number">0</span>
-    <span class="hljs-keyword">for</span> key, col <span class="hljs-keyword">of</span> cols
-      <span class="hljs-keyword">if</span> col <span class="hljs-keyword">is</span> <span class="hljs-literal">true</span>
-        col = num++
-      <span class="hljs-keyword">else</span> <span class="hljs-keyword">unless</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span>
-        col = table[<span class="hljs-number">0</span>].indexOf col
-      cols[key] = col</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-29" id="section-29"></a>
-</div>
-<p>rearrange</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    changed = [Object.keys cols]
-    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-      changed.push Object.keys(cols).map (name) -&gt; row[cols[name]]
-    changed</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-30" id="section-30"></a>
-</div>
-<p>cols = <num array> or <string array> (optional)</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  @unique: <span class="hljs-function"><span class="hljs-params">(table, cols)</span> -&gt;</span>
-    debug <span class="hljs-string">"unique in <span class="hljs-subst">#{cols ? <span class="hljs-string">'all'</span>}</span> columns"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-31" id="section-31"></a>
-</div>
-<p>get columns</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    cols = [<span class="hljs-number">0.</span>.table[<span class="hljs-number">0</span>].length<span class="hljs-number">-1</span>] <span class="hljs-keyword">unless</span> cols
-    cols = [cols] <span class="hljs-keyword">unless</span> Array.isArray cols
-    cols = cols.map (col) -&gt;
-      <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> table[<span class="hljs-number">0</span>].indexOf col</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-32" id="section-32"></a>
-</div>
-<p>find duplicates</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    checked = []
-    del = []
-    <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-      c = stringify cols.map (e) -&gt; row[e]
-      <span class="hljs-keyword">if</span> c <span class="hljs-keyword">in</span> checked
-        del.push num+<span class="hljs-number">1</span>
-      <span class="hljs-keyword">else</span>
-        checked.push c</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-33" id="section-33"></a>
-</div>
-<p>and remove them</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    del.reverse()
-    Table.<span class="hljs-keyword">delete</span> table, num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> del
-    table</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-34" id="section-34"></a>
-</div>
-<p>conditions = [<cond>, ...]</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  @filter: <span class="hljs-function"><span class="hljs-params">(table, conditions)</span> -&gt;</span>
-    debug <span class="hljs-string">"filter <span class="hljs-subst">#{conditions}</span>"</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-35" id="section-35"></a>
-</div>
-<p>optimize conditions</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    conditions = [conditions] <span class="hljs-keyword">unless</span> Array.isArray conditions</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-36" id="section-36"></a>
-</div>
-<p>internal function checking one cell against value</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript"><span class="hljs-function">    <span class="hljs-title">check</span> = <span class="hljs-params">(cell, op, val)</span> -&gt;</span>
-      <span class="hljs-keyword">switch</span> <span class="hljs-keyword">typeof</span> cell
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">then</span> val = Number val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'boolean'</span> <span class="hljs-keyword">then</span> val = Boolean val
-      res = <span class="hljs-keyword">switch</span> op.toLowerCase()
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'is'</span>, <span class="hljs-string">'='</span>, <span class="hljs-string">'=='</span> <span class="hljs-keyword">then</span> cell <span class="hljs-keyword">is</span> val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'not'</span>, <span class="hljs-string">'!='</span>, <span class="hljs-string">'&lt;&gt;'</span> <span class="hljs-keyword">then</span> cell <span class="hljs-keyword">isnt</span> val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'&gt;'</span> <span class="hljs-keyword">then</span> cell &gt; val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'&lt;'</span> <span class="hljs-keyword">then</span> cell &lt; val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'&gt;='</span>, <span class="hljs-string">'=&gt;'</span> <span class="hljs-keyword">then</span> cell &gt;= val
-        <span class="hljs-keyword">when</span> <span class="hljs-string">'&lt;='</span>, <span class="hljs-string">'=&lt;'</span> <span class="hljs-keyword">then</span> cell &lt;= val
-      res
-<span class="hljs-function">    <span class="hljs-title">resolveCols</span> = <span class="hljs-params">(cond, logic = <span class="hljs-literal">false</span>)</span> -&gt;</span>
-      <span class="hljs-keyword">if</span> Array.isArray cond
-        rules = cond.map (e) -&gt; resolveCols e, <span class="hljs-keyword">not</span> logic
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">if</span> logic
-          (row) -&gt;</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-37" id="section-37"></a>
-</div>
-<p>OR</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">            ok = <span class="hljs-literal">false</span>
-            <span class="hljs-keyword">for</span> rule <span class="hljs-keyword">in</span> rules <span class="hljs-keyword">when</span> rule row
-              ok = <span class="hljs-literal">true</span>
-              <span class="hljs-keyword">break</span>
-            ok
-        <span class="hljs-keyword">else</span>
-          (row) -&gt;</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-38" id="section-38"></a>
-</div>
-<p>AND</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">            ok = <span class="hljs-literal">true</span>
-            <span class="hljs-keyword">for</span> rule <span class="hljs-keyword">in</span> rules <span class="hljs-keyword">when</span> <span class="hljs-keyword">not</span> rule row
-              ok = <span class="hljs-literal">false</span>
-              <span class="hljs-keyword">break</span>
-            ok
-      [col, op, val] = cond.split <span class="hljs-regexp">/\s+/</span>
-      col = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> table[<span class="hljs-number">0</span>].indexOf col
-      (row) -&gt; check row[col], op, val
-    conditions = resolveCols conditions</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-39" id="section-39"></a>
-</div>
-<p>check conditions on each row</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    del = []
-    <span class="hljs-keyword">for</span> row, num <span class="hljs-keyword">in</span> table[<span class="hljs-number">1.</span>.]
-      del.push num+<span class="hljs-number">1</span> <span class="hljs-keyword">unless</span> conditions row</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-40" id="section-40"></a>
-</div>
-<p>and remove them</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    del.reverse()
-    Table.<span class="hljs-keyword">delete</span> table, num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> del
-    table</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="instrances">
-  <h2>
-    <a href="#instrances" name="instrances" class="pilcrow"></a>
-Instrances
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">
-  constructor: <span class="hljs-function"><span class="hljs-params">(base)</span> -&gt;</span>
-    @data = base ? []
-    @meta = {}
-
-  fromRecordList: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    @data = Table.fromRecordList obj
-    <span class="hljs-keyword">this</span>
-  fromRecordObject: <span class="hljs-function"><span class="hljs-params">(obj)</span> -&gt;</span>
-    @data = Table.fromRecordObject obj
-    <span class="hljs-keyword">this</span>
-  toRecordList: <span class="hljs-function">-&gt;</span> Table.toRecordList @data
-  toRecordObject: <span class="hljs-function">-&gt;</span> Table.toRecordObject @data
-
-  field: <span class="hljs-function"><span class="hljs-params">(row, col, value)</span> -&gt;</span>
-    result = Table.field @data, row, col, value
-    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
-  row: <span class="hljs-function"><span class="hljs-params">(row, value)</span> -&gt;</span>
-    result = Table.row @data, row, value
-    <span class="hljs-keyword">if</span> value? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
-  insert: <span class="hljs-function"><span class="hljs-params">(pos, rows)</span> -&gt;</span>
-    Table.insert @data, pos, rows
-    <span class="hljs-keyword">this</span>
-  delete: <span class="hljs-function"><span class="hljs-params">(pos, num)</span> -&gt;</span>
-    Table.<span class="hljs-keyword">delete</span> @data, pos, num
-    <span class="hljs-keyword">this</span>
-  shift: <span class="hljs-function">-&gt;</span> Table.shift @data
-  unshift: <span class="hljs-function"><span class="hljs-params">(record)</span> -&gt;</span>
-    Table.unshift @data, record
-    <span class="hljs-keyword">this</span>
-  pop: <span class="hljs-function">-&gt;</span> Table.pop @data
-  push: <span class="hljs-function"><span class="hljs-params">(record)</span> -&gt;</span>
-    Table.push @data, record
-    <span class="hljs-keyword">this</span>
-  column: <span class="hljs-function"><span class="hljs-params">(col, values)</span> -&gt;</span>
-    result = Table.column @data, col, values
-    <span class="hljs-keyword">if</span> values? <span class="hljs-keyword">then</span> <span class="hljs-keyword">this</span> <span class="hljs-keyword">else</span> result
-  columnAdd: <span class="hljs-function"><span class="hljs-params">(col, name, values)</span> -&gt;</span>
-    Table.columnAdd @data, col, name, values
-    <span class="hljs-keyword">this</span>
-  columnRemove: <span class="hljs-function"><span class="hljs-params">(col)</span> -&gt;</span>
-    Table.columnRemove @data, col
-    <span class="hljs-keyword">this</span>
-
-  append: <span class="hljs-function"><span class="hljs-params">(tables...)</span> -&gt;</span>
-    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables
-      @data = Table.append @data, table.data ? table
-    <span class="hljs-keyword">this</span>
-  join: <span class="hljs-function"><span class="hljs-params">(type, tables...)</span> -&gt;</span>
-    <span class="hljs-keyword">for</span> table <span class="hljs-keyword">in</span> tables
-      @data = Table.join @data, type, table.data ? table
-    <span class="hljs-keyword">this</span>
-
-  sort: <span class="hljs-function"><span class="hljs-params">(sort)</span> -&gt;</span>
-    @data = Table.sort @data, sort
-    <span class="hljs-keyword">this</span>
-  reverse: <span class="hljs-function">-&gt;</span>
-    @data = Table.reverse @data
-    <span class="hljs-keyword">this</span>
-  flip: <span class="hljs-function">-&gt;</span>
-    @data = Table.flip @data
-    <span class="hljs-keyword">this</span>
-  rename: <span class="hljs-function"><span class="hljs-params">(col, name)</span> -&gt;</span>
-    Table.rename @data, col, name
-    <span class="hljs-keyword">this</span>
-  format: <span class="hljs-function"><span class="hljs-params">(formats)</span> -&gt;</span>
-    Table.format @data, formats
-    <span class="hljs-keyword">this</span>
-
-  columns: <span class="hljs-function"><span class="hljs-params">(cols)</span> -&gt;</span>
-    @data = Table.columns @data, cols
-    <span class="hljs-keyword">this</span>
-  unique: <span class="hljs-function"><span class="hljs-params">(cols)</span> -&gt;</span>
-    Table.unique @data, cols
-    <span class="hljs-keyword">this</span>
-  filter: <span class="hljs-function"><span class="hljs-params">(conditions)</span> -&gt;</span>
-    Table.filter @data, conditions
-    <span class="hljs-keyword">this</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="styling">
-  <h2>
-    <a href="#styling" name="styling" class="pilcrow"></a>
-Styling
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">  style: <span class="hljs-function">-&gt;</span>
-    args = [].slice.apply arguments
-    style = args.pop()
-    [fr, fc, tr, tc] = args
-    <span class="hljs-keyword">if</span> fc
-      fc = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> fc <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> fc.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> fc <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf fc ? fc
-    <span class="hljs-keyword">unless</span> tc? <span class="hljs-keyword">or</span> tr?</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-43" id="section-43"></a>
-</div>
-<p>cell</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">      range = <span class="hljs-string">"<span class="hljs-subst">#{fr ? <span class="hljs-string">'*'</span>}</span>/<span class="hljs-subst">#{fc ? <span class="hljs-string">'*'</span>}</span>"</span>
-      <span class="hljs-keyword">if</span> style <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>
-        <span class="hljs-keyword">delete</span> @meta[range]
-      <span class="hljs-keyword">else</span>
-        @meta[range] ?= {}
-        util.extend @meta[range], style
-      <span class="hljs-keyword">return</span></pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-44" id="section-44"></a>
-</div>
-<p>range</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">    tc = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> tc <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> tc.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> tc <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf tc
-    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> [fr..tr]
-      <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> [fc..tc]
-        range = <span class="hljs-string">"<span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span>
-        <span class="hljs-keyword">if</span> style <span class="hljs-keyword">is</span> <span class="hljs-literal">null</span>
-          <span class="hljs-keyword">delete</span> @meta[range]
-        <span class="hljs-keyword">else</span>
-          @meta[range] ?= {}
-          util.extend @meta[range], style
-    <span class="hljs-keyword">this</span>
-
-  getMeta: <span class="hljs-function"><span class="hljs-params">(row, col)</span> -&gt;</span>
-    <span class="hljs-keyword">if</span> col
-      col = <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span> col <span class="hljs-keyword">is</span> <span class="hljs-string">'number'</span> <span class="hljs-keyword">or</span> col.match <span class="hljs-regexp">/^\d+$/</span> <span class="hljs-keyword">then</span> col <span class="hljs-keyword">else</span> @data[<span class="hljs-number">0</span>].indexOf col
-    res = util.clone(@meta[<span class="hljs-string">'*/*'</span>]) ? {}
-    <span class="hljs-keyword">if</span> col?
-      util.extend res, util.clone @meta[<span class="hljs-string">"*/<span class="hljs-subst">#{col}</span>"</span>]
-    <span class="hljs-keyword">if</span> row?
-      util.extend res, util.clone @meta[<span class="hljs-string">"<span class="hljs-subst">#{row}</span>/*"</span>]
-    <span class="hljs-keyword">if</span> row? <span class="hljs-keyword">and</span> col?
-      util.extend res, util.clone @meta[<span class="hljs-string">"<span class="hljs-subst">#{row}</span>/<span class="hljs-subst">#{col}</span>"</span>]
-    res</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="export-class">
-  <h2>
-    <a href="#export-class" name="export-class" class="pilcrow"></a>
-Export class
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript"><span class="hljs-built_in">module</span>.exports = Table</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap" id="helper-methods">
-  <h2>
-    <a href="#helper-methods" name="helper-methods" class="pilcrow"></a>
-Helper methods
-  </h2>
-</div>
-
-        </td>
-        <td class="code highlight">
-          <pre class="coffeescript">stringify = JSON.stringify</pre>
-        </td>
-      </tr>
-    
-  </tbody>
-</table>
-
-  </div>
-</body>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script type="text/javascript"><!--
+    $(".table-of-contents").bind("mouseleave", function(event) { $(".table-of-contents").scrollTop(0); });
+    //--></script>
+  </body>
 </html>

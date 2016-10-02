@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alinex Table: Readme</title>
+    <title>Data Types</title>
     <meta name="HandheldFriendly" content="true" />
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -50,17 +50,17 @@
             <input name="q" type="text" class="form-control" placeholder="Search...">
           </form>
           <ul class="nav sidebar-to-top">
-                <li class="active level0">
-                  <a href="README.md.html" title="Alinex Table: Readme (/README.md)" class="btn btn-warning">Readme <span class="sr-only">(current)</span></a>
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex Table: Readme (/README.md)" class="btn btn-primary">Readme</a>
                 </li>
-                <li class="level1">
-                  <a href="src/data.md.html" title="Data Types (/src/data.md)" class="btn btn-primary">Data Types</a>
+                <li class="active level1">
+                  <a href="data.md.html" title="Data Types (/src/data.md)" class="btn btn-warning">Data Types <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="level0">
-                  <a href="src/index.coffee.html" title="Class - API Usage (/src/index.coffee)" class="btn btn-primary">API Usage</a>
+                  <a href="index.coffee.html" title="Class - API Usage (/src/index.coffee)" class="btn btn-primary">API Usage</a>
                 </li>
                 <li class="level0">
-                  <a href="Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)" class="btn btn-primary">Version changes</a>
                 </li>
           </ul>
         </div>
@@ -87,122 +87,63 @@
 <gcse:searchresults-only></gcse:searchresults-only>
 
           <main><p><ul class="table-of-contents" aria-hidden="true"><header>Index</header>
-<li><a href="#install">Install</a></li>
-<li><a href="#usage">Usage</a>
-<ul>
-<li><a href="#class-vs-static">Class vs Static</a></li>
-</ul>
-</li>
-<li><a href="#debugging">Debugging</a></li>
-<li><a href="#license">License</a></li>
+<li><a href="#table">Table</a></li>
+<li><a href="#record-list">Record List</a></li>
+<li><a href="#record-object">Record Object</a></li>
 </ul>
 </p>
-<h1 id="alinex-table-readme">Alinex Table: Readme</h1>
-<p class="right"><a href="https://github.com/alinex/node-table/subscription"><img src="https://img.shields.io/github/watchers/alinex/node-table.svg?style=social&amp;label=Watch&amp;maxAge=2592000" alt="GitHub watchers" class="hidden-small" /></a>
-<a href="https://github.com/alinex/node-table"><img src="https://img.shields.io/github/stars/alinex/node-table.svg?style=social&amp;label=Star&amp;maxAge=2592000" alt="GitHub stars" /></a>
-<a href="https://github.com/alinex/node-table"><img src="https://img.shields.io/github/forks/alinex/node-table.svg?style=social&amp;label=Fork&amp;maxAge=2592000" alt="GitHub forks" class="hidden-small" /></a></p>
-<p><a href="https://www.npmjs.com/package/alinex-table"><img src="https://img.shields.io/npm/v/alinex-table.svg?maxAge=2592000&amp;label=latest%20version" alt="npm package" /></a>
-<a href="#license"><img src="https://img.shields.io/npm/l/alinex-table.svg?maxAge=2592000" alt="latest version" class="hidden-small" /></a>
-<a href="https://travis-ci.org/alinex/node-table"><img src="https://img.shields.io/travis/alinex/node-table.svg?maxAge=2592000&amp;label=develop" alt="Travis status" /></a>
-<a href="https://coveralls.io/r/alinex/node-table?branch=master"><img src="https://img.shields.io/coveralls/alinex/node-table.svg?maxAge=2592000" alt="Coveralls status" /></a>
-<a href="https://gemnasium.com/alinex/node-table"><img src="https://img.shields.io/gemnasium/alinex/node-table.svg?maxAge=2592000" alt="Gemnasium status" /></a>
-<a href="https://github.com/alinex/node-table/issues"><img src="https://img.shields.io/github/issues/alinex/node-table.svg?maxAge=2592000" alt="GitHub issues" class="hidden-small" /></a></p>
-<p>This package contains methods for working with table like data. It collects all
-methods for working with such a data type:</p>
-<ul>
-<li>read and write at various positions</li>
-<li>convert from and to this data type</li>
-<li>rearranging everything with flip, filter, sort and more</li>
-<li>optimizing for display</li>
-<li>and export/dump as table</li>
-</ul>
-<p>As a new data type you may also use it’s methods on an instance or statically.</p>
-<blockquote>
-<p>It is one of the modules of the <a href="https://alinex.github.io/code.html">Alinex Namespace</a>
-following the code standards defined in the <a href="https://alinex.github.io/develop">General Docs</a>.</p>
-</blockquote>
-<p class="hidden"><strong>Read the complete documentation under
-<a href="https://alinex.github.io/node-codedoc">https://alinex.github.io/node-codedoc</a>.</strong></p>
-<h2 id="install">Install</h2>
-<p><a href="https://www.npmjs.com/package/table"><img src="https://nodei.co/npm/table.png?downloads=true&amp;downloadRank=true&amp;stars=true" alt="NPM" />
-<img src="https://nodei.co/npm-dl/table.png?months=9&amp;height=3" alt="Downloads" />
-</a></p>
-<p>The easiest way is to let npm add the module directly to your modules
-(from within you node modules directory):</p>
-<pre class="language bash"><header>Shell Script</header><code>npm install alinex-table --save</code></pre>
-<p>And update it to the latest version later:</p>
-<pre class="language bash"><header>Shell Script</header><code>npm update alinex-table --save</code></pre>
-<p>Always have a look at the latest <a href="Changelog.md.html">changes</a>.</p>
-<h2 id="usage">Usage</h2>
-<p>To use these methods include the package first:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Table = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-table'</span></code>
-<code></code>
-<code>example = [</code>
+<h1 id="data-types">Data Types</h1>
+<p>The <code>Table</code> class supports three different data structures to be red or written.
+See the examples below which are also used in the API examples.</p>
+<h2 id="table">Table</h2>
+<p>This format stores the data like a table calculation program. It is the format
+derived from the CSV format and used as main format in the module.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>[</code>
 <code>  [<span class="hljs-string">'ID'</span>, <span class="hljs-string">'Name'</span>]</code>
 <code>  [<span class="hljs-number">1</span>, <span class="hljs-string">'one'</span>]</code>
 <code>  [<span class="hljs-number">2</span>, <span class="hljs-string">'two'</span>]</code>
 <code>  [<span class="hljs-number">3</span>, <span class="hljs-string">'three'</span>]</code>
 <code>]</code></pre>
-<p>Then this module gives you a lot of methods with which you may work and manipulate
-this table.</p>
-<h3 id="class-vs-static">Class vs Static</h3>
-<p>You may use both. As an instance each method will return the instance itself if no need
-to return something else. So you may concatenate most calls.</p>
-<p>You can call each method on an instance like:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table = <span class="hljs-keyword">new</span> Table example</code>
-<code>record = table.shift()</code></pre>
-<p>Or you may use them statically on your own data objects:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>record = Table.shift example</code></pre>
-<p>The class oriented approach often is more readable if multiple manipulations on
-the data object are done, specially if you use command concatenation.</p>
-<p>To initialize a new Table instance from an existing RecordList use:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>table = (<span class="hljs-keyword">new</span> Table()).fromRecordList records</code></pre>
-<p>See the <a href="src/data.md.html">supported data types</a> to see how such structures may look like.</p>
-<p>Additionally as an one way conversion you may dump into a visible table using the
-<a href="http://alinex.github.io/node-report">report</a> package:</p>
-<pre class="language coffeescript"><header>CoffeeScript Code</header><code>Report = <span class="hljs-built_in">require</span> <span class="hljs-string">'alinex-report'</span></code>
-<code>report = <span class="hljs-keyword">new</span> Report()</code>
-<code>report.table example</code>
-<code><span class="hljs-built_in">console</span>.log report.toString()</code></pre>
-<p>This will result in a markdown text displaying a table which can easily be
-converted to ascii art using <code>toConsole()</code> or an html table using <code>toHtml()</code>.</p>
-<h2 id="debugging">Debugging</h2>
-<p>If you have any problems you may debug the code with the predefined flags. It uses
-the debug module to let you define what to debug.</p>
-<p>Call it with the DEBUG environment variable set:</p>
-<pre class="language bash"><header>Shell Script</header><code>DEBUG=table &lt;<span class="hljs-built_in">command</span>&gt;   <span class="hljs-comment"># general information and checking schema</span></code></pre>
-<p>Additional value checking will be done if the debugging for <code>table</code> is enabled.</p>
-<h2 id="license">License</h2>
-<p>© Copyright 2016 Alexander Schilling</p>
-<p>Licensed under the Apache License, Version 2.0 (the “License”);
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
+<p>The first line has to be the header.</p>
 <blockquote>
-<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Keep in mind that the table data always needs a header row as first line.</p>
 </blockquote>
-<p>Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an “AS IS” BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.</p>
+<h2 id="record-list">Record List</h2>
+<p>This equals to the format lots of database systems return there records as a list
+of record objects.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>[</code>
+<code>  {ID: <span class="hljs-number">1</span>, Name: <span class="hljs-string">'one'</span>}</code>
+<code>  {ID: <span class="hljs-number">2</span>, Name: <span class="hljs-string">'two'</span>}</code>
+<code>  {ID: <span class="hljs-number">3</span>, Name: <span class="hljs-string">'three'</span>}</code>
+<code>]</code></pre>
+<p>It can be fully converted to a table (see below).</p>
+<h2 id="record-object">Record Object</h2>
+<p>A slightly variation to the record list in which the records are collected in an
+indexed objected instead of a list.</p>
+<pre class="language coffeescript"><header>CoffeeScript Code</header><code>{</code>
+<code>  <span class="hljs-string">'1'</span>: {Name: <span class="hljs-string">'one'</span>}</code>
+<code>  <span class="hljs-string">'2'</span>: {Name: <span class="hljs-string">'two'</span>}</code>
+<code>  <span class="hljs-string">'3'</span>: {Name: <span class="hljs-string">'three'</span>}</code>
+<code>}</code></pre>
+<p>It can also be fully converted to a table (see below).</p>
 </main>
         </div>
         <div class="col-sm-3 col-cm-pull-9 sidebar">
           <ul class="nav nav-sidebar">
             <li class="header">
-              <a href="README.md.html">Alinex Table</a>
+              <a href="../README.md.html">Alinex Table</a>
             </li>
-                <li class="active level0">
-                  <a href="README.md.html" title="Alinex Table: Readme (/README.md)">Readme <span class="sr-only">(current)</span></a>
+                <li class="level0">
+                  <a href="../README.md.html" title="Alinex Table: Readme (/README.md)">Readme</a>
                 </li>
-                <li class="level1">
-                  <a href="src/data.md.html" title="Data Types (/src/data.md)">Data Types</a>
+                <li class="active level1">
+                  <a href="data.md.html" title="Data Types (/src/data.md)">Data Types <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="level0">
-                  <a href="src/index.coffee.html" title="Class - API Usage (/src/index.coffee)">API Usage</a>
+                  <a href="index.coffee.html" title="Class - API Usage (/src/index.coffee)">API Usage</a>
                 </li>
                 <li class="level0">
-                  <a href="Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
+                  <a href="../Changelog.md.html" title="Version changes (/Changelog.md)">Version changes</a>
                 </li>
           </ul>
         </div>
