@@ -189,6 +189,26 @@ class Table
     result[key] = obj[row][i] for key, i in obj[0]
     result
 
+  ###
+  Insert multiple rows into the Table.
+
+  __Examples__
+
+  ``` coffee
+  result = Table.insert example, 2, [
+    [5, 'five']
+    [6, 'six']
+  ]
+  ```
+
+  If you want to insert record list or record object data you have to convert them
+  first.
+
+  @param {Array<Array>} obj table to access
+  @param {Integer} pos row position from 1.. (0 is the heading) use 'null' to add at the end
+  @param {Array|Array<Array>} rows table rows to add
+  @return {Array<Array>} the changed object
+  ###
   @insert: (obj, pos, rows) ->
     unless rows
       rows = pos
@@ -201,33 +221,119 @@ class Table
       obj.push.apply obj, rows
     obj
 
+  ###
+  Delete some rows.
+
+  __Examples__
+
+  ``` coffee
+  # delete the second data row:
+  result = Table.delete example, 2
+  # delete the second and third data row:
+  result = Table.delete example 2, 2
+  ```
+
+  @param {Array<Array>} obj table to access
+  @param {Integer} pos row number from 1.. (0 is the heading)
+  @param {Integer} [num] number of rows to delete (defaults to 0)
+  @return {Array<Array>} the changed object
+  ###
   @delete: (obj, pos, num = 1) ->
     debug "remove #{num} rows at position #{pos}"
     obj.splice pos, num
     obj
 
+  ###
+  Remove the first row as record object from the table. The header will be kept.
+
+  __Examples__
+
+  ``` coffee
+  record = Table.shift example
+  # record = {ID: 1, Name: 'one'}
+  ```
+
+  @param {Array<Array>} obj table to access
+  @return {Object} the first, removed record
+  ###
   @shift: (obj) ->
     debug "shift"
     result = @row obj, 1
     @delete obj, 1, 1
     result
 
+  ###
+  Add record object to the start of the table.
+
+  __Examples__
+
+  ``` coffee
+  Table.unshift example, {id: 0, Name: 'zero'}
+  ```
+
+  @param {Array<Array>} obj table to access
+  @param {Object} record record to add
+  @return {Object} the changed table structure
+  ###
   @unshift: (obj, record) ->
     debug "unshift"
     @insert obj, 1, [[]]
     @row obj, 1, record
 
+  ###
+  Remove the last row as record object from the table. The header will be kept.
+
+  __Examples__
+
+  ``` coffee
+  record = Table.pop example
+  # record = {ID: 3, Name: 'three'}
+  ```
+
+  @param {Array<Array>} obj table to access
+  @return {Object} the last row
+  ###
   @pop: (obj) ->
     debug "pop"
     result = @row obj, obj.length-1
     @delete obj, obj.length-1, 1
     result
 
+  ###
+  Add record object to the end of the table.
+
+  __Examples__
+
+  ``` coffee
+  Table.push example, {id: 4, Name: 'four'}
+  ```
+
+  @param {Array<Array>} obj table to access
+  @param {Object} record to add
+  @return {Object} the just added record
+  ###
   @push: (obj, record) ->
     debug "push"
     obj.push []
     @row obj, obj.length-1, record
 
+  ###
+  Get a defined column as array.
+
+  The column number will start at 0...
+
+  __Examples__
+
+  ``` coffee
+  result = Table.column example, 'Name'
+  # result = ['one', 'two', 'three']
+  ```
+
+  @param {Array<Array>} table to access
+  @param {Integer|String} column the column to export
+  @param {Array} [values] values for row 1...
+  @return {Array} values for the column fields from row 1... The header name is not included.
+  ###
   @column: (obj, col, values) ->
     debug "add or set column #{col}"
     col = obj[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
@@ -236,6 +342,40 @@ class Table
         row.splice col, 0, values?[i-1] ? null
     obj[1..].map (row) -> row[col]
 
+  ###
+  Get a defined column.
+
+  __Examples__
+
+  You may only add a column (here as second column - index 1):
+
+  ``` coffee
+  Table.columnAdd example, 1, 'DE'
+  # table.data = [
+  #   [ 'ID', 'DE', 'Name' ]
+  #   [ 1, null, 'one' ]
+  #   [ 2, null, 'two' ]
+  #   [ 3, null, 'three' ]
+  # ]
+  ```
+
+  Or also add values for this column:
+
+  ``` coffee
+  Table.columnAdd example, 1, 'DE', ['eins', 'zwei', 'drei']
+  # table.data = [
+  #   [ 'ID', 'DE', 'Name' ]
+  #   [ 1, 'eins', 'one' ]
+  #   [ 2, 'zwei', 'two' ]
+  #   [ 3, 'drei', 'three' ]
+  # ]
+  ```
+
+  @param {Array<Array>} table structure to access
+  @param {Integer|String} column position there inserting new column
+  @param {String} name of the new column
+  @param {Array} [values] values for row 1..
+  ###
   @columnAdd: (obj, col, name, values) ->
     col = obj[0].length unless col
     debug "add column before #{col}"
@@ -244,6 +384,26 @@ class Table
       row.splice col, 0, values?[i-1] ? null
     obj[0][col] = name
 
+  ###
+  Get a defined column.
+
+  __Examples__
+
+  This will remove the first column with the ID and keep only the Name column:
+
+  ``` coffee
+  Table.columnRemove example, 0
+  # table = [
+  #   [ 'Name' ]
+  #   [ 'one' ]
+  #   [ 'two' ]
+  #   [ 'three' ]
+  # ]
+  ```
+
+  @param {Array<Array>} table structure to access
+  @param {Integer|String} column position there deleting column
+  ###
   @columnRemove: (obj, col) ->
     col = obj[0].length unless col?
     debug "remove column #{col}"
@@ -252,10 +412,40 @@ class Table
 
 
   ###
-  Static Join Functions
+  Static Join
   -------------------------------------------------
+  There are basically two methods of appending. First vertivally by appending the
+  tables below each one. And second vertically by combining the rows.
   ###
 
+  ###
+  This may append two tables under each other. The resulting table will have the
+  columns from both of them.
+
+  __Examples__
+
+  ``` coffee
+  table.append [
+    [4, 'four']
+    [5, 'five']
+    [6, 'six']
+  ]
+  # table.data = [
+  #   ['ID', 'Name']
+  #   [1, 'one']
+  #   [2, 'two']
+  #   [3, 'three']
+  #   [4, 'four']
+  #   [5, 'five']
+  #   [6, 'six']
+  # ]
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Array<Array>} table2 to append
+  @param {Array<Array>} ... more tables
+  @return {Array<Array>} the changed table
+  ###
   @append: (base, tables...) ->
     debug "append"
     for table in tables
@@ -283,6 +473,71 @@ class Table
         base.push nrow
     base
 
+  ###
+  This works like a sql database join and if it is possible better use it within
+  the database because of the performance.
+
+  __Examples__
+
+  ``` coffee
+  Table.join example, 'left', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 1, 'one', null ]
+  #   [ 2, 'two', 'zwei' ]
+  #   [ 3, 'three', null ]
+  # ]
+  ```
+
+  ``` coffee
+  Table.join example, 'right', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 2, 'two', 'zwei' ]
+  #   [ null, 'seven', 'sieben' ]
+  # ]
+  ```
+
+  ``` coffee
+  Table.join example, 'inner', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 2, 'two', 'zwei' ]
+  # ]
+  ```
+
+  ``` coffee
+  Table.join example, 'outer', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 1, 'one', null ]
+  #   [ 3, 'three', null ]
+  #   [ null, 'seven', 'sieben' ]
+  # ]
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {String} type type of join like: 'left', 'inner', 'right', 'outer'
+  @param {Array<Array>} table2 to join
+  @param {Array<Array>} ... more tables
+  @return {Array<Array>} the changed table
+  ###
   @join: (base, type, tables...) ->
     debug "join #{type}"
     for table in tables
@@ -341,11 +596,32 @@ class Table
 
 
   ###
-  Static Transform Functions
+  Static Transform
   -------------------------------------------------
   ###
 
-  # sort = '1,-2,4' or 'name,-age'
+  ###
+  Sort the data rows by the specified columns.
+
+  __Examples__
+
+  ``` coffee
+  # sort after Name column
+  Table.sort example, 'Name'
+  # reverse sort
+  Table.sort example, '-Name'
+  # sort after ID then Name
+  Table.sort example, ['ID', 'Name']
+  # the same
+  Table.sort example, 'ID, Name'
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {String|Array} sort columns to order by.
+  The sort columns may be number or names as array or comma delimited string. To
+  sort. For reverse order prepend the column with '-'.
+  @return {Array<Array>} the changed table
+  ###
   @sort: (table, sort) ->
     sort = sort.split /,\s*/ if typeof sort is 'string'
     if Array.isArray sort
@@ -364,6 +640,18 @@ class Table
     table.unshift header
     table
 
+  ###
+  Reverse the order of all data rows in the table.
+
+  __Examples__
+
+  ``` coffee
+  Table.reverse example
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @return {Array<Array>} the changed table
+  ###
   @reverse: (table) ->
     debug "reverse"
     header = table.shift()
@@ -371,6 +659,22 @@ class Table
     table.unshift header
     table
 
+  ###
+  You may switch the x-axis and y-axis of your table.
+
+  __Examples__
+
+  ``` coffee
+  Table.flip example
+  # table.data = [
+  #   [ 'ID', 1, 2, 3 ]
+  #   [ 'Name', 'one', 'two', 'three' ]
+  # ]
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @return {Array<Array>} the new table
+  ###
   @flip: (table) ->
     debug "flip"
     # flip
@@ -381,7 +685,44 @@ class Table
         flipped[y][x] = col
     flipped
 
-  # formats = {<name>: <format>} or [<format>, ...]
+  ###
+  Format column values.
+
+  The format is defined like the [validator](http://alinex.github.io/node-validator)
+  schema or a user defined function which will be called with the cell value and should
+  return the formatted value.
+
+  __Examples__
+
+  ``` coffee
+  Table.format examples,
+    ID:
+      type: 'percent'
+      format: '0%'
+    Name:
+      type: 'string'
+      upperCase: 'first'
+  # table.data = [
+  #   [ 'ID', 'Name' ]
+  #   [ '100%', 'One' ]
+  #   [ '200%', 'Two' ]
+  #   [ '300%', 'Three' ]
+  # ]
+  ```
+
+  And with custom functions the call should look like:
+
+  ``` coffee
+  Table.format examples,
+    Name: (cell) -> cell.toString().toUpperCase()
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Array|Object} formats for the columns
+    - array with each columns format
+    - object with 'column: format'
+  @return {Array<Array>} the changed table
+  ###
   @format: (table, formats) ->
     debug "format columns"
     # get format object with numbered columns
@@ -406,6 +747,20 @@ class Table
     # return
     table
 
+  ###
+  Rename a column.
+
+  __Examples__
+
+  ``` coffee
+  Table.rename example, 'Name', 'EN'
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Integer|String} col column to rename
+  @param {String} name new name for defined column
+  @return {Array<Array>} the changed table
+  ###
   @rename: (table, col, name) ->
     debug "rename #{col} to #{name}"
     col = table[0].indexOf col unless typeof col is 'number' or col.match /^\d+$/
@@ -414,11 +769,50 @@ class Table
 
 
   ###
-  Static Filtering Functions
+  Static Filtering
   -------------------------------------------------
   ###
 
-  # cols = {<title>: <old name> or true or <num>}
+  ###
+  Rename multiple columns, reorder them and filter them.
+
+  The columns can be defined all using true, meaning to use them in the existing order
+  or with the number or name so a resorting is also possible in one step.
+
+  __Examples__
+
+  In the following example only the first two columns are kept and named:
+
+  ``` coffee
+  Table.columns example,
+    ID: true
+    EN: true
+  # table.data = [
+  #   [ 'ID', 'EN' ]
+  #   [1, 'one']
+  #   [2, 'two']
+  #   [3, 'three']
+  # ]
+  ```
+
+  And here the columns are also reordered:
+
+  ``` coffee
+  Table.columns example,
+    EN: 'Name'
+    ID: 'ID'
+  # table.data = [
+  #   ['EN', 'ID']
+  #   ['one', 1]
+  #   ['two', 2]
+  #   ['three', 3]
+  # ]
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Object<String>} columns column name: column to use
+  @return {Array<Array>} the new table structure
+  ###
   @columns: (table, cols) ->
     debug "change columns #{cols}"
     # get column numbers
@@ -435,7 +829,22 @@ class Table
       changed.push Object.keys(cols).map (name) -> row[cols[name]]
     changed
 
-  # cols = <num array> or <string array> (optional)
+  ###
+  Remove all duplicate data rows.
+
+  __Examples__
+
+  ``` coffee
+  # remove all completely duplicate rows
+  Table.unique example
+  # remove all rows with duplicate Name column
+  Table.unique example, 'Name'
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Integer|String|Array} columns to check for uniqueness
+  @return {Array<Array>} the changed table
+  ###
   @unique: (table, cols) ->
     debug "unique in #{cols ? 'all'} columns"
     # get columns
@@ -457,7 +866,38 @@ class Table
     Table.delete table, num for num in del
     table
 
-  # conditions = [<cond>, ...]
+  ###
+  Filter the rows using specific conditions per column.
+
+  The conditions are strings consisting of '<column> <operator> <value>'. If given
+  as array the different conditions are logical combined using 'AND'. Subarrays
+  are combined using 'OR' (even index) and 'AND' (odd index).
+
+  ``` coffee
+  conditions = ['Name not null', ['Name startsWith a', 'Name startsWith b']]
+  ```
+
+  This results in the following logic:
+
+  ``` text
+  Name not null
+  # and
+    Name startsWith a
+    # or
+    Name startsWith b
+  ```
+
+  __Examples__
+
+  ``` coffee
+  Table.filter example, ['ID > 1', 'ID < 8'] # AND
+  Table.filter example, [['ID < 2', 'ID > 3']] # OR
+  ```
+
+  @param {Array<Array>} table the table structure to use as base
+  @param {Array} conditions for records to be kept
+  @return {Array<Array>} the changed table
+  ###
   @filter: (table, conditions) ->
     debug "filter #{conditions}"
     # optimize conditions
@@ -655,67 +1095,580 @@ class Table
     result = Table.row @data, row, value
     if value? then this else result
 
+  ###
+  Insert multiple rows into the Table.
+
+  __Examples__
+
+  ``` coffee
+  table.insert 2, [
+    [5, 'five']
+    [6, 'six']
+  ]
+  ```
+
+  If you want to insert record list or record object data you have to convert them
+  first.
+
+  @param {Integer} pos row position from 1.. (0 is the heading) use 'null' to add at the end
+  @param {Array|Array<Array>} rows table rows to add
+  @return {Table} the inctance itself
+  ###
   insert: (pos, rows) ->
     Table.insert @data, pos, rows
     this
+
+  ###
+  Delete some rows.
+
+  __Examples__
+
+  ``` coffee
+  # delete the second data row:
+  table.delete 2
+  # delete the second and third data row:
+  table.delete 2, 2
+  ```
+
+  @param {Integer} pos row number from 1.. (0 is the heading)
+  @param {Integer} [num] number of rows to delete (defaults to 0)
+  @return {Table} the inctance itself
+  ###
   delete: (pos, num) ->
     Table.delete @data, pos, num
     this
+
+  ###
+  Remove the first row as record object from the table. The header will be kept.
+
+  __Examples__
+
+  ``` coffee
+  record = table.shift()
+  # record = {ID: 1, Name: 'one'}
+  ```
+
+  @return the first row as object
+  ###
   shift: -> Table.shift @data
+
+  ###
+  Add record object to the start of the table.
+
+  __Examples__
+
+  ``` coffee
+  table.unshift {id: 0, Name: 'zero'}
+  ```
+
+  @param {Object} record to add
+  @return {Table} the inctance itself
+  ###
   unshift: (record) ->
     Table.unshift @data, record
     this
+
+  ###
+  Remove the last row as record object from the table. The header will be kept.
+
+  __Examples__
+
+  ``` coffee
+  record = table.pop()
+  # record = {ID: 3, Name: 'three'}
+  ```
+
+  @return the last row as object.
+  ###
   pop: -> Table.pop @data
+
+  ###
+  Add record object to the end of the table.
+
+  __Examples__
+
+  ``` coffee
+  table.push {id: 4, Name: 'four'}
+  ```
+
+  @param {Object} record to add
+  @return {Object} the just added record
+  ###
   push: (record) ->
     Table.push @data, record
     this
+
+  ###
+  Get a defined column as array.
+
+  The column number will start at 0...
+
+  __Examples__
+
+  ``` coffee
+  result = table.column 'Name'
+  # result = ['one', 'two', 'three']
+  ```
+
+  @param {Integer|String} column the column to export
+  @param {Array} [values] values for row 1...
+  @return {Array} values for the column fields from row 1... The header name is not included.
+  ###
   column: (col, values) ->
     result = Table.column @data, col, values
     if values? then this else result
+
+  ###
+  Get a defined column.
+
+  __Examples__
+
+  You may only add a column (here as second column - index 1):
+
+  ``` coffee
+  table.columnAdd 1, 'DE'
+  # table.data = [
+  #   [ 'ID', 'DE', 'Name' ]
+  #   [ 1, null, 'one' ]
+  #   [ 2, null, 'two' ]
+  #   [ 3, null, 'three' ]
+  # ]
+  ```
+
+  Or also add values for this column:
+
+  ``` coffee
+  table.columnAdd 1, 'DE', ['eins', 'zwei', 'drei']
+  # table.data = [
+  #   [ 'ID', 'DE', 'Name' ]
+  #   [ 1, 'eins', 'one' ]
+  #   [ 2, 'zwei', 'two' ]
+  #   [ 3, 'drei', 'three' ]
+  # ]
+  ```
+
+  @param {Integer|String} column position there inserting new column
+  @param {String} name of the new column
+  @param {Array} [values] values for row 1..
+  @return {Table} the instance itself
+  ###
   columnAdd: (col, name, values) ->
     Table.columnAdd @data, col, name, values
     this
+
+  ###
+  Get a defined column.
+
+  __Examples__
+
+  This will remove the first column with the ID and keep only the Name column:
+
+  ``` coffee
+  table.columnRemove 0
+  # table = [
+  #   [ 'Name' ]
+  #   [ 'one' ]
+  #   [ 'two' ]
+  #   [ 'three' ]
+  # ]
+  ```
+
+  @param {Integer|String} column position there deleting column
+  @return {Table} instance itself
+  ###
   columnRemove: (col) ->
     Table.columnRemove @data, col
     this
 
+
+  ###
+  Join Methods
+  -------------------------------------------------
+  There are basically two methods of appending. First vertivally by appending the
+  tables below each one. And second vertically by combining the rows.
+  ###
+
+  ###
+  This may append two tables under each other. The resulting table will have the
+  columns from both of them.
+
+  __Examples__
+
+  ``` coffee
+  table.append [
+    [4, 'four']
+    [5, 'five']
+    [6, 'six']
+  ]
+  # table.data = [
+  #   ['ID', 'Name']
+  #   [1, 'one']
+  #   [2, 'two']
+  #   [3, 'three']
+  #   [4, 'four']
+  #   [5, 'five']
+  #   [6, 'six']
+  # ]
+  ```
+
+  @param {Array<Array>} table2 to append
+  @param {Array<Array>} ... more tables
+  @return {Table} the instance itself
+  ###
   append: (tables...) ->
     for table in tables
       @data = Table.append @data, table
     this
+
+  ###
+  This works like a sql database join and if it is possible better use it within
+  the database because of the performance.
+
+  __Examples__
+
+  ``` coffee
+  table.join 'left', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 1, 'one', null ]
+  #   [ 2, 'two', 'zwei' ]
+  #   [ 3, 'three', null ]
+  # ]
+  ```
+
+  ``` coffee
+  table.join 'right', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 2, 'two', 'zwei' ]
+  #   [ null, 'seven', 'sieben' ]
+  # ]
+  ```
+
+  ``` coffee
+  table.join 'inner', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 2, 'two', 'zwei' ]
+  # ]
+  ```
+
+  ``` coffee
+  table.join 'outer', [
+    ['Name', 'DE']
+    ['two', 'zwei']
+    ['seven', 'sieben']
+  ]
+  # table.data = [
+  #   [ 'ID', 'Name', 'DE' ]
+  #   [ 1, 'one', null ]
+  #   [ 3, 'three', null ]
+  #   [ null, 'seven', 'sieben' ]
+  # ]
+  ```
+
+  @param {String} type type of join like: 'left', 'inner', 'right', 'outer'
+  @param {Array<Array>} table2 to join
+  @param {Array<Array>} ... more tables
+  @return {Table} the instance itself
+  ###
   join: (type, tables...) ->
     for table in tables
       @data = Table.join @data, type, table
     this
 
+
+  ###
+  Transform Methods
+  -------------------------------------------------
+  ###
+
+  ###
+  Sort the data rows by the specified columns.
+
+  __Examples__
+
+  ``` coffee
+  # sort after Name column
+  table.sort 'Name'
+  # reverse sort
+  table.sort '-Name'
+  # sort after ID then Name
+  table.sort ['ID', 'Name']
+  # the same
+  table.sort 'ID, Name'
+  ```
+
+  @param {String|Array} sort columns to order by.
+  The sort columns may be number or names as array or comma delimited string. To
+  sort. For reverse order prepend the column with '-'.
+  @return {Table} the instance itself
+  ###
   sort: (sort) ->
     @data = Table.sort @data, sort
     this
+
+  ###
+  Reverse the order of all data rows in the table.
+
+  __Examples__
+
+  ``` coffee
+  table.reverse()
+  ```
+
+  @return {Table} the instance itself
+  ###
   reverse: ->
     @data = Table.reverse @data
     this
+
+  ###
+  You may switch the x-axis and y-axis of your table.
+
+  __Examples__
+
+  ``` coffee
+  table.flip()
+  # table.data = [
+  #   [ 'ID', 1, 2, 3 ]
+  #   [ 'Name', 'one', 'two', 'three' ]
+  # ]
+  ```
+
+  @return {Table} the instance itself
+  ###
   flip: ->
     @data = Table.flip @data
     this
-  rename: (col, name) ->
-    Table.rename @data, col, name
-    this
+
+  ###
+  Format column values.
+
+  The format is defined like the [validator](http://alinex.github.io/node-validator)
+  schema or a user defined function which will be called with the cell value and should
+  return the formatted value.
+
+  __Examples__
+
+  ``` coffee
+  table.format
+    ID:
+      type: 'percent'
+      format: '0%'
+    Name:
+      type: 'string'
+      upperCase: 'first'
+  # table.data = [
+  #   [ 'ID', 'Name' ]
+  #   [ '100%', 'One' ]
+  #   [ '200%', 'Two' ]
+  #   [ '300%', 'Three' ]
+  # ]
+  ```
+
+  And with custom functions the call should look like:
+
+  ``` coffee
+  table.format
+    Name: (cell) -> cell.toString().toUpperCase()
+  ```
+
+  @param {Array|Object} formats for the columns
+    - array with each columns format
+    - object with 'column: format'
+  @return {Table} the instance itself
+  ###
   format: (formats) ->
     Table.format @data, formats
     this
 
+  ###
+  Rename a column.
+
+  __Examples__
+
+  ``` coffee
+  table.rename 'Name', 'EN'
+  ```
+
+  @param {Integer|String} col column to rename
+  @param {String} name new name for defined column
+  @return {Table} the instance itself
+  ###
+  rename: (col, name) ->
+    Table.rename @data, col, name
+    this
+
+
+  ###
+  Filtering Methods
+  -------------------------------------------------
+  ###
+
+  ###
+  Rename multiple columns, reorder them and filter them.
+
+  The columns can be defined all using true, meaning to use them in the existing order
+  or with the number or name so a resorting is also possible in one step.
+
+  __Examples__
+
+  In the following example only the first two columns are kept and named:
+
+  ``` coffee
+  table.columns
+    ID: true
+    EN: true
+  # table.data = [
+  #   [ 'ID', 'EN' ]
+  #   [1, 'one']
+  #   [2, 'two']
+  #   [3, 'three']
+  # ]
+  ```
+
+  And here the columns are also reordered:
+
+  ``` coffee
+  table.columns
+    EN: 'Name'
+    ID: 'ID'
+  # table.data = [
+  #   ['EN', 'ID']
+  #   ['one', 1]
+  #   ['two', 2]
+  #   ['three', 3]
+  # ]
+  ```
+
+  @param {Object<String>} columns column name: column to use
+  @return {Table} the instance itself
+  ###
   columns: (cols) ->
     @data = Table.columns @data, cols
     this
+
+  ###
+  Remove all duplicate data rows.
+
+  __Examples__
+
+  ``` coffee
+  # remove all completely duplicate rows
+  table.unique()
+  # remove all rows with duplicate Name column
+  table.unique 'Name'
+  ```
+
+  @param {Integer|String|Array} columns to check for uniqueness
+  @return {Table} the instance itself
+  ###
   unique: (cols) ->
     Table.unique @data, cols
     this
+
+  ###
+  Filter the rows using specific conditions per column.
+
+  The conditions are strings consisting of '<column> <operator> <value>'. If given
+  as array the different conditions are logical combined using 'AND'. Subarrays
+  are combined using 'OR' (even index) and 'AND' (odd index).
+
+  ``` coffee
+  conditions = ['Name not null', ['Name startsWith a', 'Name startsWith b']]
+  ```
+
+  This results in the following logic:
+
+  ``` text
+  Name not null
+  # and
+    Name startsWith a
+    # or
+    Name startsWith b
+  ```
+
+  __Examples__
+
+  ``` coffee
+  table.filter ['ID > 1', 'ID < 8'] # AND
+  table.filter [['ID < 2', 'ID > 3']] # OR
+  ```
+
+  @param {Array} conditions for records to be kept
+  @return {Table} the instance itself
+  ###
   filter: (conditions) ->
     Table.filter @data, conditions
     this
 
-  # Styling
-  # -------------------------------------------------
+
+  ###
+  Styling
+  -------------------------------------------------
+  If you use a table instance you may also store meta data in the object which may
+  later be used for styling outside of this module.
+
+  Supported in [Report](http://alinex.github.io/node-report):
+
+  - 'align' on column or sheet with values: 'left', 'center', 'right' ('left' is default)
+  ###
+
+  ###
+  Set or clear style information.
+  To set for a single cel, row, column or the complete sheet.
+
+  __Examples__
+
+  ``` coffee
+  # set style for row 0 colummn 1
+  table.style 0, 1, {align: 'left'}
+  # the same with a named column
+  table.style 0, 'Name', {align: 'left'}
+  # and remove the styles
+  table.style 0, 1, null
+
+  # set style for row 1
+  table.style 1, null, {align: 'left'}
+  # and remove the styles
+  table.style 1, null, null
+
+  # set style for column 1
+  table.style null, 1, {align: 'left'}
+  # and remove the styles
+  table.style null, 1, null
+
+  # set style for the sheets
+  table.style null, null, {align: 'left'}
+  # and remove the styles
+  table.style null, null, null
+
+  # set style for user defined range
+  table.style 1, 0, 3, 2, {align: 'left'}
+  # and remove the styles
+  table.style 1, 0, 3, 2, null
+  ```
+
+  @param {Integer} from-row row number
+  @param {Integer|String} from-col column number or name
+  @param {Integer} [to-row] row number
+  @param {Integer|String} [to-col] column number or name
+  @param {Object} [style] settings to store or null to delete all
+  @return {Table} the instance itself
+  ###
   style: ->
     args = [].slice.apply arguments
     style = args.pop()
@@ -743,6 +1696,42 @@ class Table
           util.extend @meta[range], style
     this
 
+  # #3 meta
+  #
+  # This object collects the resulting meta data. The following order will overwrite
+  # the general ones.
+  #
+  # - '*/*' contains settings for the complete sheet
+  # - '*/1' contains settings for the column
+  # - '1/*' contains settings for the row
+  # - '1/1' contains settings for the concrete cell
+
+  ###
+  This will calculate the resulting settings of the combinations of the above.
+
+  To set for a single cel, row, column or the complete sheet:
+
+  __Examples__
+
+  ``` coffee
+  # get styles for cell
+  style = table.getMeta 0, 1
+  # style = {align: 'left'}
+
+  # get styles for row
+  style = table.getMeta 0
+
+  # get styles for column
+  style = table.getMeta null, 1
+
+  # get styles for sheet
+  style = table.getMeta()
+  ```
+
+  @param {Integer} row number or null for all rows
+  @param {Integer|String} col column number or name, null for all columns
+  @return {Object} the combined style settings
+  ###
   getMeta: (row, col) ->
     if col
       col = if typeof col is 'number' or col.match /^\d+$/ then col else @data[0].indexOf col
