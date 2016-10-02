@@ -4,6 +4,17 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.5 (2016-10-02)
+-------------------------------------------------
+- Update alinex-validator@2.0.1
+- Optimize debug calls.
+- Updated the method documentation.
+- Updated documentation.
+- Update async@2.0.1, cson-parser@1.3.4, csv-parse@1.1.7, coffee-script@1.11.0, alinex-builder@2.3.8, bson@0.5.5, xml2js@0.4.17
+- Rename links to Alinex Namespace.
+- Add copyright sign.
+- Small fixes.
+
 Version 1.2.4 (2016-06-13)
 -------------------------------------------------
 - Upgrade util package.
