@@ -46,7 +46,7 @@ As a new data type you may also use it's methods on an instance or statically.
 > following the code standards defined in the [General Docs](https://alinex.github.io/develop).
 
 __Read the complete documentation under
-[https://alinex.github.io/node-codedoc](https://alinex.github.io/node-codedoc).__
+[https://alinex.github.io/node-table](https://alinex.github.io/node-table).__
 <!-- {p: .hidden} -->
 
 
