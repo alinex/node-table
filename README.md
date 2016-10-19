@@ -3,13 +3,15 @@ Alinex Table: Readme
 
 [![GitHub watchers](
   https://img.shields.io/github/watchers/alinex/node-table.svg?style=social&label=Watch&maxAge=2592000)](
-  https://github.com/alinex/node-table/subscription)<!-- {.hidden-small} -->
+  https://github.com/alinex/node-table/subscription)
+<!-- {.hidden-small} -->
 [![GitHub stars](
   https://img.shields.io/github/stars/alinex/node-table.svg?style=social&label=Star&maxAge=2592000)](
   https://github.com/alinex/node-table)
 [![GitHub forks](
   https://img.shields.io/github/forks/alinex/node-table.svg?style=social&label=Fork&maxAge=2592000)](
-  https://github.com/alinex/node-table)<!-- {.hidden-small} -->
+  https://github.com/alinex/node-table)
+<!-- {.hidden-small} -->
 <!-- {p:.right} -->
 
 [![npm package](
@@ -17,7 +19,8 @@ Alinex Table: Readme
   https://www.npmjs.com/package/alinex-table)
 [![latest version](
   https://img.shields.io/npm/l/alinex-table.svg?maxAge=2592000)](
-  #license)<!-- {.hidden-small} -->
+  #license)
+<!-- {.hidden-small} -->
 [![Travis status](
   https://img.shields.io/travis/alinex/node-table.svg?maxAge=2592000&label=develop)](
   https://travis-ci.org/alinex/node-table)
@@ -29,7 +32,9 @@ Alinex Table: Readme
   https://gemnasium.com/alinex/node-table)
 [![GitHub issues](
   https://img.shields.io/github/issues/alinex/node-table.svg?maxAge=2592000)](
-  https://github.com/alinex/node-table/issues)<!-- {.hidden-small} -->
+  https://github.com/alinex/node-table/issues)
+<!-- {.hidden-small} -->
+
 
 This package contains methods for working with table like data. It collects all
 methods for working with such a data type:
