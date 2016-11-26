@@ -58,9 +58,9 @@ __Read the complete documentation under
 Install
 -------------------------------------------------
 
-[![NPM](https://nodei.co/npm/node-table.png?downloads=true&downloadRank=true&stars=true)
- ![Downloads](https://nodei.co/npm-dl/node-table.png?months=9&height=3)
-](https://www.npmjs.com/package/node-table)
+[![NPM](https://nodei.co/npm/alinex-table.png?downloads=true&downloadRank=true&stars=true)
+ ![Downloads](https://nodei.co/npm-dl/alinex-table.png?months=9&height=3)
+](https://www.npmjs.com/package/alinex-table)
 
 The easiest way is to let npm add the module directly to your modules
 (from within you node modules directory):
