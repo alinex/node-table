@@ -740,10 +740,12 @@ class Table
         row[col] = if typeof format is 'function'
           format row[col]
         else
-          check
-            name: "format-cell"
-            value: row[col]
-            schema: format
+          try
+            check
+              name: "format-cell"
+              value: row[col]
+              schema: util.extend format,
+                optional: true
     # return
     table
 
@@ -908,8 +910,10 @@ class Table
         when 'number' then val = Number val
         when 'boolean' then val = Boolean val
       res = switch op.toLowerCase()
-        when 'is', '=', '==' then cell is val
-        when 'not', '!=', '<>' then cell isnt val
+        when 'is', '=', '=='
+          if val is 'null' then cell is null else cell isnt val
+        when 'not', '!=', '<>'
+          if val is 'null' then cell isnt null else cell isnt val
         when '>' then cell > val
         when '<' then cell < val
         when '>=', '=>' then cell >= val
