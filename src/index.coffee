@@ -911,7 +911,7 @@ class Table
         when 'boolean' then val = Boolean val
       res = switch op.toLowerCase()
         when 'is', '=', '=='
-          if val is 'null' then cell is null else cell isnt val
+          if val is 'null' then cell is null else cell is val
         when 'not', '!=', '<>'
           if val is 'null' then cell isnt null else cell isnt val
         when '>' then cell > val

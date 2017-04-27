@@ -28,13 +28,13 @@
     "lib": "./lib"
   },
   "dependencies": {
-    "alinex-util": "^2.3.0",
-    "alinex-validator": "^2.0.1",
-    "deasync": "^0.1.6",
-    "debug": "^2.2.0"
+    "alinex-util": "^2.5.1",
+    "alinex-validator": "^2.1.4",
+    "deasync": "^0.1.9",
+    "debug": "^2.6.4"
   },
   "devDependencies": {
-    "alinex-builder": "^2.1.9",
+    "alinex-builder": "^2.4.1",
     "chai": "^3.5.0"
   },
   "optionalDependencies": {},
