@@ -4,6 +4,18 @@ Version changes
 The following list gives a short overview about what is changed between
 individual versions:
 
+Version 1.2.6 (2017-04-27)
+-------------------------------------------------
+- Fix bug in positive equal filtering.
+- Fix is null conditional filtering.
+- Fix link name again.
+- Fixed npm link in documentation.
+- Fix documentation to hide style comments in github view.
+- Fix documentation link.
+- Run npm test in verbose for coveralls, too.
+- Run npm test in verbose mode.
+- Remove uglify from compile command.
+
 Version 1.2.5 (2016-10-02)
 -------------------------------------------------
 - Update alinex-validator@2.0.1
